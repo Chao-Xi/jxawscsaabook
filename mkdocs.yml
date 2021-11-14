@@ -11,7 +11,7 @@ plugins:
 nav:
   - 'Welcome': "index.md"
   - 'Chap1 Exam-Intro':
-    - 'L1 SAA-C02 Exam Guide**': 'chap1/1Exam_Guide.md'
+    - 'L1 SAA-C02 Exam Guide': 'chap1/1Exam_Guide.md'
     - 'L2 Associate SAA-C02 Exam Topics' : 'chap1/2Learning_path.md'
 
 repo_url: https://github.com/Chao-Xi/jxawscsaabook.git
