@@ -13,6 +13,9 @@ nav:
   - 'Chap1 Exam-Intro':
     - 'L1 SAA-C02 Exam Guide': 'chap1/1Exam_Guide.md'
     - 'L2 Associate SAA-C02 Exam Topics' : 'chap1/2Learning_path.md'
+  - 'Chap2 Services Cheat Sheet':
+    - 'L1 AWS Best Practices': 'chap2/1best_prac.md'
+    - 'L2 AWS Storage & Content Delivery Cheat Sheet': 'chap2/2s3_cs.md'
 
 repo_url: https://github.com/Chao-Xi/jxawscsaabook.git
 repo_name: "jxawscsaabook"
