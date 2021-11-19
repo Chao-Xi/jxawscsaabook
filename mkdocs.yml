@@ -16,6 +16,9 @@ nav:
   - 'Chap2 Services Cheat Sheet':
     - 'L1 AWS Best Practices': 'chap2/1best_prac.md'
     - 'L2 AWS Storage & Content Delivery Cheat Sheet': 'chap2/2s3_cs.md'
+    - 'L3 AWS Security & Identity Service Cheat Sheet': 'chap2/3IS_cs.md'
+    - 'L4 AWS Networking Services Cheat Sheet': 'chap2/4Ns_cs.md'
+    - 'L5 AWS Compute Services Cheat Sheet': 'chap2/5CS_cs.md'
 
 repo_url: https://github.com/Chao-Xi/jxawscsaabook.git
 repo_name: "jxawscsaabook"

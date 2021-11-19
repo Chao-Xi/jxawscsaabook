@@ -36,7 +36,7 @@
 * protects individual files but **<mark>does NOT protect from Bucket deletion</mark>**
 
 
-### **MFA (Multi-Factor Authentication) **
+### **MFA (Multi-Factor Authentication)**
 
 can be enabled for additional security for the deletion of objects.
 
