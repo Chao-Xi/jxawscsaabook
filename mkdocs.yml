@@ -23,6 +23,7 @@ nav:
     - 'L7 AWS Analytics Services Cheat Sheet': 'chap2/7AS_cs.md'
     - 'L8 AWS Application Services Cheat Sheet': 'chap2/8AS_cs.md'
     - 'L9 AWS Management Tools Cheat Sheet': 'chap2/9MT_cs.md'
+    - 'L10 AWS Certification Exam Cheat Sheet': 'chap2/10EXAM_cs.md'
 
 repo_url: https://github.com/Chao-Xi/jxawscsaabook.git
 repo_name: "jxawscsaabook"
