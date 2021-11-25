@@ -24,6 +24,10 @@ nav:
     - 'L8 AWS Application Services Cheat Sheet': 'chap2/8AS_cs.md'
     - 'L9 AWS Management Tools Cheat Sheet': 'chap2/9MT_cs.md'
     - 'L10 AWS Certification Exam Cheat Sheet': 'chap2/10EXAM_cs.md'
+  - 'Chap3 Networking Exam Topics':
+    - 'L1 AWS Virtual Private Cloud – VPC': 'chap3/1vpc.md'
+    - 'L2 AWS Bastion Host': 'chap3/2bastion.md'
+    - 'L3 AWS Direct Connect – DX': 'chap3/3direct_connect.md'
 
 repo_url: https://github.com/Chao-Xi/jxawscsaabook.git
 repo_name: "jxawscsaabook"

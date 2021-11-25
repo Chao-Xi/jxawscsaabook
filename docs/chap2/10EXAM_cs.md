@@ -145,3 +145,4 @@ AWS Outposts bring native AWS services, infrastructure, and operating models to 
 * **Storage Gateway to backup the data in AWS**
 * Import/Export to move large amount of data to AWS (if internet speed is the bottleneck)
 * **CloudFormation, Elastic Beanstalk and Opsworks as orchestration tools for automation and recreate the infrastructure**
+
