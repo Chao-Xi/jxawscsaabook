@@ -28,6 +28,7 @@ nav:
     - 'L1 AWS Virtual Private Cloud – VPC': 'chap3/1vpc.md'
     - 'L2 AWS Bastion Host': 'chap3/2bastion.md'
     - 'L3 AWS Direct Connect – DX': 'chap3/3direct_connect.md'
+    - 'L4 AWS Elastic Load Balancer – ELB': 'chap3/4ELB.md'
 
 repo_url: https://github.com/Chao-Xi/jxawscsaabook.git
 repo_name: "jxawscsaabook"
