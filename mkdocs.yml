@@ -29,6 +29,8 @@ nav:
     - 'L2 AWS Bastion Host': 'chap3/2bastion.md'
     - 'L3 AWS Direct Connect – DX': 'chap3/3direct_connect.md'
     - 'L4 AWS Elastic Load Balancer – ELB': 'chap3/4ELB.md'
+    - 'L5 AWS Application Load Balancer – ALB': 'chap3/5ALB.md'
+    - '*L6 AWS Network Load Balancer – NLB': 'chap3/6NLB.md'
 
 repo_url: https://github.com/Chao-Xi/jxawscsaabook.git
 repo_name: "jxawscsaabook"
