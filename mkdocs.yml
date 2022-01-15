@@ -30,7 +30,16 @@ nav:
     - 'L3 AWS Direct Connect – DX': 'chap3/3direct_connect.md'
     - 'L4 AWS Elastic Load Balancer – ELB': 'chap3/4ELB.md'
     - 'L5 AWS Application Load Balancer – ALB': 'chap3/5ALB.md'
-    - '*L6 AWS Network Load Balancer – NLB': 'chap3/6NLB.md'
+    - 'L6 AWS Network Load Balancer – NLB': 'chap3/6NLB.md'
+    - 'L7 AWS Classic Load Balancer vs Application Load Balancer vs Network Load Balancer': 'chap3/7EAN_LB.md'
+    - 'L8 AWS ELB Monitoring': 'chap3/8elb_mon.md'
+    - 'L9 AWS Certification – Route 53 Overview': 'chap3/9route53.md'
+    - 'L10 AWS Route 53 Routing Policy': 'chap3/10route53_policy.md'
+    - 'L11 AWS Route 53 Resolver': 'chap3/11route53_resolver.md'
+    - 'L12 AWS API Gateway': 'chap3/12api_gateway.md'
+    - 'L13 AWS CloudFront': 'chap3/13cloudfront.md'
+    - 'L14 AWS Direct Connect – DX': 'chap3/14direct_connect.md'
+
 
 repo_url: https://github.com/Chao-Xi/jxawscsaabook.git
 repo_name: "jxawscsaabook"
