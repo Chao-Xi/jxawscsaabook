@@ -39,6 +39,12 @@ nav:
     - 'L12 AWS API Gateway': 'chap3/12api_gateway.md'
     - 'L13 AWS CloudFront': 'chap3/13cloudfront.md'
     - 'L14 AWS Direct Connect – DX': 'chap3/14direct_connect.md'
+  - 'Chap10 AWS Migration & Transfer Services':
+    - 'L1 AWS Cloud Migration Services': 'chap10/1aws_cms.md'
+    - 'L2 AWS Import/Export': 'chap10/2AWS_IE.md'
+    - 'L3 AWS Data Transfer Services': 'chap10/3AWS_DTS.md'
+  - 'Chap11 AWS Analytics Services':
+    - 'L4 AWS Elasticsearch': 'chap11/4Elasticsearch.md'
 
 
 repo_url: https://github.com/Chao-Xi/jxawscsaabook.git
