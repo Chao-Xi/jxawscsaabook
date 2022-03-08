@@ -39,6 +39,11 @@ nav:
     - 'L12 AWS API Gateway': 'chap3/12api_gateway.md'
     - 'L13 AWS CloudFront': 'chap3/13cloudfront.md'
     - 'L14 AWS Direct Connect – DX': 'chap3/14direct_connect.md'
+  - 'chap4 AWS Security, Identity & Compliance':
+    - 'L1 AWS Identity Access Management – IAM(unfinished)': 'chap4/1AWS_IAM.md'
+  - 'chap7 AWS Database Services':
+    - 'L1 AWS RDS': 'chap7/1rds.md'
+    - 'L2 AWS DynamoDB(unfinished)': 'chap7/2DynamoDB.md'  
   - 'Chap10 AWS Migration & Transfer Services':
     - 'L1 AWS Cloud Migration Services': 'chap10/1aws_cms.md'
     - 'L2 AWS Import/Export': 'chap10/2AWS_IE.md'
