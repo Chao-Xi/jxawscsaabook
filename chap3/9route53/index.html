@@ -1,0 +1,1419 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's AWS Certification Solutions Architect Tutorial">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+        <link rel="canonical" href="https://chao-xi.github.io/jxawscsaabook/chap3/9route53/">
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.5">
+    
+    
+      
+        <title>L9 AWS Certification – Route 53 Overview - Jacob AWS Certification Solutions Architect Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2d9f7617.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ffa724">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="orange" data-md-color-accent="orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#l9-aws-certification-route-53-overview" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AWS Certification Solutions Architect Book" class="md-header__button md-logo" aria-label="Jacob AWS Certification Solutions Architect Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AWS Certification Solutions Architect Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              L9 AWS Certification – Route 53 Overview
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxawscsaabook.git/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscsaabook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AWS Certification Solutions Architect Book" class="md-nav__button md-logo" aria-label="Jacob AWS Certification Solutions Architect Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AWS Certification Solutions Architect Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxawscsaabook.git/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscsaabook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Chap1 Exam-Intro
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap1 Exam-Intro" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Chap1 Exam-Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/1Exam_Guide/" class="md-nav__link">
+        L1 SAA-C02 Exam Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/2Learning_path/" class="md-nav__link">
+        L2 Associate SAA-C02 Exam Topics
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Chap2 Services Cheat Sheet
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap2 Services Cheat Sheet" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Chap2 Services Cheat Sheet
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/1best_prac/" class="md-nav__link">
+        L1 AWS Best Practices
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/2s3_cs/" class="md-nav__link">
+        L2 AWS Storage & Content Delivery Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/3IS_cs/" class="md-nav__link">
+        L3 AWS Security & Identity Service Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/4Ns_cs/" class="md-nav__link">
+        L4 AWS Networking Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/5CS_cs/" class="md-nav__link">
+        L5 AWS Compute Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/6DS_cs/" class="md-nav__link">
+        L6 AWS Database Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/7AS_cs/" class="md-nav__link">
+        L7 AWS Analytics Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/8AS_cs/" class="md-nav__link">
+        L8 AWS Application Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/9MT_cs/" class="md-nav__link">
+        L9 AWS Management Tools Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/10EXAM_cs/" class="md-nav__link">
+        L10 AWS Certification Exam Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Chap3 Networking Exam Topics
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap3 Networking Exam Topics" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Chap3 Networking Exam Topics
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1vpc/" class="md-nav__link">
+        L1 AWS Virtual Private Cloud – VPC
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2bastion/" class="md-nav__link">
+        L2 AWS Bastion Host
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3direct_connect/" class="md-nav__link">
+        L3 AWS Direct Connect – DX
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4ELB/" class="md-nav__link">
+        L4 AWS Elastic Load Balancer – ELB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5ALB/" class="md-nav__link">
+        L5 AWS Application Load Balancer – ALB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6NLB/" class="md-nav__link">
+        L6 AWS Network Load Balancer – NLB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7EAN_LB/" class="md-nav__link">
+        L7 AWS Classic Load Balancer vs Application Load Balancer vs Network Load Balancer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8elb_mon/" class="md-nav__link">
+        L8 AWS ELB Monitoring
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          L9 AWS Certification – Route 53 Overview
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        L9 AWS Certification – Route 53 Overview
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-route-53" class="md-nav__link">
+    1 Route 53
+  </a>
+  
+    <nav class="md-nav" aria-label="1 Route 53">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-domain-registration" class="md-nav__link">
+    1-1 Domain registration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-domain-name-system-dns-service" class="md-nav__link">
+    1-2 Domain Name System (DNS) service
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-health-checking" class="md-nav__link">
+    1-3 Health checking
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-supported-dns-resource-record-types" class="md-nav__link">
+    2 Supported DNS Resource Record Types
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-alias-resource-record-sets" class="md-nav__link">
+    3 Alias resource record sets
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-route-53-hosted-zone" class="md-nav__link">
+    4 Route 53 Hosted Zone
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-route-53-split-view-split-horizon-dns" class="md-nav__link">
+    5 Route 53 Split-view (Split-horizon) DNS
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-aws-certification-exam-practice-questions" class="md-nav__link">
+    6 AWS Certification Exam Practice Questions
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10route53_policy/" class="md-nav__link">
+        L10 AWS Route 53 Routing Policy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11route53_resolver/" class="md-nav__link">
+        L11 AWS Route 53 Resolver
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12api_gateway/" class="md-nav__link">
+        L12 AWS API Gateway
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13cloudfront/" class="md-nav__link">
+        L13 AWS CloudFront
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14direct_connect/" class="md-nav__link">
+        L14 AWS Direct Connect – DX
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          chap4 AWS Security, Identity & Compliance
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="chap4 AWS Security, Identity & Compliance" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          chap4 AWS Security, Identity & Compliance
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/1AWS_IAM/" class="md-nav__link">
+        L1 AWS Identity Access Management – IAM(unfinished)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          chap7 AWS Database Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="chap7 AWS Database Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          chap7 AWS Database Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/1rds/" class="md-nav__link">
+        L1 AWS RDS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/2DynamoDB/" class="md-nav__link">
+        L2 AWS DynamoDB(unfinished)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Chap10 AWS Migration & Transfer Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap10 AWS Migration & Transfer Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Chap10 AWS Migration & Transfer Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/1aws_cms/" class="md-nav__link">
+        L1 AWS Cloud Migration Services
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/2AWS_IE/" class="md-nav__link">
+        L2 AWS Import/Export
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/3AWS_DTS/" class="md-nav__link">
+        L3 AWS Data Transfer Services
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8">
+          Chap11 AWS Analytics Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap11 AWS Analytics Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Chap11 AWS Analytics Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/4Elasticsearch/" class="md-nav__link">
+        L4 AWS Elasticsearch
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-route-53" class="md-nav__link">
+    1 Route 53
+  </a>
+  
+    <nav class="md-nav" aria-label="1 Route 53">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-domain-registration" class="md-nav__link">
+    1-1 Domain registration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-domain-name-system-dns-service" class="md-nav__link">
+    1-2 Domain Name System (DNS) service
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-health-checking" class="md-nav__link">
+    1-3 Health checking
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-supported-dns-resource-record-types" class="md-nav__link">
+    2 Supported DNS Resource Record Types
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-alias-resource-record-sets" class="md-nav__link">
+    3 Alias resource record sets
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-route-53-hosted-zone" class="md-nav__link">
+    4 Route 53 Hosted Zone
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-route-53-split-view-split-horizon-dns" class="md-nav__link">
+    5 Route 53 Split-view (Split-horizon) DNS
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-aws-certification-exam-practice-questions" class="md-nav__link">
+    6 AWS Certification Exam Practice Questions
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+<a href="https://github.com/Chao-Xi/jxawscsaabook.git/edit/master/docs/chap3/9route53.md" title="编辑此页" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
+
+
+
+<h1 id="l9-aws-certification-route-53-overview"><strong>L9 AWS Certification – Route 53 Overview</strong></h1>
+<h2 id="1-route-53"><strong>1 Route 53</strong></h2>
+<p>Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web service.</p>
+<p>Amazon Route 53 provides three main functions:</p>
+<h3 id="1-1-domain-registration"><strong>1-1 Domain registration</strong></h3>
+<ul>
+<li>allows you to register domain names</li>
+</ul>
+<h3 id="1-2-domain-name-system-dns-service"><strong>1-2 Domain Name System (DNS) service</strong></h3>
+<ul>
+<li>translates friendly domains names like www.example.com into IP addresses like 192.0.2.1</li>
+<li>responds to DNS queries using a global network of authoritative DNS servers, which reduces latency</li>
+<li><strong>can route Internet traffic to CloudFront, Elastic Beanstalk, ELB, or S3</strong>. There’s no charge for DNS queries to these resources</li>
+</ul>
+<h3 id="1-3-health-checking"><strong>1-3 Health checking</strong></h3>
+<ul>
+<li>can monitor the health of resources such as web and email servers.</li>
+<li>sends automated requests over the Internet to the application to</li>
+<li>verify that it’s reachable, available, and functional</li>
+<li>CloudWatch alarms can be configured for the health checks to send notification when a resource becomes unavailable.</li>
+<li>can be configured to route Internet traffic away from resources that are unavailable</li>
+</ul>
+<h2 id="2-supported-dns-resource-record-types"><strong>2 Supported DNS Resource Record Types</strong></h2>
+<ul>
+<li>
+<p><strong>A (Address) Format</strong></p>
+<ul>
+<li>is an IPv4 address in dotted decimal notation for e.g. <em>192.0.2.1</em></li>
+</ul>
+</li>
+<li>
+<p><strong>AAAA Format</strong></p>
+<ul>
+<li>is an IPv6 address in colon-separated hexadecimal format</li>
+</ul>
+</li>
+<li>
+<p><strong>CNAME Format</strong></p>
+</li>
+<li>
+<p>is the same format as a domain name</p>
+</li>
+<li><strong><mark>DNS protocol does not allow creation of a CNAME record for the top node of a DNS namespace, also known as the zone apex for e.g. the DNS name example.com registration, the zone apex is example.com, a CNAME record for example.com cannot be created, but CNAME records can be created for www.example.com, newproduct.example.com etc</mark></strong>.</li>
+<li>
+<p><strong><mark>If a CNAME record is created for a subdomain, any other resource record sets for that subdomain cannot be created for e.g. if a CNAME created for www.example.com, not other resource record sets for which the value of the Name field is www.example.com can be created</mark></strong></p>
+</li>
+<li>
+<p>MX (Mail Xchange) Format</p>
+<ul>
+<li>contains a decimal number that represents the priority of the MX record, and the domain name of an email server</li>
+</ul>
+</li>
+<li>
+<p>NS (Name Server) Format</p>
+<ul>
+<li>An NS record identifies the name servers for the hosted zone. The value for an NS record is the domain name of a name server.
+P</li>
+</ul>
+</li>
+<li>
+<p>TR Format</p>
+<ul>
+<li>A PTR record Value element is the same format as a domain name.</li>
+</ul>
+</li>
+<li>
+<p>SOA (Start of Authority) Format</p>
+<ul>
+<li>SOA record provides information about a domain and the corresponding Amazon Route 53 hosted zone</li>
+</ul>
+</li>
+<li>
+<p>SPF (Sender Policy Framework) Format</p>
+<ul>
+<li>SPF records were formerly used to verify the identity of the sender of email messages, however is not recommended</li>
+<li>Instead of an SPF record, a TXT record that contains the applicable value is recommended</li>
+</ul>
+</li>
+<li>
+<p>SRV Format</p>
+<ul>
+<li>An SRV record Value element consists of four space-separated values.The first three values are decimal numbers representing priority, weight, and port. The fourth value is a domain name for e.g. 10 5 80 hostname.example.com</li>
+</ul>
+</li>
+<li>
+<p>TXT (Text) Format</p>
+<ul>
+<li>A TXT record contains a space-separated list of double-quoted strings. A single string include a maximum
+of 255 characters. In addition to the characters that are permitted unescaped in domain names, space
+is allowed in TXT strings</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-alias-resource-record-sets"><strong>3 Alias resource record sets</strong></h2>
+<ul>
+<li>Route 53 supports alias resource record sets, which enables routing of queries to a CloudFront distribution, Elastic Beanstalk, ELB, an S3 bucket configured as a static website, or another Route 53 resource record set</li>
+<li>Alias records are not standard for DNS RFC and are a Route 53 extension to DNS functionality</li>
+<li><strong>Alias record is similar to a CNAME record, but can create an alias record both for the root domain or apex zone, such as example.com, and for subdomains, such as www.example.com. CNAME records can be used only for subdomains</strong>.</li>
+<li>Route 53 automatically recognizes changes in the resource record sets that the alias resource record set refers to for e.g. <strong>for a site pointing to an load balancer, if the ip of the load balancer changes, Route 53 will reflect those changes automatically in the DNS answers without any changes to the hosted zone that contains resource record sets</strong></li>
+<li>If an alias resource record set points to a CloudFront distribution, a load balancer, or an S3 bucket, the time to live (TTL) can’t be set; Route 53 uses the CloudFront, load balancer, or Amazon S3 TTLs.</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap3_9_1.png" title="Body image" /></p>
+<h2 id="4-route-53-hosted-zone"><strong>4 Route 53 Hosted Zone</strong></h2>
+<ul>
+<li><strong>Hosted Zone is A container for records, which include information about how to route traffic for a domain (such as example.com) and all of its subdomains (such as www.example.com, retail.example.com, and seattle.accounting.example.com).</strong></li>
+<li>A hosted zone has the same name as the corresponding domain.</li>
+<li>Routing Traffic to the Resources<ul>
+<li><strong>Create a hosted zone with either a public hosted zone or a private hosted zone:</strong><ul>
+<li><strong>Public Hosted Zone</strong> – for routing internet traffic to your resources for a specific domain and its subdomains</li>
+<li><strong>Private hosted zone</strong> – for routing traffic within an VPC</li>
+</ul>
+</li>
+<li><strong>Create records in the hosted zone</strong><ul>
+<li>Records define where to route traffic for each domain name or subdomain name.</li>
+<li>name of each record in a hosted zone must end with the name of the hosted zone.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="5-route-53-split-view-split-horizon-dns"><strong>5 Route 53 Split-view (Split-horizon) DNS</strong></h2>
+<ul>
+<li>Route 53 Split-view (Split-horizon) DNS enables you to access an internal version of your website using the same domain name that is used publicly</li>
+<li>You can maintain both a private and public hosted zone with the same domain name for split-view DNS with Route 53</li>
+<li>Ensure that DNS resolution and DNS hostnames are enabled on the source VPC.</li>
+<li>DNS queries will respond with answers based on the source of the request. From within the VPC, answers will come from the private hosted zone, while public queries will return answers from the public hosted zone.</li>
+</ul>
+<h2 id="6-aws-certification-exam-practice-questions"><strong>6 AWS Certification Exam Practice Questions</strong></h2>
+<ol>
+<li>What does Amazon Route53 provide?
+    <strong>* A global Content Delivery Network.</strong><ul>
+<li>None of these.</li>
+<li>A scalable Domain Name System</li>
+<li>An SSH endpoint for Amazon EC2.</li>
+</ul>
+</li>
+<li>Does Amazon Route 53 support NS Records?<ul>
+<li>Yes, it supports Name Service records.</li>
+<li>No</li>
+<li>It supports only MX records.</li>
+<li><strong>Yes, it supports Name Server records</strong>. </li>
+</ul>
+</li>
+<li>Does Route 53 support MX Records?<ul>
+<li><strong>Yes</strong></li>
+<li>It supports CNAME records, but not MX records.</li>
+<li>No</li>
+<li>Only Primary MX records. Secondary MX records are not supported.</li>
+</ul>
+</li>
+<li>
+<p>Which of the following statements are true about Amazon Route 53 resource records? Choose 2 answers</p>
+<ul>
+<li><strong>An Alias record can map one DNS name to another Amazon Route 53 DNS name.</strong></li>
+<li>A CNAME record can be created for your zone apex.</li>
+<li><strong>An Amazon Route 53 CNAME record can point to any DNS record hosted anywhere</strong>.</li>
+<li>TTL can be set for an Alias record in Amazon Route 53.</li>
+<li>An Amazon Route 53 Alias record can point to any DNS record hosted anywhere.</li>
+</ul>
+</li>
+<li>
+<p>Which statements are true about Amazon Route 53? (Choose 2 answers)</p>
+<ul>
+<li>Amazon Route 53 is a region-level service</li>
+<li><strong>You can register your domain name</strong></li>
+<li><strong>Amazon Route 53 can perform health checks and failovers to a backup site in the even of the primary site failure</strong></li>
+<li>Amazon Route 53 only supports Latency-based routing</li>
+</ul>
+</li>
+<li>A customer is hosting their company website on a cluster of web servers that are behind a public-facing load balancer. The customer also uses Amazon Route 53 to manage their public DNS. How should the customer configure the DNS zone apex record to point to the load balancer?<ul>
+<li>Create an A record pointing to the IP address of the load balancer</li>
+<li>Create a CNAME record pointing to the load balancer DNS name.</li>
+<li>Create a CNAME record aliased to the load balancer DNS name.</li>
+<li><strong>Create an A record aliased to the load balancer DNS name</strong></li>
+</ul>
+</li>
+<li>A user has configured ELB with three instances. The user wants to achieve High Availability as well as redundancy with ELB. Which of the below mentioned AWS services helps the user achieve this for ELB?<ul>
+<li><strong>Route 53</strong></li>
+<li>AWS Mechanical Turk</li>
+<li>Auto Scaling</li>
+<li>AWS EMR</li>
+</ul>
+</li>
+<li>How can the <strong>domain’s zone apex</strong> for example “myzoneapexdomain com” be pointed towards an Elastic Load Balancer?<ul>
+<li>By using an AAAA record</li>
+<li>By using an A record</li>
+<li>By using an Amazon Route 53 CNAME record</li>
+<li><strong>By using an Amazon Route 53 Alias record</strong></li>
+</ul>
+</li>
+<li>You need to create a simple, holistic check for your system’s general availability and uptime. Your system presents itself as an HTTP-speaking API. What is the simplest tool on AWS to achieve this with?<ul>
+<li><strong>Route53 Health Checks</strong></li>
+<li>CloudWatch Health Checks</li>
+<li>AWS ELB Health Checks</li>
+<li>EC2 Health Checks</li>
+</ul>
+</li>
+<li>Your organization’s corporate website must be available on www.acme.com and acme.com. How should you configure Amazon Route 53 to meet this requirement?<ul>
+<li><strong>Configure acme.com with an ALIAS record targeting the ELB. www.acme.com with an ALIAS record targeting the ELB</strong>.</li>
+<li>Configure acme.com with an A record targeting the ELB. www.acme.com with a CNAME record targeting the acme.com record.</li>
+<li>Configure acme.com with a CNAME record targeting the ELB. www.acme.com with a CNAME record targeting the acme.com record.</li>
+<li>Configure acme.com using a second ALIAS record with the ELB target. www.acme.com using a PTR record with the acme.com record target.</li>
+</ul>
+</li>
+</ol>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="页脚">
+      
+        
+        <a href="../8elb_mon/" class="md-footer__link md-footer__link--prev" aria-label="上一页: L8 AWS ELB Monitoring" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              L8 AWS ELB Monitoring
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../10route53_policy/" class="md-footer__link md-footer__link--next" aria-label="下一页: L10 AWS Route 53 Routing Policy" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              L10 AWS Route 53 Routing Policy
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "search": "../../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.467223ff.min.js"></script>
+      
+    
+  </body>
+</html>

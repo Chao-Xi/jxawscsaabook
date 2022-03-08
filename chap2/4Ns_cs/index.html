@@ -1,0 +1,1693 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's AWS Certification Solutions Architect Tutorial">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+        <link rel="canonical" href="https://chao-xi.github.io/jxawscsaabook/chap2/4Ns_cs/">
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.5">
+    
+    
+      
+        <title>L4 AWS Networking Services Cheat Sheet - Jacob AWS Certification Solutions Architect Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2d9f7617.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ffa724">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="orange" data-md-color-accent="orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#l4-aws-networking-services-cheat-sheet" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AWS Certification Solutions Architect Book" class="md-header__button md-logo" aria-label="Jacob AWS Certification Solutions Architect Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AWS Certification Solutions Architect Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              L4 AWS Networking Services Cheat Sheet
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxawscsaabook.git/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscsaabook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AWS Certification Solutions Architect Book" class="md-nav__button md-logo" aria-label="Jacob AWS Certification Solutions Architect Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AWS Certification Solutions Architect Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxawscsaabook.git/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscsaabook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Chap1 Exam-Intro
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap1 Exam-Intro" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Chap1 Exam-Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/1Exam_Guide/" class="md-nav__link">
+        L1 SAA-C02 Exam Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/2Learning_path/" class="md-nav__link">
+        L2 Associate SAA-C02 Exam Topics
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Chap2 Services Cheat Sheet
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap2 Services Cheat Sheet" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Chap2 Services Cheat Sheet
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1best_prac/" class="md-nav__link">
+        L1 AWS Best Practices
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2s3_cs/" class="md-nav__link">
+        L2 AWS Storage & Content Delivery Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3IS_cs/" class="md-nav__link">
+        L3 AWS Security & Identity Service Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          L4 AWS Networking Services Cheat Sheet
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        L4 AWS Networking Services Cheat Sheet
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-virtual-private-cloud-vpc" class="md-nav__link">
+    1 Virtual Private Cloud – VPC
+  </a>
+  
+    <nav class="md-nav" aria-label="1 Virtual Private Cloud – VPC">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-components" class="md-nav__link">
+    1-1 Components
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-tenancy-option-for-instances" class="md-nav__link">
+    1-2 Tenancy option for instances
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-route-tables" class="md-nav__link">
+    1-3 Route Tables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-4-subnets" class="md-nav__link">
+    1-4 Subnets
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-5-elastic-network-interface-eni" class="md-nav__link">
+    1-5 Elastic Network Interface (ENI)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-6-security-groups-vs-network-access-control-lists" class="md-nav__link">
+    1-6 Security Groups vs Network Access Control Lists
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-7-elastic-ip" class="md-nav__link">
+    1-7 Elastic IP
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-8-nat" class="md-nav__link">
+    1-8 NAT
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-9-egress-only-internet-gateways" class="md-nav__link">
+    1-9 Egress-Only Internet Gateways
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-10-shared-vpcs" class="md-nav__link">
+    1-10 Shared VPCs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-11-vpc-peering" class="md-nav__link">
+    1-11 VPC Peering
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-12-vpc-endpoints" class="md-nav__link">
+    1-12 VPC Endpoints
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-cloudfront" class="md-nav__link">
+    2 CloudFront
+  </a>
+  
+    <nav class="md-nav" aria-label="2 CloudFront">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    Security
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#object-removal-from-the-cache" class="md-nav__link">
+    object removal from the cache
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supports-adding-or-modifying-custom-headers-before-the-request-is-sent-to-origin-which-can-be-used-to" class="md-nav__link">
+    supports adding or modifying custom headers before the request is sent to origin which can be used to
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-direct-connect-vpn" class="md-nav__link">
+    3 Direct Connect &amp; VPN
+  </a>
+  
+    <nav class="md-nav" aria-label="3 Direct Connect &amp; VPN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-1-vpn" class="md-nav__link">
+    3-1 VPN
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-2-direct-connect" class="md-nav__link">
+    3-2 Direct Connect
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-2-direct-connect-vs-vpn-ipsec" class="md-nav__link">
+    3-2 Direct Connect vs VPN IPSec
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-route-53" class="md-nav__link">
+    4 Route 53
+  </a>
+  
+    <nav class="md-nav" aria-label="4 Route 53">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-routing-policy" class="md-nav__link">
+    4-1 Routing policy
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5CS_cs/" class="md-nav__link">
+        L5 AWS Compute Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6DS_cs/" class="md-nav__link">
+        L6 AWS Database Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7AS_cs/" class="md-nav__link">
+        L7 AWS Analytics Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8AS_cs/" class="md-nav__link">
+        L8 AWS Application Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9MT_cs/" class="md-nav__link">
+        L9 AWS Management Tools Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10EXAM_cs/" class="md-nav__link">
+        L10 AWS Certification Exam Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Chap3 Networking Exam Topics
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap3 Networking Exam Topics" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Chap3 Networking Exam Topics
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/1vpc/" class="md-nav__link">
+        L1 AWS Virtual Private Cloud – VPC
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/2bastion/" class="md-nav__link">
+        L2 AWS Bastion Host
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/3direct_connect/" class="md-nav__link">
+        L3 AWS Direct Connect – DX
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/4ELB/" class="md-nav__link">
+        L4 AWS Elastic Load Balancer – ELB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/5ALB/" class="md-nav__link">
+        L5 AWS Application Load Balancer – ALB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/6NLB/" class="md-nav__link">
+        L6 AWS Network Load Balancer – NLB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/7EAN_LB/" class="md-nav__link">
+        L7 AWS Classic Load Balancer vs Application Load Balancer vs Network Load Balancer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8elb_mon/" class="md-nav__link">
+        L8 AWS ELB Monitoring
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/9route53/" class="md-nav__link">
+        L9 AWS Certification – Route 53 Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/10route53_policy/" class="md-nav__link">
+        L10 AWS Route 53 Routing Policy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/11route53_resolver/" class="md-nav__link">
+        L11 AWS Route 53 Resolver
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/12api_gateway/" class="md-nav__link">
+        L12 AWS API Gateway
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/13cloudfront/" class="md-nav__link">
+        L13 AWS CloudFront
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/14direct_connect/" class="md-nav__link">
+        L14 AWS Direct Connect – DX
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          chap4 AWS Security, Identity & Compliance
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="chap4 AWS Security, Identity & Compliance" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          chap4 AWS Security, Identity & Compliance
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/1AWS_IAM/" class="md-nav__link">
+        L1 AWS Identity Access Management – IAM(unfinished)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          chap7 AWS Database Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="chap7 AWS Database Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          chap7 AWS Database Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/1rds/" class="md-nav__link">
+        L1 AWS RDS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/2DynamoDB/" class="md-nav__link">
+        L2 AWS DynamoDB(unfinished)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Chap10 AWS Migration & Transfer Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap10 AWS Migration & Transfer Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Chap10 AWS Migration & Transfer Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/1aws_cms/" class="md-nav__link">
+        L1 AWS Cloud Migration Services
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/2AWS_IE/" class="md-nav__link">
+        L2 AWS Import/Export
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/3AWS_DTS/" class="md-nav__link">
+        L3 AWS Data Transfer Services
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8">
+          Chap11 AWS Analytics Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap11 AWS Analytics Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Chap11 AWS Analytics Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/4Elasticsearch/" class="md-nav__link">
+        L4 AWS Elasticsearch
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-virtual-private-cloud-vpc" class="md-nav__link">
+    1 Virtual Private Cloud – VPC
+  </a>
+  
+    <nav class="md-nav" aria-label="1 Virtual Private Cloud – VPC">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-components" class="md-nav__link">
+    1-1 Components
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-tenancy-option-for-instances" class="md-nav__link">
+    1-2 Tenancy option for instances
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-route-tables" class="md-nav__link">
+    1-3 Route Tables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-4-subnets" class="md-nav__link">
+    1-4 Subnets
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-5-elastic-network-interface-eni" class="md-nav__link">
+    1-5 Elastic Network Interface (ENI)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-6-security-groups-vs-network-access-control-lists" class="md-nav__link">
+    1-6 Security Groups vs Network Access Control Lists
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-7-elastic-ip" class="md-nav__link">
+    1-7 Elastic IP
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-8-nat" class="md-nav__link">
+    1-8 NAT
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-9-egress-only-internet-gateways" class="md-nav__link">
+    1-9 Egress-Only Internet Gateways
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-10-shared-vpcs" class="md-nav__link">
+    1-10 Shared VPCs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-11-vpc-peering" class="md-nav__link">
+    1-11 VPC Peering
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-12-vpc-endpoints" class="md-nav__link">
+    1-12 VPC Endpoints
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-cloudfront" class="md-nav__link">
+    2 CloudFront
+  </a>
+  
+    <nav class="md-nav" aria-label="2 CloudFront">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    Security
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#object-removal-from-the-cache" class="md-nav__link">
+    object removal from the cache
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supports-adding-or-modifying-custom-headers-before-the-request-is-sent-to-origin-which-can-be-used-to" class="md-nav__link">
+    supports adding or modifying custom headers before the request is sent to origin which can be used to
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-direct-connect-vpn" class="md-nav__link">
+    3 Direct Connect &amp; VPN
+  </a>
+  
+    <nav class="md-nav" aria-label="3 Direct Connect &amp; VPN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-1-vpn" class="md-nav__link">
+    3-1 VPN
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-2-direct-connect" class="md-nav__link">
+    3-2 Direct Connect
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-2-direct-connect-vs-vpn-ipsec" class="md-nav__link">
+    3-2 Direct Connect vs VPN IPSec
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-route-53" class="md-nav__link">
+    4 Route 53
+  </a>
+  
+    <nav class="md-nav" aria-label="4 Route 53">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-routing-policy" class="md-nav__link">
+    4-1 Routing policy
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+<a href="https://github.com/Chao-Xi/jxawscsaabook.git/edit/master/docs/chap2/4Ns_cs.md" title="编辑此页" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
+
+
+
+<h1 id="l4-aws-networking-services-cheat-sheet"><strong>L4 AWS Networking Services Cheat Sheet</strong></h1>
+<h2 id="1-virtual-private-cloud-vpc"><strong>1 Virtual Private Cloud – VPC</strong></h2>
+<ul>
+<li>helps define a logically isolated dedicated virtual network within the AWS</li>
+<li>provides control of <strong>IP addressing using CIDR block from a minimum of /28 to maximum of /16 block size</strong></li>
+<li>supports IPv4 and IPv6 addressing</li>
+<li>can be extended by associating secondary IPv4 CIDR blocks to VPC</li>
+</ul>
+<h3 id="1-1-components"><strong>1-1 Components</strong></h3>
+<ul>
+<li><strong>Internet gateway (IGW) provides access to the Internet</strong></li>
+<li><strong>Virtual gateway (VGW) provides access to on-premises</strong> data center through <strong>VPN</strong> and <strong>Direct Connect connections</strong></li>
+<li><mark>VPC can have only one IGW and VGW</mark></li>
+<li><strong>Route tables</strong> determine where network traffic from subnet is directed</li>
+<li>Ability to create <strong>subnet</strong> with VPC CIDR block</li>
+<li><strong>A Network Address Translation (NAT) server</strong> provides outbound Internet access for EC2 instances in private subnets</li>
+<li><strong>Elastic IP addresses</strong> are static, persistent public IP addresses</li>
+<li>Instances launched in the VPC will have a <strong>Private IP address</strong> and can have a <strong>Public or a Elastic IP</strong> address associated with it</li>
+<li><strong>Security Groups and NACLs</strong> help define security</li>
+<li><strong>Flow logs</strong> – <strong>Capture information about the IP traffic going to and from network interfaces in your VPC</strong></li>
+</ul>
+<h3 id="1-2-tenancy-option-for-instances"><strong>1-2 Tenancy option for instances</strong></h3>
+<ul>
+<li><strong>shared</strong>, by default, allows instances to be launched on shared tenancy</li>
+<li><strong>dedicated</strong> allows instances to be launched on a dedicated hardware</li>
+</ul>
+<h3 id="1-3-route-tables"><strong>1-3 Route Tables</strong></h3>
+<ul>
+<li>defines rules, termed as routes, which determine where network traffic from the subnet would be routed</li>
+<li>Each VPC has a Main <strong>Route table, and can have multiple custom route tables created</strong></li>
+<li>Every route table <strong>contains a local route that enables communication within a VPC which cannot be modified or deleted</strong></li>
+<li><strong>Route priority is decided by matching the most specific route</strong> in the route table that matches the traffic</li>
+</ul>
+<h3 id="1-4-subnets"><strong>1-4 Subnets</strong></h3>
+<ul>
+<li><strong>map to AZs</strong> and do not span across AZs</li>
+<li>have a CIDR range that is a portion of the whole VPC.</li>
+<li><strong>CIDR ranges cannot overlap</strong> between subnets within the VPC.</li>
+<li>AWS <strong>reserves 5 IP addresses in each subnet – first 4 and last one</strong></li>
+<li>Each subnet is associated with a route table which define its behavior<ul>
+<li><mark><strong>Public subnets</strong> – inbound/outbound Internet connectivity via IGW</mark></li>
+<li><mark><strong>Private subnets</strong> – outbound Internet connectivity via an NAT or VGW</mark></li>
+<li><mark><strong>Protected subnets</strong> – no outbound connectivity and used for regulated workloads</mark></li>
+</ul>
+</li>
+</ul>
+<h3 id="1-5-elastic-network-interface-eni"><strong>1-5 Elastic Network Interface (ENI)</strong></h3>
+<ul>
+<li>a default ENI, eth0, is attached to an instance which <strong>cannot be detached with one or more secondary detachable ENIs (eth1-ethn)</strong></li>
+<li><strong>has primary private, one or more</strong> secondary private, public, Elastic IP address, security groups, MAC address and <strong>source/destination check flag attributes associated</strong></li>
+<li>AN ENI in one subnet can be attached to an instance in the same or another subnet, in the same AZ and the same VPC</li>
+<li><strong>Security group membership of an ENI can be changed</strong></li>
+<li>with pre allocated Mac Address can be used for applications with special licensing requirements</li>
+</ul>
+<h3 id="1-6-security-groups-vs-network-access-control-lists"><strong>1-6 Security Groups vs Network Access Control Lists</strong></h3>
+<ul>
+<li>Stateful vs Stateless</li>
+<li>At instance level vs At subnet level</li>
+<li><strong>Only allows Allow rule</strong> vs <strong>Allows both Allow and Deny rules</strong></li>
+<li>Evaluated as a Whole vs Evaluated in defined Order</li>
+</ul>
+<h3 id="1-7-elastic-ip"><strong>1-7 Elastic IP</strong></h3>
+<ul>
+<li>is a <strong>static IP address</strong> designed for dynamic cloud computing.</li>
+<li>is <strong>associated with AWS account</strong>, and not a particular instance</li>
+<li>can be <strong>remapped</strong> from one instance to an other instance</li>
+<li>is <strong>charged for non usage</strong>, if not linked for any instance or instance associated is in stopped state</li>
+</ul>
+<h3 id="1-8-nat"><strong>1-8 NAT</strong></h3>
+<ul>
+<li><strong>allows internet access to instances in private subnet</strong></li>
+<li>performs the function of both address <strong>translation and port address translation (PAT)</strong></li>
+<li><strong>needs source/destination check flag to be disabled as it is not actual destination of  the traffic</strong></li>
+<li>NAT gateway is a AWS managed NAT service that provides better availability, higher bandwidth, and requires less administrative effort</li>
+<li><strong>are not supported for IPv6 traffic</strong></li>
+</ul>
+<h3 id="1-9-egress-only-internet-gateways"><strong>1-9 Egress-Only Internet Gateways</strong></h3>
+<ul>
+<li>outbound communication over IPv6 from instances in the VPC to the Internet, and prevents the Internet from initiating an IPv6 connection with your instances</li>
+<li><strong>supports IPv6 traffic only</strong></li>
+</ul>
+<h3 id="1-10-shared-vpcs"><strong>1-10 Shared VPCs</strong></h3>
+<ul>
+<li>allows multiple AWS accounts to create their application resources, such as EC2 instances, RDS databases, Redshift clusters, and AWS Lambda functions, <strong>into shared, centrally-managed VPCs</strong></li>
+</ul>
+<h3 id="1-11-vpc-peering"><strong>1-11 VPC Peering</strong></h3>
+<ul>
+<li>allows routing of traffic between the peer VPCs using <strong>private IP addresses and no IGW or VGW required</strong></li>
+<li>No single point of failure and bandwidth bottlenecks</li>
+<li><strong>supports inter-region VPC peering</strong></li>
+<li><strong>IP space or CIDR blocks cannot overlap</strong></li>
+<li><strong>cannot be transitive</strong>, one-to-one relationship between two VPC</li>
+<li>Only one between any two VPCs and have to be explicitly peered</li>
+<li><strong>Private DNS values cannot be resolved</strong></li>
+<li>Security groups from peered VPC can now be referred, however the VPC should be in the same region.</li>
+</ul>
+<h2 id="1-12-vpc-endpoints"><strong>1-12 VPC Endpoints</strong></h2>
+<ul>
+<li>enables you to privately connect VPC to supported AWS services and VPC endpoint services powered by PrivateLink</li>
+<li><strong><mark>does not require a public IP address, access over the Internet, NAT device, a VPN connection or Direct Connect</mark></strong></li>
+<li><strong>traffic between VPC &amp; AWS service does not leave the Amazon network</strong></li>
+<li>are virtual devices.</li>
+<li>are horizontally scaled, redundant, and highly available VPC components that allow communication between instances in your VPC and services without imposing availability risks or bandwidth constraints on your network traffic.</li>
+<li>
+<p><strong>Gateway Endpoints</strong></p>
+<ul>
+<li>is a gateway that is a target for a specified route in the route table, used for traffic destined to a supported AWS service.</li>
+<li><strong>only S3 and DynamoDB are currently supported</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Interface Endpoints</strong></p>
+<ul>
+<li>is an elastic network interface with a private IP address that serves as an entry point for traffic destined to a supported service</li>
+<li>services supported <strong>API Gateway AWS CloudFormation, CloudWatch, CloudWatch Events, CloudWatch Logs AWS CodeBuild AWS CodeCommit AWS Config, EC2 API Elastic Load Balancing API, Elastic Container Registry, Elastic Container Service AWS Key Management Service, Kinesis Data Streams, SageMaker and, SageMaker Runtime, SageMaker Notebook Instance AWS Secrets Manager AWS Security Token Service AWS Service Catalog, SNS, SQS AWS Systems Manager</strong></li>
+</ul>
+</li>
+</ul>
+<h2 id="2-cloudfront"><strong>2 CloudFront</strong></h2>
+<ul>
+<li>provides low latency and high data transfer speeds for distribution of static, dynamic web, or streaming content to web users.</li>
+<li>delivers the content through a worldwide network of data centers called <strong>Edge Locations or Point of Presence (PoPs)</strong></li>
+<li>keeps persistent connections with the origin servers so that the files can be fetched from the origin servers as quickly as possible.</li>
+<li>dramatically reduces the number of network hops that users’ requests must pass through</li>
+<li>supports multiple origin server options, like AWS hosted service for e.g. S3, EC2, ELB, or an on-premise server, which stores the original, definitive version of the objects</li>
+<li>single distribution can have multiple origins and Path pattern in a cache behavior determines which requests are routed to the origin</li>
+<li>Web distribution supports <strong>static, dynamic web content, on-demand using progressive download &amp; HLS, and live streaming video content</strong></li>
+<li>
+<p><strong>supports HTTPS using either</strong></p>
+<ul>
+<li><strong>dedicated IP address, which is expensive as a dedicated IP address is assigned to each CloudFront edge location</strong></li>
+<li>Server Name Indication (SNI), which is free but supported by modern browsers only with the domain name available in the request header</li>
+</ul>
+</li>
+<li>
+<p>For E2E HTTPS connection,</p>
+<ul>
+<li><strong>Viewers -&gt; CloudFront needs either a self-signed certificate or a certificate issued by CA or ACM</strong></li>
+<li><strong>CloudFront -&gt; Origin needs certificate issued by ACM for ELB and by CA for other origins</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="security"><strong>Security</strong></h3>
+<ul>
+<li>
+<p><strong>Origin Access Identity (OAI)</strong> can be used to <strong>restrict the content from S3 origin to be accessible from CloudFront only</strong></p>
+</li>
+<li>
+<p><strong>supports Geo restriction (Geo-Blocking)</strong> to whitelist or blacklist countries that can access the content</p>
+</li>
+<li>
+<p><strong>Signed URLs</strong></p>
+<ul>
+<li>to restrict access to individual files, for e.g., an installation download for your application.</li>
+<li>users using a client, for e.g. a custom HTTP client, that doesn’t support cookies</li>
+</ul>
+</li>
+<li>
+<p><strong>Signed Cookies</strong></p>
+<ul>
+<li><strong>provide access to multiple restricted files</strong>, for e.g., <em>video part files in HLS format or all of the files in the subscribers’ area of a website</em>.</li>
+<li>don’t want to change the current URLs</li>
+</ul>
+</li>
+<li>
+<p><strong>integrates with AWS WAF, a web application firewall that helps protect web applications from attacks by allowing rules configured based on IP addresses</strong>, HTTP headers, and custom URI strings</p>
+</li>
+</ul>
+<p>supports GET, HEAD, OPTIONS, PUT, POST, PATCH, DELETE to get object &amp; object headers, add, update, and delete objects</p>
+<ul>
+<li>only caches responses to GET and HEAD requests and, optionally, OPTIONS requests</li>
+<li>does not cache responses to PUT, POST, PATCH, DELETE request methods and these requests are proxied back to the origin</li>
+</ul>
+<h3 id="object-removal-from-the-cache"><strong>object removal from the cache</strong></h3>
+<ul>
+<li><strong>would be removed upon expiry (TTL) from the cache, by default 24 hrs</strong></li>
+<li>can be invalidated explicitly, but has a cost associated, however, might continue to see the old version until it expires from those caches</li>
+<li>objects can be invalidated only for Web distribution</li>
+<li><strong>use versioning or change object name, to serve a different version</strong></li>
+</ul>
+<h3 id="supports-adding-or-modifying-custom-headers-before-the-request-is-sent-to-origin-which-can-be-used-to"><strong>supports adding or modifying custom headers before the request is sent to origin which can be used to</strong></h3>
+<ul>
+<li>validate if a user is accessing the content from CDN</li>
+<li>identifying CDN from which the request was forwarded, in case of multiple CloudFront distributions</li>
+<li>for viewers not supporting CORS to return the Access-Control-Allow-Origin header for every request</li>
+</ul>
+<p>supports Partial GET requests using range header to <strong>download objects in smaller units improving the efficiency of partial downloads and recovery from partially failed transfers</strong></p>
+<p>supports compression to compress and serve compressed files when viewer requests include Accept-Encoding: gzip in the request header</p>
+<p><strong>supports different price classes to include all regions</strong>, or only the least expensive regions and other regions without the most expensive regions</p>
+<h2 id="3-direct-connect-vpn"><strong>3 Direct Connect &amp; VPN</strong></h2>
+<h3 id="3-1-vpn"><strong>3-1 VPN</strong></h3>
+<ul>
+<li>provide secure IPSec connections from on-premise computers or services to AWS over the Internet</li>
+<li>is quick to setup, is cheap however it depends on the Internet speed</li>
+</ul>
+<h3 id="3-2-direct-connect"><strong>3-2 Direct Connect</strong></h3>
+<ul>
+<li>is a network service that provides an alternative to using Internet to utilize AWS services by using <strong>private dedicated network connection</strong></li>
+<li>
+<p><strong>provides Virtual Interfaces</strong></p>
+<ul>
+<li><strong>Private VIF</strong> to access instances within an <strong>VPC via VGW</strong></li>
+<li><strong>Public VIF</strong> to access <strong>non VPC services</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>requires time to setup probably months</strong>, and should not be considered as an option if turnaround time is less</p>
+</li>
+<li><strong>does not provide redundancy</strong>, <strong>use either second direct connection or IPSec VPN connection</strong></li>
+<li>Virtual Private Gateway is on the AWS side and Customer Gateway is on the Customer side</li>
+<li><strong>route propagation is enabled on VGW and not on CGW</strong></li>
+</ul>
+<h3 id="3-2-direct-connect-vs-vpn-ipsec"><strong>3-2 Direct Connect vs VPN IPSec</strong></h3>
+<ul>
+<li>Expensive to Setup and Takes time vs Cheap &amp; Immediate</li>
+<li>Dedicated private connections vs Internet</li>
+<li>Reduced data transfer rate vs Internet data transfer cost</li>
+<li>Consistent performance vs Internet inherent variability</li>
+<li>Do not provide Redundancy vs Provides Redundancy</li>
+</ul>
+<h2 id="4-route-53"><strong>4 Route 53</strong></h2>
+<ul>
+<li>Highly available and scalable DNS &amp; Domain Registration Service</li>
+<li>Reliable and cost-effective way to route end users to Internet applications</li>
+<li>Supports <strong>multi-region and backup architectures for High availability</strong>. <ul>
+<li><strong>ELB , limited to region, does not support multi region HA architecture</strong></li>
+</ul>
+</li>
+<li>supports private Intranet facing DNS service</li>
+<li><strong>internal resource record sets only work for requests originating from within the VPC</strong> and currently cannot extend to on-premise</li>
+<li>Global propagation of any changes made to the <strong>DN records within ~ 1min</strong></li>
+<li>Route 53 to create an <strong>alias resource record set</strong> that points to ELB, S3, CloudFront. An alias resource record set is a Route 53 extension to DNS. <ul>
+<li>It’s similar to a CNAME resource record set, but supports both for root domain – zone apex  e.g. example.com, and for subdomains for e.g. www.example.com.</li>
+</ul>
+</li>
+<li><strong><mark>CNAME resource record sets can be created only for subdomains and cannot be mapped to the zone apex record</mark></strong></li>
+<li><strong>Route 53 Split-view (Split-horizon)</strong> DNS enables you to access an internal version of your website using the same domain name that is used publicly</li>
+</ul>
+<h3 id="4-1-routing-policy"><strong>4-1 Routing polic</strong>y</h3>
+<ul>
+<li>Simple routing – simple round robin policy</li>
+<li>Weighted round robin – assign weights to resource records sets to specify the proportion for e.g. 80%:20%</li>
+<li>Latency based routing – <strong>helps improve global applications as request are sent to server from the location with minimal latency</strong>, is based on the latency and cannot guarantee users from the same geographic will be served from the same location for any compliance reasons</li>
+<li><strong>Geolocation routing – Specify geographic locations by continent</strong>, country, state limited to US, is based on IP accuracy</li>
+<li><strong>Failover routing – failover to a backup site if the primary site fails and becomes unreachable</strong></li>
+</ul>
+<p><strong><mark>Weighted, Latency and Geolocation can be used for Active-Active while Failover routing can be used for Active-Passive multi region architecture</mark></strong></p>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="页脚">
+      
+        
+        <a href="../3IS_cs/" class="md-footer__link md-footer__link--prev" aria-label="上一页: L3 AWS Security &amp; Identity Service Cheat Sheet" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              L3 AWS Security & Identity Service Cheat Sheet
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../5CS_cs/" class="md-footer__link md-footer__link--next" aria-label="下一页: L5 AWS Compute Services Cheat Sheet" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              L5 AWS Compute Services Cheat Sheet
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "search": "../../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.467223ff.min.js"></script>
+      
+    
+  </body>
+</html>

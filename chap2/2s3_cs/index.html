@@ -1,0 +1,2066 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's AWS Certification Solutions Architect Tutorial">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+        <link rel="canonical" href="https://chao-xi.github.io/jxawscsaabook/chap2/2s3_cs/">
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.5">
+    
+    
+      
+        <title>L2 AWS Storage & Content Delivery Cheat Sheet - Jacob AWS Certification Solutions Architect Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2d9f7617.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ffa724">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="orange" data-md-color-accent="orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#l2-aws-storage-content-delivery-cheat-sheet" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AWS Certification Solutions Architect Book" class="md-header__button md-logo" aria-label="Jacob AWS Certification Solutions Architect Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AWS Certification Solutions Architect Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              L2 AWS Storage & Content Delivery Cheat Sheet
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxawscsaabook.git/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscsaabook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AWS Certification Solutions Architect Book" class="md-nav__button md-logo" aria-label="Jacob AWS Certification Solutions Architect Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AWS Certification Solutions Architect Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxawscsaabook.git/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscsaabook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Chap1 Exam-Intro
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap1 Exam-Intro" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Chap1 Exam-Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/1Exam_Guide/" class="md-nav__link">
+        L1 SAA-C02 Exam Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/2Learning_path/" class="md-nav__link">
+        L2 Associate SAA-C02 Exam Topics
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Chap2 Services Cheat Sheet
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap2 Services Cheat Sheet" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Chap2 Services Cheat Sheet
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1best_prac/" class="md-nav__link">
+        L1 AWS Best Practices
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          L2 AWS Storage & Content Delivery Cheat Sheet
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        L2 AWS Storage & Content Delivery Cheat Sheet
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1simple-storage-service-s3" class="md-nav__link">
+    1、Simple Storage Service – S3
+  </a>
+  
+    <nav class="md-nav" aria-label="1、Simple Storage Service – S3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multipart-uploads-allows" class="md-nav__link">
+    Multipart Uploads allows
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#versioning" class="md-nav__link">
+    Versioning
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mfa-multi-factor-authentication" class="md-nav__link">
+    MFA (Multi-Factor Authentication)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s3-storage-classes" class="md-nav__link">
+    S3 Storage Classes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lifecycle-management-policies" class="md-nav__link">
+    Lifecycle Management policies
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-consistency-model" class="md-nav__link">
+    Data Consistency Model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s3-security" class="md-nav__link">
+    S3 Security
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s3-data-encryption" class="md-nav__link">
+    S3 Data Encryption
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s3-best-practices" class="md-nav__link">
+    S3 Best Practices
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2instance-store" class="md-nav__link">
+    2、Instance Store
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3elastic-block-store-ebs" class="md-nav__link">
+    3、Elastic Block Store – EBS
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4ebs-encryption" class="md-nav__link">
+    4、EBS Encryption
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5ebs-snapshots" class="md-nav__link">
+    5、EBS Snapshots
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6ebs-vs-instance-store" class="md-nav__link">
+    6、EBS vs Instance Store
+  </a>
+  
+    <nav class="md-nav" aria-label="6、EBS vs Instance Store">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-1-aws-ebs-vs-instance-store-overview" class="md-nav__link">
+    6-1 AWS EBS vs Instance Store Overview
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-2-instance-store-ephemeral-storage" class="md-nav__link">
+    6-2 Instance Store (Ephemeral storage)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-3-key-points-for-instance-store-backed-instance" class="md-nav__link">
+    6-3 Key points for Instance store backed Instance
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-3-elastic-block-store-ebs" class="md-nav__link">
+    6-3 Elastic Block Store (EBS)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-4-key-points-for-ebs-backed-instance" class="md-nav__link">
+    6-4 Key points for EBS backed Instance
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-4-ebs-vs-instance-store-comparision" class="md-nav__link">
+    6-4 EBS vs Instance Store Comparision
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-5-boot-times" class="md-nav__link">
+    6-5 Boot Times
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7glacier" class="md-nav__link">
+    7、Glacier
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8amazon-fsx-for-windows" class="md-nav__link">
+    8、Amazon FSx for Windows
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9amazon-fsx-for-lustre" class="md-nav__link">
+    9、Amazon FSx for Lustre
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10cloudfront" class="md-nav__link">
+    10、CloudFront
+  </a>
+  
+    <nav class="md-nav" aria-label="10、CloudFront">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supports-web-download-distribution-and-rtmp-streaming-distribution" class="md-nav__link">
+    supports Web Download distribution and RTMP Streaming distribution
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supports-https-using-either" class="md-nav__link">
+    supports HTTPS using either
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-e2e-https-connection" class="md-nav__link">
+    For E2E HTTPS connection,
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    Security
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signed-cookies" class="md-nav__link">
+    Signed Cookies
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#object-removal-from-cache" class="md-nav__link">
+    object removal from cache
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11aws-importexport" class="md-nav__link">
+    11、AWS Import/Export
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3IS_cs/" class="md-nav__link">
+        L3 AWS Security & Identity Service Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4Ns_cs/" class="md-nav__link">
+        L4 AWS Networking Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5CS_cs/" class="md-nav__link">
+        L5 AWS Compute Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6DS_cs/" class="md-nav__link">
+        L6 AWS Database Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7AS_cs/" class="md-nav__link">
+        L7 AWS Analytics Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8AS_cs/" class="md-nav__link">
+        L8 AWS Application Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9MT_cs/" class="md-nav__link">
+        L9 AWS Management Tools Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10EXAM_cs/" class="md-nav__link">
+        L10 AWS Certification Exam Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Chap3 Networking Exam Topics
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap3 Networking Exam Topics" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Chap3 Networking Exam Topics
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/1vpc/" class="md-nav__link">
+        L1 AWS Virtual Private Cloud – VPC
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/2bastion/" class="md-nav__link">
+        L2 AWS Bastion Host
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/3direct_connect/" class="md-nav__link">
+        L3 AWS Direct Connect – DX
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/4ELB/" class="md-nav__link">
+        L4 AWS Elastic Load Balancer – ELB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/5ALB/" class="md-nav__link">
+        L5 AWS Application Load Balancer – ALB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/6NLB/" class="md-nav__link">
+        L6 AWS Network Load Balancer – NLB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/7EAN_LB/" class="md-nav__link">
+        L7 AWS Classic Load Balancer vs Application Load Balancer vs Network Load Balancer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8elb_mon/" class="md-nav__link">
+        L8 AWS ELB Monitoring
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/9route53/" class="md-nav__link">
+        L9 AWS Certification – Route 53 Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/10route53_policy/" class="md-nav__link">
+        L10 AWS Route 53 Routing Policy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/11route53_resolver/" class="md-nav__link">
+        L11 AWS Route 53 Resolver
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/12api_gateway/" class="md-nav__link">
+        L12 AWS API Gateway
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/13cloudfront/" class="md-nav__link">
+        L13 AWS CloudFront
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/14direct_connect/" class="md-nav__link">
+        L14 AWS Direct Connect – DX
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          chap4 AWS Security, Identity & Compliance
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="chap4 AWS Security, Identity & Compliance" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          chap4 AWS Security, Identity & Compliance
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/1AWS_IAM/" class="md-nav__link">
+        L1 AWS Identity Access Management – IAM(unfinished)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          chap7 AWS Database Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="chap7 AWS Database Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          chap7 AWS Database Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/1rds/" class="md-nav__link">
+        L1 AWS RDS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/2DynamoDB/" class="md-nav__link">
+        L2 AWS DynamoDB(unfinished)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Chap10 AWS Migration & Transfer Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap10 AWS Migration & Transfer Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Chap10 AWS Migration & Transfer Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/1aws_cms/" class="md-nav__link">
+        L1 AWS Cloud Migration Services
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/2AWS_IE/" class="md-nav__link">
+        L2 AWS Import/Export
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/3AWS_DTS/" class="md-nav__link">
+        L3 AWS Data Transfer Services
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8">
+          Chap11 AWS Analytics Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap11 AWS Analytics Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Chap11 AWS Analytics Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/4Elasticsearch/" class="md-nav__link">
+        L4 AWS Elasticsearch
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1simple-storage-service-s3" class="md-nav__link">
+    1、Simple Storage Service – S3
+  </a>
+  
+    <nav class="md-nav" aria-label="1、Simple Storage Service – S3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multipart-uploads-allows" class="md-nav__link">
+    Multipart Uploads allows
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#versioning" class="md-nav__link">
+    Versioning
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mfa-multi-factor-authentication" class="md-nav__link">
+    MFA (Multi-Factor Authentication)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s3-storage-classes" class="md-nav__link">
+    S3 Storage Classes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lifecycle-management-policies" class="md-nav__link">
+    Lifecycle Management policies
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-consistency-model" class="md-nav__link">
+    Data Consistency Model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s3-security" class="md-nav__link">
+    S3 Security
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s3-data-encryption" class="md-nav__link">
+    S3 Data Encryption
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s3-best-practices" class="md-nav__link">
+    S3 Best Practices
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2instance-store" class="md-nav__link">
+    2、Instance Store
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3elastic-block-store-ebs" class="md-nav__link">
+    3、Elastic Block Store – EBS
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4ebs-encryption" class="md-nav__link">
+    4、EBS Encryption
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5ebs-snapshots" class="md-nav__link">
+    5、EBS Snapshots
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6ebs-vs-instance-store" class="md-nav__link">
+    6、EBS vs Instance Store
+  </a>
+  
+    <nav class="md-nav" aria-label="6、EBS vs Instance Store">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-1-aws-ebs-vs-instance-store-overview" class="md-nav__link">
+    6-1 AWS EBS vs Instance Store Overview
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-2-instance-store-ephemeral-storage" class="md-nav__link">
+    6-2 Instance Store (Ephemeral storage)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-3-key-points-for-instance-store-backed-instance" class="md-nav__link">
+    6-3 Key points for Instance store backed Instance
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-3-elastic-block-store-ebs" class="md-nav__link">
+    6-3 Elastic Block Store (EBS)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-4-key-points-for-ebs-backed-instance" class="md-nav__link">
+    6-4 Key points for EBS backed Instance
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-4-ebs-vs-instance-store-comparision" class="md-nav__link">
+    6-4 EBS vs Instance Store Comparision
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-5-boot-times" class="md-nav__link">
+    6-5 Boot Times
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7glacier" class="md-nav__link">
+    7、Glacier
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8amazon-fsx-for-windows" class="md-nav__link">
+    8、Amazon FSx for Windows
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9amazon-fsx-for-lustre" class="md-nav__link">
+    9、Amazon FSx for Lustre
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10cloudfront" class="md-nav__link">
+    10、CloudFront
+  </a>
+  
+    <nav class="md-nav" aria-label="10、CloudFront">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supports-web-download-distribution-and-rtmp-streaming-distribution" class="md-nav__link">
+    supports Web Download distribution and RTMP Streaming distribution
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supports-https-using-either" class="md-nav__link">
+    supports HTTPS using either
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-e2e-https-connection" class="md-nav__link">
+    For E2E HTTPS connection,
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    Security
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signed-cookies" class="md-nav__link">
+    Signed Cookies
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#object-removal-from-cache" class="md-nav__link">
+    object removal from cache
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11aws-importexport" class="md-nav__link">
+    11、AWS Import/Export
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+<a href="https://github.com/Chao-Xi/jxawscsaabook.git/edit/master/docs/chap2/2s3_cs.md" title="编辑此页" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
+
+
+
+<h1 id="l2-aws-storage-content-delivery-cheat-sheet"><strong>L2 AWS Storage &amp; Content Delivery Cheat Sheet</strong></h1>
+<h2 id="1simple-storage-service-s3"><strong>1、Simple Storage Service – S3</strong></h2>
+<ul>
+<li>provides key-value based object storage with unlimited storage, unlimited objects up to <strong>5 TB for the internet</strong></li>
+<li>offers an extremely durable, highly available, and <strong>infinitely scalable data storage infrastructure at very low costs</strong>.</li>
+<li>is Object-level storage (not a Block level storage) and cannot be used to <strong>host OS or dynamic websites (but can work with Javascript SDK)</strong></li>
+<li>provides durability by redundantly storing objects on multiple facilities within a region</li>
+<li><strong>S3 resources consist of globally unique buckets with objects and related metadata.</strong> The data model is a <strong>flat structure with no hierarchies or folders</strong>.</li>
+<li>regularly verifies the integrity of data using <strong>checksums and provides the auto-healing capability</strong></li>
+<li><strong>S3 Replication</strong> enables automatic, asynchronous copying of objects across S3 buckets <strong>in the same or different AWS regions</strong> using <strong>SRR</strong> or <strong>CRR</strong>. Replication needs <strong>versioning enabled on either side.</strong></li>
+<li><strong>S3 Transfer Acceleration</strong> helps speed data transport over long distances between a client and an S3 bucket using CloudFront edge locations.</li>
+<li>S3 supports cost-effective <strong>Static Website hosting</strong> with <strong>Client-side scripts</strong>.</li>
+<li>S3 <strong>CORS</strong> – Cross-Origin Resource Sharing <strong>allows cross-origin access to S3 resources</strong>.</li>
+<li><strong>S3 Access Logs</strong> enables tracking access requests to an S3 bucket.</li>
+<li><strong>S3 notification feature</strong> enables <strong>notifications to be triggered</strong> when certain events happen in the bucket.</li>
+<li><strong>S3 Inventory</strong> helps manage the storage and <em>can be used to audit and report on the replication and encryption status</em> of the objects for business, compliance, and regulatory needs.</li>
+<li><strong>Requestor Pays</strong> help bucket owner to <strong>specify that the requester requesting the download</strong> will be charged for the download.</li>
+<li><strong>S3 Batch Operations</strong> help perform <strong>large-scale batch operations on S3 objects and can perform</strong> a single operation on lists of specified S3 objects.</li>
+<li><strong>Pre-Signed URLs</strong> can be used <strong>shared for uploading/downloading objects</strong> for a limited time w<strong>ithout requiring AWS security credentials</strong>.</li>
+</ul>
+<h3 id="multipart-uploads-allows"><strong>Multipart Uploads</strong> allows</h3>
+<ul>
+<li>parallel uploads with improved throughput and bandwidth utilization</li>
+<li><strong>fault tolerance and quick recovery from network issues</strong></li>
+<li><strong>ability to pause and resume uploads</strong></li>
+<li><strong>begin an upload before the final object size is known</strong></li>
+</ul>
+<h3 id="versioning"><strong>Versioning</strong></h3>
+<ul>
+<li>helps preserve, retrieve, and restore every version of every object</li>
+<li>protect from unintended overwrites and accidental deletions</li>
+<li>protects individual files but <strong><mark>does NOT protect from Bucket deletion</mark></strong></li>
+</ul>
+<h3 id="mfa-multi-factor-authentication"><strong>MFA (Multi-Factor Authentication)</strong></h3>
+<p>can be enabled for additional security for the deletion of objects.</p>
+<p><strong>Integrates with CloudTrail, CloudWatch, and SNS for event notifications</strong></p>
+<h3 id="s3-storage-classes"><strong>S3 Storage Classes</strong></h3>
+<p><strong>S3 Standard</strong></p>
+<ul>
+<li>default storage class, <strong>ideal for frequently accessed data</strong></li>
+<li>99.999999999% durability &amp; 99.99% availability</li>
+<li>Low latency and high throughput performance</li>
+<li>designed to sustain the loss of data in a two facilities</li>
+</ul>
+<p><strong>S3 Standard-Infrequent Access (S3 Standard-IA)</strong></p>
+<ul>
+<li>optimized for long-lived and less frequently accessed data</li>
+<li>designed to sustain the loss of data in a two facilities</li>
+<li>99.999999999% durability &amp; 99.9% availability</li>
+<li><strong>suitable for objects greater than 128 KB kept for at least 30 days</strong></li>
+</ul>
+<p><strong>S3 One Zone-Infrequent Access (S3 One Zone-IA)</strong></p>
+<ul>
+<li>optimized for rapid access, less frequently access data</li>
+<li>ideal for secondary backups and reproducible data</li>
+<li><strong>stores data in a single AZ, data stored in this storage class will be lost in the event of AZ destruction</strong>.</li>
+<li>99.999999999% durability &amp; 99.5% availability</li>
+</ul>
+<p><strong><mark>S3 Glacier</mark></strong></p>
+<ul>
+<li>suitable for low cost data archiving, where data access is infrequent</li>
+<li>provides retrieval time of minutes to several hours<ul>
+<li><strong>Expedited – 1 to 5 minutes</strong></li>
+<li><strong>Standard – 3 to 5 hours</strong></li>
+<li><strong>Bulk – 5 to 12 hour</strong>s</li>
+</ul>
+</li>
+<li>99.999999999% durability &amp; 99.9% availability</li>
+<li>Minimum storage duration of 90 days</li>
+</ul>
+<p><strong>S3 Glacier Deep Archive (S3 Glacier Deep Archive)</strong></p>
+<ul>
+<li>provides lowest cost data archiving, where data access is infrequent</li>
+<li>99.999999999% durability &amp; 99.9% availability</li>
+<li><strong>provides retrieval time of several (12-48) hours</strong><ul>
+<li>Standard – 12 hours</li>
+<li>Bulk – 48 hours</li>
+</ul>
+</li>
+<li>Minimum storage duration of 180 days</li>
+<li>supports long-term retention and digital preservation for data that may be accessed once or twice a year</li>
+</ul>
+<h3 id="lifecycle-management-policies"><strong>Lifecycle Management policies</strong></h3>
+<ul>
+<li><strong>transition to move objects to different storage classes and Glacier</strong></li>
+<li>expiration to remove objects and object versions</li>
+<li><strong>can be applied to both current and non-current objects, in case, versioning is enabled</strong>.</li>
+</ul>
+<h3 id="data-consistency-model"><strong>Data Consistency Model</strong></h3>
+<ul>
+<li>provides strong read-after-write consistency for PUT and DELETE requests of objects in the S3 bucket in all AWS Regions</li>
+<li>updates to a single key are atomic</li>
+<li><strong><mark>does not currently support object locking for concurrent writes</mark></strong></li>
+</ul>
+<h3 id="s3-security"><strong>S3 Security</strong></h3>
+<ul>
+<li>IAM policies – grant users within your own AWS account permission to access S3 resources</li>
+<li>Bucket and Object ACL – <strong>grant other AWS accounts (not specific users) access to  S3 resources</strong></li>
+<li>Bucket policies – allows to add or deny permissions across some or all of the objects within a single bucket</li>
+<li><strong>S3 Access Points</strong> simplify data access for any AWS service or customer application that stores data in S3.</li>
+<li><strong>S3 Glacier Vault Lock</strong> helps deploy and enforce compliance controls for <strong>individual S3 Glacier vaults with a vault lock policy</strong>.</li>
+<li><strong>S3 VPC Gateway Endpoint</strong> enables private connections between a <strong>VPC and S3, without requiring that you use an internet gateway, NAT device, VPN connection, or AWS Direct Connect connection</strong>.</li>
+<li>Support SSL encryption of data in transit and data encryption at rest</li>
+</ul>
+<h3 id="s3-data-encryption"><strong>S3 Data Encryption</strong></h3>
+<ul>
+<li>supports data at rest and data in transit encryption</li>
+<li>
+<p>Server-Side Encryption</p>
+<ul>
+<li>SSE-S3 – encrypts S3 objects using keys handled &amp; managed by AWS</li>
+<li>SSE-KMS – leverage AWS Key Management Service to manage encryption keys. KMS provides control and audit trail over the keys.</li>
+<li>SSE-C – when you want to manage your own encryption keys. AWS does not store the encryption key. Requires HTTPS.</li>
+</ul>
+</li>
+<li>
+<p><strong>Client-Side Encryption</strong></p>
+<ul>
+<li>Client library such as the S3 Encryption Client</li>
+<li>Clients must encrypt data themselves before sending it to S3</li>
+<li>Clients must decrypt data themselves when retrieving from S3</li>
+<li>Customer fully manages the keys and encryption cycle</li>
+</ul>
+</li>
+</ul>
+<h3 id="s3-best-practices"><strong><mark>S3 Best Practices</mark></strong></h3>
+<ul>
+<li>use parallel threads and <strong>Multipart upload for faster writes</strong></li>
+<li>use parallel threads and <strong>Range Header GET for faster reads</strong></li>
+<li>for list operations with a large number of objects, it’s better to build a secondary index in DynamoDB</li>
+<li>use <strong>Versioning to protect from unintended overwrites and deletions</strong>, but this does not protect against bucket deletion</li>
+<li>use <strong>VPC S3 Endpoints</strong> with VPC to transfer data using Amazon internal network</li>
+</ul>
+<h2 id="2instance-store"><strong>2、Instance Store</strong></h2>
+<ul>
+<li>provides <strong>temporary or ephemeral <mark>block-level storage</mark></strong> for an EC2 instance</li>
+<li><mark>is <strong>physically attached</strong> to the Instance</mark></li>
+<li><strong>deliver very high random I/O performance</strong>, which is a good option when storage with very low latency is needed</li>
+<li><strong>cannot be dynamically resized</strong></li>
+<li>data persists when an instance is rebooted</li>
+<li>data does not persists if the<ul>
+<li>underlying disk drive fails</li>
+<li>instance stops i.e. if the EBS backed instance with instance store volumes attached is stopped</li>
+<li>instance terminates</li>
+</ul>
+</li>
+<li>can be attached to an EC2 instance only <strong>when the instance is launched</strong></li>
+<li><strong>is ideal for the temporary storage of information that changes frequently</strong>, such as buffers, caches, scratch data, and other temporary content, or for data that is replicated across a fleet of instances, such as a load-balanced pool of web servers.</li>
+</ul>
+<h2 id="3elastic-block-store-ebs"><strong>3、Elastic Block Store – EBS</strong></h2>
+<ul>
+<li>is <strong>virtual network-attached</strong> block storage</li>
+<li>provides <strong>highly available</strong>, reliable, durable, block-level storage volumes that can be attached to a running instance</li>
+<li>provides <strong>high durability</strong> and are <strong>redundant in an AZ</strong>, as the data is automatically replicated <strong>within that AZ to prevent data loss due to any single hardware component failure</strong></li>
+<li>persists and is independent of EC2 lifecycle</li>
+<li><strong>multiple volumes can be attached to a single EC2 instance</strong></li>
+<li>can be detached &amp; attached to another EC2 instance in that same AZ only</li>
+<li>volumes are <strong>Zonal</strong> i.e. <strong>created in a specific AZ and CAN’T span across AZs</strong></li>
+<li><strong>snapshots</strong></li>
+<li>for making volume available to different AZ, create a snapshot of the volume and restore it to a new volume in any AZ within the region</li>
+<li>for making the volume available to different Region, the snapshot of the volume can be copied to a different region and restored as a volume</li>
+<li><strong>PIOPS is designed to run transactions applications that require high and consistent IO for e.g. Relation database, NoSQL</strong>, etc</li>
+<li>PIOPS is designed to run transactions applications that require high and consistent IO for e.g. Relation database, NoSQL, etc</li>
+<li><strong>Multi-Attach enables attaching a single Provisioned IOPS SSD</strong> (io1 or io2) volume to multiple instances that are in the same AZ.</li>
+</ul>
+<h2 id="4ebs-encryption"><strong>4、EBS Encryption</strong></h2>
+<ul>
+<li>allow encryption using the EBS encryption feature.</li>
+<li>All data stored at rest, disk I/O, and snapshots created from the volume are encrypted.</li>
+<li>uses 256-bit AES algorithms (AES-256) and an Amazon-managed KMS</li>
+<li>Snapshots of encrypted EBS volumes are automatically encrypted.</li>
+</ul>
+<h2 id="5ebs-snapshots"><strong>5、EBS Snapshots</strong></h2>
+<ul>
+<li>helps create backups of EBS volumes</li>
+<li>are <strong>incremental</strong></li>
+<li>occur <strong>asynchronously</strong>, consume the instance IOPS</li>
+<li>are <strong>regional</strong> and CANNOT span across regions</li>
+<li>can be <strong>copied across regions</strong> to make it easier to leverage multiple regions for geographical expansion, data center migration, and disaster recovery</li>
+<li>can be shared by making them public or with specific AWS accounts by modifying the access permissions of the snapshots</li>
+<li>
+<p>support <strong>EBS encryption</strong></p>
+<ul>
+<li>Snapshots of encrypted volumes are automatically encrypted</li>
+<li>Volumes created from encrypted snapshots are automatically encrypted</li>
+<li>All data in flight between the instance and the volume is encrypted</li>
+<li>Volumes created from an unencrypted snapshot owned or have access to can be encrypted on the fly.</li>
+<li>Encrypted snapshot owned or having access to, can be encrypted with a different key during the copy process.</li>
+</ul>
+</li>
+<li>
+<p>can be automated using AWS Data Lifecycle Manager</p>
+</li>
+</ul>
+<h2 id="6ebs-vs-instance-store"><strong>6、EBS vs Instance Store</strong></h2>
+<h3 id="6-1-aws-ebs-vs-instance-store-overview"><strong>6-1 AWS EBS vs Instance Store Overview</strong></h3>
+<p>EC2 instances support two types for block level storage</p>
+<ul>
+<li>Elastic Block Store (EBS)</li>
+<li>Instance Store (Ephemeral store)</li>
+</ul>
+<p>EC2 Instances can be <strong>launched using either Elastic Block Store (EBS) or Instance Store volume as root volumes and additional volumes</strong>.</p>
+<p>EC2 instances can be launched by choosing between AMIs backed by <strong>EC2 instance store</strong> and AMIs backed by <strong>EBS</strong>. However, <strong>AWS recommends using EBS backed AMIs</strong> because they launch faster and use persistent storage.</p>
+<h3 id="6-2-instance-store-ephemeral-storage"><strong>6-2 Instance Store (Ephemeral storage)</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/chap2_2_1.png" title="Body image" /></p>
+<ul>
+<li>An Instance store backed instance is an EC2 instance using an <strong>Instance store as root device volume created from a template stored in S3</strong>.</li>
+<li>Instance store volumes access storage from <strong>disks that are physically attached to the host computer</strong>.</li>
+<li>When an Instance stored instance is launched, the image that is used to boot the instance is copied to the root volume (<strong>typically sda1</strong>).</li>
+<li>Instance store provides temporary block-level storage for instances.</li>
+<li>Data on an instance store volume persists only during the life of the associated instance; if an instance is stopped or terminated, any data on instance store volumes is lost.</li>
+</ul>
+<h3 id="6-3-key-points-for-instance-store-backed-instance"><strong>6-3 Key points for Instance store backed Instance</strong></h3>
+<ul>
+<li>Boot time is slower than EBS backed volumes and usually less than <strong>5 min</strong></li>
+<li>Can be selected as Root Volume and attached as additional volumes</li>
+<li>Instance store backed Instances can be of a <strong>maximum 10GiB volume size</strong></li>
+<li>Instance store volume can be attached as additional volumes only when the instance is being launched and cannot be attached once the Instance is up and running</li>
+<li><strong>Instance store backed Instances cannot be stopped</strong>, as when <strong><mark>stopped and started AWS does not guarantee the instance would be launched in the same host, and hence the data is lost</mark></strong></li>
+<li>Data on Instance store volume is <strong><mark>LOST</mark></strong> in the following scenarios:<ul>
+<li>Failure of an underlying drive</li>
+<li><strong>Stopping an EBS-backed instance where instance stores are attached as additional volumes</strong></li>
+<li>Termination of the Instance</li>
+</ul>
+</li>
+</ul>
+<p>Data on Instance store volume is <strong>NOT LOST</strong> when the instance is <strong>rebooted</strong></p>
+<p>For EC2 instance store-backed instances AWS recommends to</p>
+<ul>
+<li>distribute the data on the instance stores across multiple AZs</li>
+<li>back up critical data from the instance store volumes to persistent storage on a regular basis.</li>
+</ul>
+<p>AMI creation requires usage on AMI tools and needs to be executed from <strong>within the running instance</strong></p>
+<p>Instance store backed Instances cannot be upgraded</p>
+<h3 id="6-3-elastic-block-store-ebs"><strong>6-3 Elastic Block Store (EBS)</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/chap2_2_2.png" title="Body image" /></p>
+<ul>
+<li>An “EBS-backed” instance means that the root device for an instance launched from the AMI is an EBS volume created from an EBS snapshot</li>
+<li>An EBS volume behaves like a raw, unformatted, external block device that <strong>can be attached to a single instance</strong> and is not physically attached to the Instance host computer (more like network-attached storage).</li>
+<li><strong>Volume persists independently from the running life of an instance</strong>.</li>
+<li>After an EBS volume is attached to an instance, you can use it like any other physical hard drive.</li>
+<li><strong>EBS volume can be detached from one instance and attached to another instance</strong></li>
+<li><strong>EBS volumes can be created as encrypted volumes using the EBS encryption feature</strong></li>
+</ul>
+<h3 id="6-4-key-points-for-ebs-backed-instance"><strong>6-4 Key points for EBS backed Instance</strong></h3>
+<ul>
+<li><strong>Boot time is very fast usually less than a min</strong></li>
+<li>Can be selected as <strong>Root Volume and attached as additional volumes</strong></li>
+<li>EBS backed Instances can be of maximum 64TiB volume size depending upon the OS</li>
+<li><strong>EBS volume can be attached as additional volumes when the Instance is launched</strong> and even when the Instance is up and running</li>
+<li>
+<p>Data on the EBS volume is <strong><mark>LOST</mark></strong> for</p>
+<ul>
+<li>EBS Root volume, if <strong>Delete On Termination flag is enabled</strong>, which is the default.</li>
+<li>Attached EBS volumes, if the Delete On Termination flag is enabled. It’s disabled, by default.</li>
+</ul>
+</li>
+<li>
+<p>Data on EBS volume is <strong>NOT LOST</strong> in the following scenarios:</p>
+<ul>
+<li>Reboot on the Instance</li>
+<li>Stopping an EBS-backed instance</li>
+<li>Termination of the Instance for the additional EBS volumes. <strong>Additional EBS volumes are detached with their data intact</strong></li>
+</ul>
+</li>
+<li>
+<p>When an EBS-backed instance is in a stopped state, various instance– and volume-related tasks can be done for e.g. </p>
+<ul>
+<li>you can modify the properties of the instance, </li>
+<li>you can change the size of your instance or update the kernel it is using, </li>
+<li><strong>you can attach your root volume to a different running instance for debugging or any other purpose</strong></li>
+</ul>
+</li>
+<li>
+<p>EBS volumes are <strong>AZ scoped</strong> and tied to a single AZ  in which created</p>
+</li>
+<li>
+<p>EBS volumes are automatically <strong>replicated within that zone to prevent data loss</strong> due to the failure of any single hardware component</p>
+</li>
+<li>
+<p>AMI creation is easy using a Single command</p>
+</li>
+<li>EBS backed Instances can be <strong>upgraded for instance type, Kernel, RAM disk, and user data</strong></li>
+</ul>
+<h3 id="6-4-ebs-vs-instance-store-comparision"><strong>6-4 EBS vs Instance Store Comparision</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/chap2_2_3.png" title="Body image" /></p>
+<h3 id="6-5-boot-times"><strong>6-5 Boot Times</strong></h3>
+<ul>
+<li>EBS-backed AMIs launch faster than EC2 instance store-backed AMIs.</li>
+<li>When an EC2 instance store-backed AMI is launched, all the parts have to be retrieved from S3 before the instance is available.</li>
+<li>With an EBS-backed AMI is launched, parts are lazily loaded and only the parts required to boot the instance need to be retrieved from the snapshot before the instance is available.</li>
+<li>However, the performance of an instance that uses an EBS volume for its root device is slower for a short time while the remaining parts are retrieved from the snapshot and loaded into the volume.</li>
+<li>
+<p>When you stop and restart the instance, it launches quickly, because the state is stored in an EBS volume.</p>
+</li>
+<li>
+<p>EC2 EBS-backed (EBS root) instance is stopped, what happens to the data on <strong>any ephemeral store volumes</strong>?</p>
+<ul>
+<li>Data is automatically saved in an EBS volume.</li>
+<li>Data is unavailable until the instance is restarted.</li>
+<li><strong>Data will be deleted and will no longer be accessible</strong>.</li>
+<li>Data is automatically saved as an EBS snapshot.</li>
+</ul>
+</li>
+<li>
+<p>When an EC2 instance that is backed by an <strong>S3-based AMI</strong> is terminated, what happens to the data on the root volume?</p>
+<ul>
+<li>Data is automatically saved as an EBS snapshot.</li>
+<li>Data is automatically saved as an EBS volume.</li>
+<li>Data is unavailable until the instance is restarted.</li>
+<li><strong>Data is automatically deleted.</strong></li>
+</ul>
+</li>
+<li>
+<p>Which of the following will occur when an EC2 instance in a VPC (Virtual Private Cloud) with an associated Elastic IP is stopped and started? (Choose 2 answers)</p>
+<ul>
+<li>The Elastic IP will be dissociated from the instance</li>
+<li><strong>All data on instance-store devices will be lost</strong></li>
+<li>All data on EBS (Elastic Block Store) devices will be lost</li>
+<li>The ENI (Elastic Network Interface) is detached</li>
+<li><strong>The underlying host for the instance is changed</strong></li>
+</ul>
+</li>
+<li>
+<p>Which of the following provides the fastest storage medium?</p>
+<ul>
+<li>Amazon S3</li>
+<li>Amazon EBS using Provisioned IOPS (PIOPS)</li>
+<li><strong>SSD Instance (ephemeral) store (SSD Instance Storage provides 100,000 IOPS on some instance types, much faster than any network-attached storage)</strong></li>
+<li>AWS Storage Gateway</li>
+</ul>
+</li>
+</ul>
+<h2 id="7glacier"><strong>7、Glacier</strong></h2>
+<p>suitable for <strong>archiving</strong> data, where data access is <strong>infrequent</strong> and <strong>a retrieval time of several hours (3 to 5 hours)</strong> is acceptable (<strong>Not true anymore with enhancements from AWS</strong>)</p>
+<p>provides a <strong>high durability</strong> by storing archive in multiple facilities and multiple devices at a <strong>very low cost storage</strong></p>
+<p>performs regular, systematic <strong>data integrity checks</strong> and is built to be <strong>automatically self healing</strong></p>
+<p><strong>aggregate files into bigger</strong> files before sending them to Glacier and use <strong>range retrievals to retrieve partial file and reduce costs</strong></p>
+<p>improve speed and reliability with <strong>multipart upload</strong></p>
+<p><strong>automatically encrypts</strong> the data using AES-256</p>
+<p><strong>upload or download data to Glacier via SSL encrypted endpoints</strong></p>
+<p><strong>8、EFS</strong></p>
+<p>fully-managed, easy to set up, scale, and cost-optimize file storage</p>
+<p>can automatically scale from gigabytes to petabytes of data without needing to provision storage</p>
+<p>provides managed NFS (network file system) that can be mounted on and accessed by multiple EC2 in multiple AZs simultaneously</p>
+<p>highly durable, highly scalable and highly available.</p>
+<ul>
+<li>stores data redundantly across multiple Availability Zones</li>
+<li>grows and shrinks automatically as files are added and removed, so you there is no need to manage storage procurement or provisioning.</li>
+</ul>
+<p><strong>expensive (3x gp2), but you pay per use</strong></p>
+<p><strong>uses the Network File System version 4 (NFS v4) protocol</strong></p>
+<p><strong>is compatible with all Linux-based AMIs for EC</strong>2,  POSIX file system (~Linux) that has a standard file API</p>
+<p><strong>does not support Windows AMI</strong></p>
+<p><strong>does not support Windows AMI</strong></p>
+<p>offers the ability to encrypt data at rest using KMS and in transit.</p>
+<p><strong>can be accessed from on-premises using an AWS Direct Connect or AWS VPN connection between the on-premises datacenter and VPC</strong>.</p>
+<p>can be <strong>accessed concurrently from servers in the on-premises datacenter as well as EC2 instances in the Amazon VPC</strong></p>
+<p><strong>Performance mode</strong></p>
+<ul>
+<li>
+<p>General purpose (default)</p>
+<ul>
+<li>latency-sensitive use cases (web server, CMS, etc…)</li>
+</ul>
+</li>
+<li>
+<p>Max I/O</p>
+<ul>
+<li>higher latency, throughput, highly parallel (big data, media processing)</li>
+</ul>
+</li>
+</ul>
+<p><strong>Storage Tiers</strong></p>
+<ul>
+<li>
+<p>Standard</p>
+<ul>
+<li>for frequently accessed files</li>
+<li>ideal for active file system workloads and you pay only for the file system storage you use per month</li>
+</ul>
+</li>
+<li>
+<p>Infrequent access (EFS-IA)</p>
+<ul>
+<li>a lower cost storage class that’s cost-optimized for files infrequently accessed i.e. not accessed every day</li>
+<li>cost to retrieve files, lower price to store</li>
+</ul>
+</li>
+</ul>
+<p>EFS Lifecycle Management with choosing an age-off policy allows moving files to EFS IA</p>
+<p>Lifecycle Management automatically moves the data to the EFS IA storage class according to <strong>the lifecycle policy. for e.g., you can move files automatically into EFS IA fourteen days of not being accessed</strong>.</p>
+<p><strong><mark>EFS is a shared POSIX system for Linux systems and does not work for Windows</mark></strong></p>
+<h2 id="8amazon-fsx-for-windows"><strong>8、Amazon FSx for Windows</strong></h2>
+<ul>
+<li>is a fully managed,  highly reliable, and scalable Windows file system share drive</li>
+<li><strong>supports SMB protocol &amp; Windows NTFS</strong></li>
+<li>supports Microsoft Active Directory integration, ACLs, user quotas</li>
+<li>built on SSD, scale up to 10s of GB/s, millions of IOPS, 100s PB of data</li>
+<li><strong>is accessible from Windows, Linux, and MacOS compute instances</strong></li>
+<li>can be accessed from the on-premise infrastructure</li>
+<li><strong>can be configured to be Multi-AZ (high availability)</strong></li>
+<li>supports encryption of data at rest and in transit</li>
+<li>provides data deduplication, which enables further cost optimization by removing redundant data.</li>
+<li><strong>data is backed-up daily to S3</strong></li>
+</ul>
+<h2 id="9amazon-fsx-for-lustre"><strong>9、Amazon FSx for Lustre</strong></h2>
+<ul>
+<li><strong>provides easy and cost effective way to launch and run the world’s most popular high-performance file system</strong>.</li>
+<li>is a type of parallel distributed file system, for large-scale computing</li>
+<li><strong>Lustre is derived from “Linux” and “cluster”</strong></li>
+<li>Machine Learning, High Performance Computing (HPC) esp. <strong>Video Processing, Financial Modeling, Electronic Design Automation</strong></li>
+<li>scales up to 100s GB/s, millions of IOPS, sub-ms latencies</li>
+<li><strong>seamless integration with S3, it transparently presents S3 objects as files and allows you to write changed data back to S3</strong>.</li>
+<li>can “read S3” as a file system (through FSx)</li>
+<li>can write the output of the computations back to S3 (through FSx)</li>
+<li>supports encryption of data at rest and in transit</li>
+<li><strong>can be used from on-premise servers</strong></li>
+</ul>
+<h2 id="10cloudfront"><strong>10、CloudFront</strong></h2>
+<p>provides low latency and high data transfer speeds for distribution of static, dynamic web or streaming content to web users</p>
+<p>delivers the content through a worldwide network of data centers called <strong>Edge Locations</strong></p>
+<p><strong>keeps persistent connections with the origin servers so that the files can be fetched from the origin servers as quickly as possible</strong>.</p>
+<p>dramatically <strong>reduces the number of network hops</strong> that users’ requests must pass through</p>
+<p>supports <strong>multiple origin server options</strong>, like AWS hosted service for e.g. <em>S3, EC2, ELB or an on premise server</em>, which stores the original, definitive version of the objects</p>
+<p><strong>single distribution can have multiple origin</strong>s and Path pattern in a cache behavior determines which requests are routed to the origin</p>
+<h3 id="supports-web-download-distribution-and-rtmp-streaming-distribution"><strong>supports Web Download distribution and RTMP Streaming distribution</strong></h3>
+<ul>
+<li>Web distribution supports static, dynamic web content, on demand using progressive download &amp; HLS and live streaming video content</li>
+<li><strong><mark>RTMP supports streaming of media files using Adobe Media Server and the Adobe Real-Time Messaging Protocol (RTMP) ONLY</mark></strong></li>
+</ul>
+<h3 id="supports-https-using-either"><strong>supports HTTPS using either</strong></h3>
+<ul>
+<li><strong>dedicated IP address</strong>, which is expensive as dedicated IP address is assigned to each CloudFront edge location</li>
+<li><strong>Server Name Indication (SNI), which is free but supported by modern browsers only with the domain name available in the request header</strong></li>
+</ul>
+<h3 id="for-e2e-https-connection"><strong>For E2E HTTPS connection</strong>,</h3>
+<ul>
+<li><strong>Viewers -&gt; CloudFront</strong> needs either <strong>self signed certificate, or certificate issued by CA or ACM</strong></li>
+<li><strong>CloudFront -&gt; Origin</strong> needs <strong>certificate issued by ACM for ELB and by CA for other origins</strong></li>
+</ul>
+<h3 id="security"><strong>Security</strong></h3>
+<ul>
+<li><strong>Origin Access Identity (OAI)</strong> can be used to restrict the content from S3 origin to be accessible from CloudFront only</li>
+<li>supports <strong>Geo restriction (Geo-Blocking) to whitelist or blacklist</strong> countries that can access the content</li>
+<li>Signed URLs <ul>
+<li>for RTMP distribution as signed cookies aren’t supported</li>
+<li>to restrict access to individual files, <strong>for e.g., an installation download for your application</strong>.</li>
+<li>users using a client, for e.g. a <strong>custom HTTP client</strong>, that doesn’t support cookies</li>
+</ul>
+</li>
+</ul>
+<h3 id="signed-cookies"><strong>Signed Cookies</strong></h3>
+<ul>
+<li>provide access to multiple restricted files, <strong>for e.g., video part files in HLS format or all of the files in the subscribers’ area of a website.</strong></li>
+<li>don’t want to change the current URLs</li>
+</ul>
+<p><strong>Integrates with AWS WAF</strong>, <strong>a web application firewall that helps protect web applications from attacks by allowing rules configured</strong> based on IP addresses, HTTP headers, and custom URI </p>
+<p><strong>supports GET, HEAD, OPTIONS, PUT, POST, PATCH, DELETE</strong> to get object &amp; object headers, add, update, and delete objects</p>
+<ul>
+<li><strong>only caches responses to GET and HEAD</strong> requests and, optionally, OPTIONS requests</li>
+<li><strong>does not cache responses to PUT, POST, PATCH, DELETE</strong> request methods and these requests are proxied back to the origin</li>
+</ul>
+<h3 id="object-removal-from-cache">object <strong>removal</strong> from cache</h3>
+<ul>
+<li>would be removed upon <strong>expiry (TTL) from the cache, by default 24 hrs</strong></li>
+<li>can be <strong>invalidated explicitly</strong>, but has a cost associated, however might continue to see the old version until it expires from those caches</li>
+<li>objects can be <strong>invalidated only for Web distribution</strong></li>
+<li>change object name, <strong>versioning</strong>, to serve different version</li>
+</ul>
+<p>supports adding or modifying custom headers before the request is sent to origin which can be used to</p>
+<ul>
+<li><strong>validate</strong> if user is accessing the content from CDN</li>
+<li><strong>identifying CDN</strong> from which the request was forwarded from, in case of multiple CloudFront distribution</li>
+<li>for <strong>viewers not supporting CORS</strong> to return the Access-Control-Allow-Origin header for every request</li>
+</ul>
+<p>supports <strong>Partial GET requests</strong> using range header to download object in smaller units improving the efficiency of partial downloads and recovery from partially failed transfers</p>
+<p>supports <strong>compression</strong> to compress and serve compressed files when viewer requests include Accept-Encoding: gzip in the request header</p>
+<p>supports <strong>different price class</strong> to include all regions, to include only least expensive regions and other regions to exclude most expensive regions</p>
+<p>supports <strong>access logs</strong> which contain detailed information about every user request for both web and RTMP distribution</p>
+<h2 id="11aws-importexport"><strong>11、AWS Import/Export</strong></h2>
+<p>accelerates moving large amounts of data into and out of AWS using portable storage devices for transport and transfers data directly using Amazon’s high speed internal network, bypassing the internet.</p>
+<p>suitable for use cases with</p>
+<ul>
+<li>large datasets</li>
+<li>low bandwidth connections</li>
+<li>first time migration of data</li>
+</ul>
+<p>Importing data to several types of AWS storage, <strong>including EBS snapshots, S3 buckets, and Glacier vaults</strong>.</p>
+<p>Exporting data out from S3 only, with versioning enabled only the latest version is exported</p>
+<p>Import data can be encrypted (optional but recommended) while export is always encrypted using Truecrypt</p>
+<p><strong>Amazon will wipe the device if specified, however it will not destroy the device</strong></p>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="页脚">
+      
+        
+        <a href="../1best_prac/" class="md-footer__link md-footer__link--prev" aria-label="上一页: L1 AWS Best Practices" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              L1 AWS Best Practices
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../3IS_cs/" class="md-footer__link md-footer__link--next" aria-label="下一页: L3 AWS Security &amp; Identity Service Cheat Sheet" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              L3 AWS Security & Identity Service Cheat Sheet
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "search": "../../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.467223ff.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1671 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's AWS Certification Solutions Architect Tutorial">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+        <link rel="canonical" href="https://chao-xi.github.io/jxawscsaabook/chap2/7AS_cs/">
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.5">
+    
+    
+      
+        <title>L7 AWS Analytics Services Cheat Sheet - Jacob AWS Certification Solutions Architect Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2d9f7617.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ffa724">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="orange" data-md-color-accent="orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#l7-aws-analytics-services-cheat-sheet" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AWS Certification Solutions Architect Book" class="md-header__button md-logo" aria-label="Jacob AWS Certification Solutions Architect Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AWS Certification Solutions Architect Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              L7 AWS Analytics Services Cheat Sheet
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxawscsaabook.git/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscsaabook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AWS Certification Solutions Architect Book" class="md-nav__button md-logo" aria-label="Jacob AWS Certification Solutions Architect Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AWS Certification Solutions Architect Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxawscsaabook.git/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscsaabook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Chap1 Exam-Intro
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap1 Exam-Intro" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Chap1 Exam-Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/1Exam_Guide/" class="md-nav__link">
+        L1 SAA-C02 Exam Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/2Learning_path/" class="md-nav__link">
+        L2 Associate SAA-C02 Exam Topics
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Chap2 Services Cheat Sheet
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap2 Services Cheat Sheet" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Chap2 Services Cheat Sheet
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1best_prac/" class="md-nav__link">
+        L1 AWS Best Practices
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2s3_cs/" class="md-nav__link">
+        L2 AWS Storage & Content Delivery Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3IS_cs/" class="md-nav__link">
+        L3 AWS Security & Identity Service Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4Ns_cs/" class="md-nav__link">
+        L4 AWS Networking Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5CS_cs/" class="md-nav__link">
+        L5 AWS Compute Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6DS_cs/" class="md-nav__link">
+        L6 AWS Database Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          L7 AWS Analytics Services Cheat Sheet
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        L7 AWS Analytics Services Cheat Sheet
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-kinesis-data-streams-kds" class="md-nav__link">
+    1 Kinesis Data Streams – KDS
+  </a>
+  
+    <nav class="md-nav" aria-label="1 Kinesis Data Streams – KDS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-kinesis-vs-sqs" class="md-nav__link">
+    1-1 Kinesis vs SQS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-kinesis-producer" class="md-nav__link">
+    1-2 Kinesis Producer
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-kinesis-consumers" class="md-nav__link">
+    1-3 Kinesis Consumers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-4-kinesis-security" class="md-nav__link">
+    1-4 Kinesis Security
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2kinesis-data-firehose-kdf" class="md-nav__link">
+    2、Kinesis Data  Firehose – KDF
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-kinesis-data-streams-vs-kinesis-data-firehose" class="md-nav__link">
+    3 Kinesis Data Streams vs Kinesis Data Firehose
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4kinesis-data-analytics" class="md-nav__link">
+    4、Kinesis Data Analytics
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-redshift" class="md-nav__link">
+    5、 Redshift
+  </a>
+  
+    <nav class="md-nav" aria-label="5、 Redshift">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-1-redshift-supports-compound-and-interleaved-sort-keys" class="md-nav__link">
+    5-1 Redshift supports Compound and Interleaved sort keys
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-2-importexport-data" class="md-nav__link">
+    5-2 Import/Export Data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-3-redshift-spectrum" class="md-nav__link">
+    5-3 Redshift Spectrum
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-emr" class="md-nav__link">
+    6 EMR
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-glue" class="md-nav__link">
+    7 Glue
+  </a>
+  
+    <nav class="md-nav" aria-label="7 Glue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#7-1-aws-glue-data-catalog" class="md-nav__link">
+    7-1 AWS Glue Data Catalog
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-2-aws-glue-crawler" class="md-nav__link">
+    7-2 AWS Glue crawler
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-quicksight" class="md-nav__link">
+    8 QuickSight
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9data-pipeline" class="md-nav__link">
+    9、Data Pipeline
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-elasticsearch" class="md-nav__link">
+    10、 Elasticsearch
+  </a>
+  
+    <nav class="md-nav" aria-label="10、 Elasticsearch">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#10-1-elasticsearch-provides" class="md-nav__link">
+    10-1 Elasticsearch provides
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8AS_cs/" class="md-nav__link">
+        L8 AWS Application Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9MT_cs/" class="md-nav__link">
+        L9 AWS Management Tools Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10EXAM_cs/" class="md-nav__link">
+        L10 AWS Certification Exam Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Chap3 Networking Exam Topics
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap3 Networking Exam Topics" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Chap3 Networking Exam Topics
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/1vpc/" class="md-nav__link">
+        L1 AWS Virtual Private Cloud – VPC
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/2bastion/" class="md-nav__link">
+        L2 AWS Bastion Host
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/3direct_connect/" class="md-nav__link">
+        L3 AWS Direct Connect – DX
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/4ELB/" class="md-nav__link">
+        L4 AWS Elastic Load Balancer – ELB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/5ALB/" class="md-nav__link">
+        L5 AWS Application Load Balancer – ALB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/6NLB/" class="md-nav__link">
+        L6 AWS Network Load Balancer – NLB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/7EAN_LB/" class="md-nav__link">
+        L7 AWS Classic Load Balancer vs Application Load Balancer vs Network Load Balancer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8elb_mon/" class="md-nav__link">
+        L8 AWS ELB Monitoring
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/9route53/" class="md-nav__link">
+        L9 AWS Certification – Route 53 Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/10route53_policy/" class="md-nav__link">
+        L10 AWS Route 53 Routing Policy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/11route53_resolver/" class="md-nav__link">
+        L11 AWS Route 53 Resolver
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/12api_gateway/" class="md-nav__link">
+        L12 AWS API Gateway
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/13cloudfront/" class="md-nav__link">
+        L13 AWS CloudFront
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/14direct_connect/" class="md-nav__link">
+        L14 AWS Direct Connect – DX
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          chap4 AWS Security, Identity & Compliance
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="chap4 AWS Security, Identity & Compliance" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          chap4 AWS Security, Identity & Compliance
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/1AWS_IAM/" class="md-nav__link">
+        L1 AWS Identity Access Management – IAM(unfinished)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          chap7 AWS Database Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="chap7 AWS Database Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          chap7 AWS Database Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/1rds/" class="md-nav__link">
+        L1 AWS RDS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/2DynamoDB/" class="md-nav__link">
+        L2 AWS DynamoDB(unfinished)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Chap10 AWS Migration & Transfer Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap10 AWS Migration & Transfer Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Chap10 AWS Migration & Transfer Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/1aws_cms/" class="md-nav__link">
+        L1 AWS Cloud Migration Services
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/2AWS_IE/" class="md-nav__link">
+        L2 AWS Import/Export
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/3AWS_DTS/" class="md-nav__link">
+        L3 AWS Data Transfer Services
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8">
+          Chap11 AWS Analytics Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap11 AWS Analytics Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Chap11 AWS Analytics Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/4Elasticsearch/" class="md-nav__link">
+        L4 AWS Elasticsearch
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-kinesis-data-streams-kds" class="md-nav__link">
+    1 Kinesis Data Streams – KDS
+  </a>
+  
+    <nav class="md-nav" aria-label="1 Kinesis Data Streams – KDS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-kinesis-vs-sqs" class="md-nav__link">
+    1-1 Kinesis vs SQS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-kinesis-producer" class="md-nav__link">
+    1-2 Kinesis Producer
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-kinesis-consumers" class="md-nav__link">
+    1-3 Kinesis Consumers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-4-kinesis-security" class="md-nav__link">
+    1-4 Kinesis Security
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2kinesis-data-firehose-kdf" class="md-nav__link">
+    2、Kinesis Data  Firehose – KDF
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-kinesis-data-streams-vs-kinesis-data-firehose" class="md-nav__link">
+    3 Kinesis Data Streams vs Kinesis Data Firehose
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4kinesis-data-analytics" class="md-nav__link">
+    4、Kinesis Data Analytics
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-redshift" class="md-nav__link">
+    5、 Redshift
+  </a>
+  
+    <nav class="md-nav" aria-label="5、 Redshift">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-1-redshift-supports-compound-and-interleaved-sort-keys" class="md-nav__link">
+    5-1 Redshift supports Compound and Interleaved sort keys
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-2-importexport-data" class="md-nav__link">
+    5-2 Import/Export Data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-3-redshift-spectrum" class="md-nav__link">
+    5-3 Redshift Spectrum
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-emr" class="md-nav__link">
+    6 EMR
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-glue" class="md-nav__link">
+    7 Glue
+  </a>
+  
+    <nav class="md-nav" aria-label="7 Glue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#7-1-aws-glue-data-catalog" class="md-nav__link">
+    7-1 AWS Glue Data Catalog
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-2-aws-glue-crawler" class="md-nav__link">
+    7-2 AWS Glue crawler
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-quicksight" class="md-nav__link">
+    8 QuickSight
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9data-pipeline" class="md-nav__link">
+    9、Data Pipeline
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-elasticsearch" class="md-nav__link">
+    10、 Elasticsearch
+  </a>
+  
+    <nav class="md-nav" aria-label="10、 Elasticsearch">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#10-1-elasticsearch-provides" class="md-nav__link">
+    10-1 Elasticsearch provides
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+<a href="https://github.com/Chao-Xi/jxawscsaabook.git/edit/master/docs/chap2/7AS_cs.md" title="编辑此页" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
+
+
+
+<h1 id="l7-aws-analytics-services-cheat-sheet"><strong>L7 AWS Analytics Services Cheat Sheet</strong></h1>
+<h2 id="1-kinesis-data-streams-kds"><strong>1 Kinesis Data Streams – KDS</strong></h2>
+<ul>
+<li>enables <strong>real-time processing of streaming data at massive scale</strong></li>
+<li>provides <strong>ordering of records per shard</strong></li>
+<li>provides an ability to read and/or <strong>replay records in the same order</strong></li>
+<li><strong><mark>allows multiple applications to consume the same data</mark></strong></li>
+<li><strong>data is replicated across three data centers within a region</strong></li>
+<li>data is preserved for 24 hours, by default, and can be extended to 7 days</li>
+<li>data inserted in Kinesis, <strong>it can’t be deleted (immutability) but only expires</strong></li>
+<li>streams can be scaled using multiple shards, based on the partition key</li>
+<li><strong>each shard provides the capacity of 1MB/sec data input and 2MB/sec data output with 1000 PUT requests per second</strong></li>
+</ul>
+<h3 id="1-1-kinesis-vs-sqs"><strong>1-1 Kinesis vs SQS</strong></h3>
+<ul>
+<li>real-time processing of streaming <strong>big data vs reliable, highly scalable hosted queue for storing messages</strong></li>
+<li><strong>ordered records, as well as the ability to read and/or replay records in the same order</strong> vs no guarantee on data ordering (with the standard queues before the FIFO queue feature was released)</li>
+<li><strong>data storage up to 24 hours, extended to 7 days vs 1 minute to extended to 14 days but cleared if deleted by the consumer</strong></li>
+<li><strong>supports multiple consumers vs single consumer at a time and requires multiple queues to deliver message to multiple consumers</strong></li>
+</ul>
+<h3 id="1-2-kinesis-producer"><strong>1-2 Kinesis Producer</strong></h3>
+<ul>
+<li>
+<p><strong>API</strong></p>
+<ul>
+<li><strong>PutRecord and PutRecords</strong> are <strong>synchronous</strong></li>
+<li><strong><mark>PutRecords uses batching and increases throughput</mark></strong></li>
+<li>might experience <strong>ProvisionedThroughputExceeded Exceptions</strong>, when sending more data. <ul>
+<li>Use retries with backoff, resharding or change partition key.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>KPL</strong></p>
+<ul>
+<li>producer supports <strong>synchronous or asynchronous</strong> use cases</li>
+<li>supports <strong>inbuilt batching and retry mechanism</strong></li>
+</ul>
+</li>
+<li>
+<p>Kinesis Agent can help monitor log files and send them to KDS</p>
+</li>
+<li>supports third party libraries like Spark, Flume, Kafka connect etc.</li>
+</ul>
+<h3 id="1-3-kinesis-consumers"><strong>1-3 Kinesis Consumers</strong></h3>
+<ul>
+<li><strong>Kinesis SDK</strong><ul>
+<li>Records are polled by consumers from a shard</li>
+</ul>
+</li>
+<li>
+<p><strong>Kinesis Client Library (KCL)</strong></p>
+<ul>
+<li>Read records from Kinesis produced with the KPL (de-aggregation)</li>
+<li>supports <strong>checkpointing</strong> feature to keep track of the application’s state and <strong>resume progress using DynamoDB table</strong></li>
+<li>if KDS application receives provisioned-throughput exceptions, increase the provisioned throughput for the DynamoDB table</li>
+</ul>
+</li>
+<li>
+<p>Kinesis Connector Library – can be replaced using Firehose or Lambda</p>
+</li>
+<li><strong>Third party libraries: Spark, Log4J Appenders, Flume, Kafka Connect</strong>…</li>
+<li>Kinesis Firehose, AWS Lambda</li>
+<li>Kinesis Consumer Enhanced Fan-Out<ul>
+<li>supports  Multiple Consumer applications for the same Stream</li>
+<li>provides Low Latency ~70ms</li>
+<li>Higher costs</li>
+<li>Default limit of 5 consumers using enhanced fan-out per data stream</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-4-kinesis-security"><strong>1-4 Kinesis Security</strong></h3>
+<ul>
+<li>allows access / authorization control using IAM policies</li>
+<li>supports Encryption in flight using HTTPS endpoints</li>
+<li>supports <strong>Data encryption at rest</strong> either using client side encryption before pushing the data to data streams or server side encryption</li>
+<li><strong><mark>upports VPC Endpoints to access within VPC</mark></strong></li>
+</ul>
+<h2 id="2kinesis-data-firehose-kdf"><strong>2、Kinesis Data  Firehose – KDF</strong></h2>
+<p>data transfer solution for delivering <strong>real time streaming data</strong> to destinations such as <strong>S3,  Redshift,  Elasticsearch service, and Splunk</strong>.</p>
+<p>is a <strong>fully managed service</strong> that <strong>automatically scales</strong> to match the throughput of your data and requires no ongoing administration</p>
+<p>is <strong>Near Real Time (min. 60 secs)</strong> as it buffers incoming streaming data to a certain size or for a certain period of time before delivering it</p>
+<p>supports <strong>batching, compression, and encryption of the data</strong> before loading it, minimizing the amount of storage used at the destination and increasing security</p>
+<p>supports <strong>data compression, minimizing the amount of storage used at the destination</strong>. It currently supports GZIP, ZIP, and SNAPPY compression formats. Only GZIP is supported if the data is further loaded to Redshift.</p>
+<p>supports out of box <strong>data transformation as well as custom transformation using Lambda function</strong> to transform incoming source data and deliver the transformed data to destinations</p>
+<p>uses at <strong>least once semantics</strong> for data delivery.</p>
+<p><strong>supports multiple producers as datasource</strong>, which include Kinesis data stream, KPL, Kinesis Agent, or the Kinesis Data Firehose API using the AWS SDK, CloudWatch Logs, CloudWatch Events, or AWS IoT</p>
+<ul>
+<li><strong><mark>does NOT support consumers like Spark and KCL</mark></strong></li>
+</ul>
+<p><strong>supports interface VPC endpoint to keep traffic between the VPC and Kinesis Data Firehose from leaving the Amazon network.</strong></p>
+<h2 id="3-kinesis-data-streams-vs-kinesis-data-firehose"><strong>3 Kinesis Data Streams vs Kinesis Data Firehose</strong></h2>
+<p><img alt="Alt Image Text" src="../../images/chap2_6_1.png" title="Body image" /></p>
+<h2 id="4kinesis-data-analytics"><strong>4、Kinesis Data Analytics</strong></h2>
+<ul>
+<li><strong>helps analyze streaming data</strong>, gain actionable insights, and respond to the business and customer needs in real time.</li>
+<li><strong>reduces the complexity of building, managing, and integrating streaming applications with other AWS service</strong></li>
+</ul>
+<h2 id="5-redshift"><strong>5、 Redshift</strong></h2>
+<ul>
+<li><strong>Redshift is a fast, fully managed data warehouse</strong></li>
+<li>provides simple and cost-effective solution to analyze all the data using standard SQL and the existing Business Intelligence (BI) tools.</li>
+<li><strong>manages the work needed to set up, operate, and scale a data warehouse, from provisioning the infrastructure capacity to automating ongoing administrative tasks such as backups, and patching</strong>.</li>
+<li>automatically monitors your nodes and drives to help you recover from failures.</li>
+<li><strong>only supports Single-AZ deployments</strong>.</li>
+<li>replicates all the data within the data warehouse cluster when it is loaded and also continuously backs up your data to S3.</li>
+<li><strong>attempts to maintain at least three copies of your data</strong> (the original and replica on the compute nodes and a backup in S3).</li>
+<li>supports cross-region <strong>snapshot replication to another region</strong> for disaster recovery</li>
+<li>Redshift supports four <strong>distribution styles; AUTO, EVEN, KEY, or ALL</strong>.<ul>
+<li><strong>KEY</strong> distribution uses a single column as distribution key (DISTKEY) and helps place matching values on the same node slice</li>
+<li><strong>Even</strong> distribution distributes the rows across the slices in a <strong>round-robin fashion</strong>, regardless of the values in any particular column</li>
+<li><strong>ALL</strong> distribution replicates whole table in every compute node.</li>
+<li><strong>AUTO</strong> distribution lets Redshift assigns an optimal distribution style based on the size of the table data</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-1-redshift-supports-compound-and-interleaved-sort-keys"><strong>5-1 Redshift supports Compound and Interleaved sort keys</strong></h3>
+<p><strong>Compound key</strong></p>
+<ul>
+<li>
+<p><strong>is made up of all of the columns listed in the sort key definition</strong>, </p>
+</li>
+<li>
+<p>in the order they are listed and is more efficient when query predicates use a <em>prefix</em>, or query’s filter applies conditions, such as filters and joins, which is a subset of the sort key columns in order.</p>
+</li>
+</ul>
+<p><strong>Interleaved sort key</strong></p>
+<ul>
+<li>gives equal weight to each column in the sort key, so query predicates can use any subset of the columns that make up the sort key, in any order.</li>
+<li><strong><mark>Not ideal for monotonically increasing attributes</mark></strong></li>
+</ul>
+<p>Column encodings <strong>CANNOT</strong> be changed once created.</p>
+<p>supports <strong>query queues for Workload Management,</strong> in order to manage concurrency and resource planning. It is a best practice to have separate queues for long running resource-intensive queries and fast queries that don’t require big amounts of memory and CPU</p>
+<p><strong>Supports Enhanced VPC routing</strong></p>
+<h3 id="5-2-importexport-data"><strong>5-2 Import/Export Data</strong></h3>
+<ul>
+<li>UNLOAD helps <strong>copy data from Redshift table to S3</strong></li>
+<li>
+<p><strong>COPY command</strong></p>
+<ul>
+<li>helps copy data from S3 to Redshift</li>
+<li>also supports EMR, DynamoDB, remote hosts using SSH</li>
+<li><strong>parallelized and efficient</strong></li>
+<li><strong>can decrypt data</strong> as it is loaded from S3</li>
+<li><strong>DON’T use multiple concurrent COPY commands</strong> to load one table from multiple files as Redshift is forced to perform a serialized load, which is much slower.</li>
+<li><strong>supports data decryption when loading data</strong>, if data encrypted</li>
+<li><strong>supports decompressing data</strong>, if data is compressed.</li>
+</ul>
+</li>
+<li>
+<p>Split the <strong>Load Data into Multiple Files</strong></p>
+</li>
+<li>Load the data in sort key order to avoid needing to vacuum.</li>
+<li>Use a <strong>Manifest File</strong><ul>
+<li>provides Data consistency, to avoid S3 eventual consistency issues</li>
+<li>helps specify different S3 locations in a more efficient way that with the use of S3 prefixes.</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-3-redshift-spectrum"><strong>5-3 Redshift Spectrum</strong></h3>
+<ul>
+<li><strong>helps query and retrieve structured and semistructured data from files in S3 without having to load the data into Redshift tables</strong></li>
+<li><strong>Redshift Spectrum external tables are read-only</strong>. <ul>
+<li>You can’t COPY or INSERT to an external table.</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-emr"><strong>6 EMR</strong></h2>
+<ul>
+<li>is a web service that utilizes a hosted <strong>Hadoop</strong> framework running on the web-scale infrastructure of EC2 and S3</li>
+<li>launches all nodes for a given cluster in the <strong>same Availability Zone</strong>, which improves performance as it provides higher data access rate</li>
+<li>seamlessly <strong>supports Reserved, On-Demand and Spot Instances</strong></li>
+<li>consists of Master Node for management and Slave nodes, which consists of Core nodes holding data and Task nodes for performing tasks only</li>
+<li><strong>is fault tolerant for slave node failures and continues job execution if a slave node goes down</strong></li>
+<li>does not automatically provision another node to take over failed slaves</li>
+<li>supports Persistent and Transient cluster types<ul>
+<li>Persistent which continue to run</li>
+<li>Transient which terminates once the job steps are completed</li>
+</ul>
+</li>
+<li>supports <strong>EMRFS</strong> which <strong>allows S3 to be used as a durable HA data storage</strong></li>
+</ul>
+<h2 id="7-glue"><strong>7 Glue</strong></h2>
+<ul>
+<li>fully-managed <strong>ETL service</strong> that automates the time-consuming steps of data preparation for analytics</li>
+<li>is <strong>serverless</strong> and s<strong>upports pay-as-you-go model</strong>.</li>
+<li>recommends and generates ETL code to transform the source data into target schemas, and runs the ETL jobs on a fully managed, scale-out Apache Spark environment to load your data into its destination.</li>
+<li><strong>helps setup, orchestrate, and monitor complex data flows</strong>.</li>
+<li>natively supports RDS, Redshift, S3 and databases on EC2 instances.</li>
+<li>supports server side encryption for data at rest and SSL for data in motion.</li>
+<li>provides <strong>development endpoints</strong> to edit, debug, and test the code it generates.</li>
+</ul>
+<h3 id="7-1-aws-glue-data-catalog"><strong>7-1 AWS Glue Data Catalog</strong></h3>
+<ul>
+<li><strong>is a central repository to store structural and operational metadata for all the data assets</strong>.</li>
+<li>automatically discovers and profiles the data</li>
+<li>automatically discover both <strong>structured and semi-structured data</strong> stored in the data lake on S3, Redshift, and other databases</li>
+<li>provides a unified view of the data that is available for ETL, querying and reporting using services like Athena, EMR, and Redshift Spectrum.、</li>
+<li><strong><mark>Each AWS account has one AWS Glue Data Catalog per region</mark></strong>.</li>
+</ul>
+<h3 id="7-2-aws-glue-crawler"><strong>7-2 AWS Glue crawler</strong></h3>
+<ul>
+<li><strong>connects to a data store, progresses through a prioritized list of classifiers to extract the schema of the data and other statistics</strong>, and then populates the Glue Data Catalog with this metadata</li>
+<li><strong>can be scheduled to run periodically so that the metadata is always up-to-date and in-sync with the underlying data.</strong></li>
+</ul>
+<h2 id="8-quicksight"><strong>8 QuickSight</strong></h2>
+<ul>
+<li>is a very fast, easy-to-use, <strong>cloud-powered business analytics service that makes it easy to build visualizations</strong>, perform ad-hoc analysis, and quickly get business insights from their data, anytime, on any device.</li>
+<li>delivers fast and responsive query performance by using a <strong>robust in-memory engine (SPICE)</strong>.<ul>
+<li>“SPICE” stands for a Super-fast, Parallel, In-memory Calculation Engine</li>
+<li>can also be  configured to keep the data in SPICE up-to-date as the
+data in the underlying sources change. </li>
+<li>automatically replicates data for high availability and enables QuickSight to scale to support users to perform simultaneous fast interactive analysis across a wide variety of AWS data sources.</li>
+</ul>
+</li>
+</ul>
+<p><strong>supports</strong></p>
+<ul>
+<li>Excel files and flat files like CSV, TSV, CLF, ELF</li>
+<li>on-premises databases like PostgreSQL, SQL Server and MySQL</li>
+<li>SaaS applications like Salesforce</li>
+<li>
+<p>and AWS data sources such as Redshift, RDS, Aurora, Athena, and S3</p>
+</li>
+<li>
+<p>supports various functions to format and transform the data.</p>
+</li>
+<li>supports assorted visualizations that facilitate different analytical </li>
+</ul>
+<p><strong>approaches:</strong></p>
+<ul>
+<li><strong>Comparison and distribution</strong> – Bar charts (several assorted variants)</li>
+<li><strong>Changes over time – Line graphs, Area line charts</strong></li>
+<li><strong>Correlation</strong> – Scatter plots, Heat maps</li>
+<li>Aggregation – Pie graphs, Tree maps</li>
+<li>Tabular – Pivot tables</li>
+</ul>
+<h2 id="9data-pipeline"><strong>9、Data Pipeline</strong></h2>
+<ul>
+<li>orchestration service that helps define <strong>data-driven workflows</strong> to automate and schedule regular data movement and data processing activities</li>
+<li>integrates with <strong>on-premises and cloud-based</strong> storage systems</li>
+<li>allows scheduling, <strong>retry, and failure logic</strong> for the workflows</li>
+</ul>
+<h2 id="10-elasticsearch"><strong>10、 Elasticsearch</strong></h2>
+<ul>
+<li>Elasticsearch Service is a managed service that makes it easy to deploy, operate, and scale Elasticsearch clusters in the AWS Cloud.</li>
+</ul>
+<h3 id="10-1-elasticsearch-provides"><strong>10-1 Elasticsearch provides</strong></h3>
+<ul>
+<li>real-time, distributed search and analytics engine</li>
+<li>ability to provision all the resources for Elasticsearch cluster and launches the cluster</li>
+<li>easy to use cluster scaling options. <strong>Scaling Elasticsearch Service domain by adding or modifying instances</strong>, and storage volumes is an online operation that does not require any downtime.</li>
+<li>provides self-healing clusters, which automatically detects and replaces failed Elasticsearch nodes, reducing the overhead associated with self-managed infrastructures</li>
+<li><strong>domain snapshots to back up and restore ES domains and replicate domains across AZs</strong></li>
+<li>enhanced security with IAM, Network, Domain access policies, and fine-grained access control</li>
+<li>storage volumes for the data using EBS volumes</li>
+<li><strong>ability to span cluster nodes across multiple AZs in the same region, known as <mark>zone awareness</mark>,  for high availability and redundancy</strong>. </li>
+<li>Elasticsearch Service automatically distributes the primary and replica shards across instances in different AZs.</li>
+<li><strong>dedicated master nodes to improve cluster stability</strong></li>
+<li>data visualization using the Kibana tool</li>
+<li>integration with CloudWatch for monitoring ES domain metrics</li>
+<li>integration with CloudTrail for auditing configuration API calls to ES domains</li>
+<li>integration with S3, Kinesis, and DynamoDB for loading streaming data</li>
+<li>ability to handle structured and Unstructured data</li>
+<li><strong>supports encryption at rest through KMS, node-to-node encryption over TLS, and the ability to require clients to communicate of HTTPS</strong></li>
+</ul>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="页脚">
+      
+        
+        <a href="../6DS_cs/" class="md-footer__link md-footer__link--prev" aria-label="上一页: L6 AWS Database Services Cheat Sheet" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              L6 AWS Database Services Cheat Sheet
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../8AS_cs/" class="md-footer__link md-footer__link--next" aria-label="下一页: L8 AWS Application Services Cheat Sheet" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              L8 AWS Application Services Cheat Sheet
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "search": "../../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.467223ff.min.js"></script>
+      
+    
+  </body>
+</html>

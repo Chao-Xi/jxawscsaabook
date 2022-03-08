@@ -1,0 +1,1636 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's AWS Certification Solutions Architect Tutorial">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+        <link rel="canonical" href="https://chao-xi.github.io/jxawscsaabook/chap2/1best_prac/">
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.5">
+    
+    
+      
+        <title>L1 AWS Best Practices - Jacob AWS Certification Solutions Architect Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2d9f7617.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ffa724">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="orange" data-md-color-accent="orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#l1-aws-best-practices" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AWS Certification Solutions Architect Book" class="md-header__button md-logo" aria-label="Jacob AWS Certification Solutions Architect Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AWS Certification Solutions Architect Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              L1 AWS Best Practices
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxawscsaabook.git/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscsaabook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AWS Certification Solutions Architect Book" class="md-nav__button md-logo" aria-label="Jacob AWS Certification Solutions Architect Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AWS Certification Solutions Architect Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxawscsaabook.git/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscsaabook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Chap1 Exam-Intro
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap1 Exam-Intro" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Chap1 Exam-Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/1Exam_Guide/" class="md-nav__link">
+        L1 SAA-C02 Exam Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/2Learning_path/" class="md-nav__link">
+        L2 Associate SAA-C02 Exam Topics
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Chap2 Services Cheat Sheet
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap2 Services Cheat Sheet" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Chap2 Services Cheat Sheet
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          L1 AWS Best Practices
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        L1 AWS Best Practices
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1aws-design-principles" class="md-nav__link">
+    1、AWS Design Principles
+  </a>
+  
+    <nav class="md-nav" aria-label="1、AWS Design Principles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-scalability" class="md-nav__link">
+    1-1 Scalability
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2disposable-resources-instead-of-fixed-servers" class="md-nav__link">
+    2、Disposable Resources Instead of Fixed Servers
+  </a>
+  
+    <nav class="md-nav" aria-label="2、Disposable Resources Instead of Fixed Servers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-bootstraping" class="md-nav__link">
+    2-1 Bootstraping
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-golden-images" class="md-nav__link">
+    2-2 Golden Images
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-3-containers" class="md-nav__link">
+    2-3 Containers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-4-infrastructure-as-code" class="md-nav__link">
+    2-4 Infrastructure as Code
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3automation" class="md-nav__link">
+    3、Automation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4loose-coupling" class="md-nav__link">
+    4、Loose Coupling
+  </a>
+  
+    <nav class="md-nav" aria-label="4、Loose Coupling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-asynchronous-integration" class="md-nav__link">
+    4-1 Asynchronous Integration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-2-service-discovery" class="md-nav__link">
+    4-2 Service Discovery
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-3-well-defined-interfaces" class="md-nav__link">
+    4-3 Well-Defined Interfaces
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5databases" class="md-nav__link">
+    5、Databases
+  </a>
+  
+    <nav class="md-nav" aria-label="5、Databases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-1-relational-databases-rds" class="md-nav__link">
+    5-1 Relational Databases (RDS)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-2-nosql-databases-dynamodb" class="md-nav__link">
+    5-2 NoSQL Databases (DynamoDB)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-3-data-warehouse-redshift" class="md-nav__link">
+    5-3 Data Warehouse (Redshift)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6removing-single-points-of-failure" class="md-nav__link">
+    6、Removing Single Points of Failure
+  </a>
+  
+    <nav class="md-nav" aria-label="6、Removing Single Points of Failure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-1-standby-redundancy" class="md-nav__link">
+    6-1 Standby Redundancy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-2-active-redundancy" class="md-nav__link">
+    6-2 Active Redundancy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-3-synchronous-replication" class="md-nav__link">
+    6-3 Synchronous replication
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-4-asynchronous-replication" class="md-nav__link">
+    6-4 Asynchronous replication
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-5-quorum-based-replication" class="md-nav__link">
+    6-5 Quorum-based replication
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-6-aws-provide-services-to-reduce-or-remove-single-point-of-failure" class="md-nav__link">
+    6-6 AWS provide services to reduce or remove single point of failure
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2s3_cs/" class="md-nav__link">
+        L2 AWS Storage & Content Delivery Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3IS_cs/" class="md-nav__link">
+        L3 AWS Security & Identity Service Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4Ns_cs/" class="md-nav__link">
+        L4 AWS Networking Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5CS_cs/" class="md-nav__link">
+        L5 AWS Compute Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6DS_cs/" class="md-nav__link">
+        L6 AWS Database Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7AS_cs/" class="md-nav__link">
+        L7 AWS Analytics Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8AS_cs/" class="md-nav__link">
+        L8 AWS Application Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9MT_cs/" class="md-nav__link">
+        L9 AWS Management Tools Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10EXAM_cs/" class="md-nav__link">
+        L10 AWS Certification Exam Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Chap3 Networking Exam Topics
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap3 Networking Exam Topics" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Chap3 Networking Exam Topics
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/1vpc/" class="md-nav__link">
+        L1 AWS Virtual Private Cloud – VPC
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/2bastion/" class="md-nav__link">
+        L2 AWS Bastion Host
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/3direct_connect/" class="md-nav__link">
+        L3 AWS Direct Connect – DX
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/4ELB/" class="md-nav__link">
+        L4 AWS Elastic Load Balancer – ELB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/5ALB/" class="md-nav__link">
+        L5 AWS Application Load Balancer – ALB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/6NLB/" class="md-nav__link">
+        L6 AWS Network Load Balancer – NLB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/7EAN_LB/" class="md-nav__link">
+        L7 AWS Classic Load Balancer vs Application Load Balancer vs Network Load Balancer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8elb_mon/" class="md-nav__link">
+        L8 AWS ELB Monitoring
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/9route53/" class="md-nav__link">
+        L9 AWS Certification – Route 53 Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/10route53_policy/" class="md-nav__link">
+        L10 AWS Route 53 Routing Policy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/11route53_resolver/" class="md-nav__link">
+        L11 AWS Route 53 Resolver
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/12api_gateway/" class="md-nav__link">
+        L12 AWS API Gateway
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/13cloudfront/" class="md-nav__link">
+        L13 AWS CloudFront
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/14direct_connect/" class="md-nav__link">
+        L14 AWS Direct Connect – DX
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          chap4 AWS Security, Identity & Compliance
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="chap4 AWS Security, Identity & Compliance" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          chap4 AWS Security, Identity & Compliance
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/1AWS_IAM/" class="md-nav__link">
+        L1 AWS Identity Access Management – IAM(unfinished)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          chap7 AWS Database Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="chap7 AWS Database Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          chap7 AWS Database Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/1rds/" class="md-nav__link">
+        L1 AWS RDS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/2DynamoDB/" class="md-nav__link">
+        L2 AWS DynamoDB(unfinished)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Chap10 AWS Migration & Transfer Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap10 AWS Migration & Transfer Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Chap10 AWS Migration & Transfer Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/1aws_cms/" class="md-nav__link">
+        L1 AWS Cloud Migration Services
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/2AWS_IE/" class="md-nav__link">
+        L2 AWS Import/Export
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/3AWS_DTS/" class="md-nav__link">
+        L3 AWS Data Transfer Services
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8">
+          Chap11 AWS Analytics Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap11 AWS Analytics Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Chap11 AWS Analytics Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/4Elasticsearch/" class="md-nav__link">
+        L4 AWS Elasticsearch
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1aws-design-principles" class="md-nav__link">
+    1、AWS Design Principles
+  </a>
+  
+    <nav class="md-nav" aria-label="1、AWS Design Principles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-scalability" class="md-nav__link">
+    1-1 Scalability
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2disposable-resources-instead-of-fixed-servers" class="md-nav__link">
+    2、Disposable Resources Instead of Fixed Servers
+  </a>
+  
+    <nav class="md-nav" aria-label="2、Disposable Resources Instead of Fixed Servers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-bootstraping" class="md-nav__link">
+    2-1 Bootstraping
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-golden-images" class="md-nav__link">
+    2-2 Golden Images
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-3-containers" class="md-nav__link">
+    2-3 Containers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-4-infrastructure-as-code" class="md-nav__link">
+    2-4 Infrastructure as Code
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3automation" class="md-nav__link">
+    3、Automation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4loose-coupling" class="md-nav__link">
+    4、Loose Coupling
+  </a>
+  
+    <nav class="md-nav" aria-label="4、Loose Coupling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-asynchronous-integration" class="md-nav__link">
+    4-1 Asynchronous Integration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-2-service-discovery" class="md-nav__link">
+    4-2 Service Discovery
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-3-well-defined-interfaces" class="md-nav__link">
+    4-3 Well-Defined Interfaces
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5databases" class="md-nav__link">
+    5、Databases
+  </a>
+  
+    <nav class="md-nav" aria-label="5、Databases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-1-relational-databases-rds" class="md-nav__link">
+    5-1 Relational Databases (RDS)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-2-nosql-databases-dynamodb" class="md-nav__link">
+    5-2 NoSQL Databases (DynamoDB)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-3-data-warehouse-redshift" class="md-nav__link">
+    5-3 Data Warehouse (Redshift)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6removing-single-points-of-failure" class="md-nav__link">
+    6、Removing Single Points of Failure
+  </a>
+  
+    <nav class="md-nav" aria-label="6、Removing Single Points of Failure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-1-standby-redundancy" class="md-nav__link">
+    6-1 Standby Redundancy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-2-active-redundancy" class="md-nav__link">
+    6-2 Active Redundancy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-3-synchronous-replication" class="md-nav__link">
+    6-3 Synchronous replication
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-4-asynchronous-replication" class="md-nav__link">
+    6-4 Asynchronous replication
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-5-quorum-based-replication" class="md-nav__link">
+    6-5 Quorum-based replication
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-6-aws-provide-services-to-reduce-or-remove-single-point-of-failure" class="md-nav__link">
+    6-6 AWS provide services to reduce or remove single point of failure
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+<a href="https://github.com/Chao-Xi/jxawscsaabook.git/edit/master/docs/chap2/1best_prac.md" title="编辑此页" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
+
+
+
+<h1 id="l1-aws-best-practices"><strong>L1 AWS Best Practices</strong></h1>
+<h2 id="1aws-design-principles"><strong>1、AWS Design Principles</strong></h2>
+<h3 id="1-1-scalability"><strong>1-1 Scalability</strong></h3>
+<p>While AWS provides virtually unlimited on-demand capacity, the architecture should be designed to take advantage of those resources</p>
+<p>There are two ways to scale an IT architecture</p>
+<p><strong>Vertical Scaling</strong></p>
+<ul>
+<li>takes place through increasing specifications of an individual resource for e.g. <strong>updating EC2 instance type with increasing RAM, CPU, IOPS, or networking capabilities</strong></li>
+<li>will eventually hit a limit, and is not always a cost effective or highly available approach</li>
+</ul>
+<p><strong>Horizontal Scaling</strong></p>
+<ul>
+<li>takes place through increasing number of resources for e.g. adding more EC2 instances or EBS volumes</li>
+<li>can help leverage the elasticity of cloud computing</li>
+<li>not all the architectures can be designed to distribute their workload to multiple resources</li>
+<li>
+<p>applications designed should be <strong>stateless</strong>,</p>
+<ul>
+<li>that needs no knowledge of previous interactions and stores no session information</li>
+<li>capacity can be increased and decreased, after running tasks have been drained</li>
+</ul>
+</li>
+<li>
+<p>State, if needed, can be implemented using</p>
+<ul>
+<li>Low latency external store, for e.g. <strong>DynamoDB, Redis, to maintain state information</strong></li>
+<li><strong>Session affinity</strong>, for e.g. <strong>ELB sticky sessions,</strong> to bind all the transactions of a session to a specific compute resource. However, it cannot be guaranteed or take advantage of newly added resources for existing sessions</li>
+</ul>
+</li>
+<li>
+<p>Load can be distributed across multiple resources using</p>
+<ul>
+<li><strong>Push model, for e.g. through ELB where it distributes the load across multiple EC2 instances</strong></li>
+<li><strong>Pull model, for e.g. through SQS or Kinesis where multiple consumers subscribe and consume</strong></li>
+</ul>
+</li>
+<li>
+<p>Distributed processing, for e.g. using EMR or Kinesis, helps process large amounts of data by dividing task and its data into many small fragments of works</p>
+</li>
+</ul>
+<h2 id="2disposable-resources-instead-of-fixed-servers"><strong>2、Disposable Resources Instead of Fixed Servers</strong></h2>
+<p>Resources need to be treated as temporary disposable resources rather than fixed permanent on-premises resources before</p>
+<p>AWS focuses on the concept of <strong>Immutable infrastructure</strong></p>
+<ul>
+<li>servers once launched, is never updated throughout its lifetime.</li>
+<li>updates can be performed on a new server with latest configurations,</li>
+<li>this ensures resources are always in a consistent (and tested) state and easier rollbacks</li>
+</ul>
+<p>AWS provides multiple ways to instantiate compute resources in an automated and repeatable way</p>
+<h3 id="2-1-bootstraping"><strong>2-1 Bootstraping</strong></h3>
+<p>scripts to configure and setup for e.g. using data scripts and cloud-init to install software or copy resources and code</p>
+<h3 id="2-2-golden-images"><strong>2-2 Golden Images</strong></h3>
+<ul>
+<li>a snapshot of a particular state of that resource,</li>
+<li>faster start times and removes dependencies to configuration services or third-party repositories</li>
+</ul>
+<h3 id="2-3-containers"><strong>2-3 Containers</strong></h3>
+<ul>
+<li>AWS support for docker images through Elastic Beanstalk and ECS</li>
+<li>Docker allows packaging a piece of software in a Docker Image, which is a standardized unit for software development, containing everything the software needs to run: code, runtime, system tools, system libraries, etc</li>
+</ul>
+<h3 id="2-4-infrastructure-as-code"><strong>2-4 Infrastructure as Code</strong></h3>
+<ul>
+<li>AWS assets are programmable, techniques, practices, and tools from software development can be applied to make the whole infrastructure reusable, maintainable, extensible, and testable.</li>
+<li>AWS provides services like <strong>CloudFormation, OpsWorks for deployment</strong></li>
+</ul>
+<h2 id="3automation"><strong>3、Automation</strong></h2>
+<p>AWS provides various automation tools and services which help improve system’s stability, efficiency and time to market.</p>
+<p><strong>Elastic Beanstalk</strong></p>
+<p>a PaaS that allows quick application deployment while handling resource provisioning, load balancing, auto scaling, monitoring etc</p>
+<p><strong>EC2 Auto Recovery</strong></p>
+<ul>
+<li>creates CloudWatch alarm that monitors an EC2 instance and automatically recovers it if it becomes impaired.</li>
+<li>A recovered instance is identical to the original instance, including the instance ID, private &amp; Elastic IP addresses, and all instance metadata.</li>
+<li>Instance is migrated through reboot, in memory contents are lost.</li>
+</ul>
+<p><strong>Auto Scaling</strong></p>
+<ul>
+<li>allows maintain application availability and scale the capacity up or down automatically as per defined conditions</li>
+</ul>
+<p><strong>CloudWatch Alarms</strong></p>
+<ul>
+<li>allows SNS triggers to be configured when a particular metric goes beyond a specified threshold for a specified number of periods</li>
+</ul>
+<p><strong>CloudWatch Events</strong></p>
+<ul>
+<li>allows real-time stream of system events that describe changes in AWS resources</li>
+</ul>
+<p><strong>OpsWorks</strong></p>
+<ul>
+<li><strong>allows continuous configuration through lifecycle events that automatically update the instances’ configuration</strong> to adapt to environment changes.</li>
+<li>Events can be used to trigger <strong>Chef recipes</strong> on each instance to perform specific configuration tasks</li>
+</ul>
+<p><strong>Lambda Scheduled Events</strong></p>
+<ul>
+<li>allows Lambda function creation and direct AWS Lambda to execute it on a regular schedule.</li>
+</ul>
+<h2 id="4loose-coupling"><strong>4、Loose Coupling</strong></h2>
+<p>AWS helps loose coupled architecture that <em>reduces interdependencies, a change or failure in a component does not cascade to other components</em></p>
+<h3 id="4-1-asynchronous-integration"><strong>4-1 Asynchronous Integration</strong></h3>
+<ul>
+<li>does not involve <strong>direct point-to-point interaction</strong> but <strong>usually through an intermediate durable storage layer for e.g. SQS, Kinesis</strong></li>
+<li>decouples the components and introduces additional resiliency</li>
+<li>suitable for any interaction that doesn’t need an immediate response and an ack that a request has been registered will suffice</li>
+</ul>
+<h3 id="4-2-service-discovery"><strong>4-2 Service Discovery</strong></h3>
+<ul>
+<li>allows new resources to be launched or terminated at any point in time and discovered as well for e.g. <strong>using ELB as a single point of contact with hiding the underlying instance details or Route 53 zones to abstract load balancer’s endpoint</strong></li>
+</ul>
+<h3 id="4-3-well-defined-interfaces"><strong>4-3 Well-Defined Interfaces</strong></h3>
+<ul>
+<li>allows various components to interact with each other through specific, <strong>technology agnostic interfaces for e.g. RESTful apis with API Gateway</strong> </li>
+</ul>
+<h2 id="5databases"><strong>5、Databases</strong></h2>
+<p>AWS provides different categories of database technologies</p>
+<h3 id="5-1-relational-databases-rds"><strong>5-1 Relational Databases (RDS)</strong></h3>
+<ul>
+<li>normalizes data into well-defined tabular structures known as tables, which consist of rows and columns</li>
+<li>provide a powerful query language, flexible indexing capabilities, strong integrity controls, and the ability to combine data from multiple tables in a fast and efficient manner</li>
+<li>allows vertical scalability by <strong>increasing resources and horizontal scalability using Read Replicas for read capacity and sharding or data partitioning for write capacity</strong></li>
+<li>provides High Availability using Multi-AZ deployment, where data is synchronously replicated</li>
+</ul>
+<h3 id="5-2-nosql-databases-dynamodb"><strong>5-2 NoSQL Databases (DynamoDB)</strong></h3>
+<ul>
+<li>provides databases that trade some of the query and transaction capabilities of relational databases for a more flexible data model that seamlessly scales horizontally</li>
+<li>perform data partitioning and replication to scale both the reads and writes in a horizontal fashion</li>
+<li>DynamoDB service synchronously replicates data across <strong>three facilities in an AWS region</strong> to provide fault tolerance in the event of a server failure or Availability Zone disruption</li>
+</ul>
+<h3 id="5-3-data-warehouse-redshift"><strong>5-3 Data Warehouse (Redshift)</strong></h3>
+<ul>
+<li>Specialized type of relational database, optimized for analysis and reporting of large amounts of data</li>
+<li>Redshift achieves efficient storage and optimum query performance through a combination of massively parallel processing (MPP), columnar data storage, and targeted data compression encoding schemes</li>
+<li>Redshift achieves efficient storage and optimum query performance through a combination of <strong>massively parallel processing (MPP)</strong>, columnar data storage, and targeted data compression encoding schemes</li>
+<li><strong>Redshift MPP architecture enables increasing performance by increasing the number of nodes in the data warehouse cluster</strong></li>
+</ul>
+<h2 id="6removing-single-points-of-failure"><strong>6、Removing Single Points of Failure</strong></h2>
+<p>AWS provides ways to implement redundancy, automate recovery and reduce disruption at every layer of the architecture</p>
+<p>AWS supports redundancy in the following ways</p>
+<h3 id="6-1-standby-redundancy"><strong>6-1 Standby Redundancy</strong></h3>
+<ul>
+<li>When a resource fails, functionality is recovered on a <strong>secondary resource using a process called failover</strong>.</li>
+<li><strong>Failover will typically require some time</strong> before it completes, and during that period the resource remains unavailable.</li>
+<li>Secondary resource can either be launched automatically only when needed (to reduce cost), or <strong>it can be already running idle (to accelerate failover and minimize disruption)</strong>.</li>
+<li>Standby redundancy is often used for stateful components such as relational databases.</li>
+</ul>
+<h3 id="6-2-active-redundancy"><strong>6-2 Active Redundancy</strong></h3>
+<ul>
+<li>requests are distributed to multiple redundant compute resources, if one fails, <strong>the rest can simply absorb a larger share of the workload</strong>.</li>
+<li>Compared to standby redundancy, it can achieve better utilization and affect a smaller population when there is a failure.</li>
+</ul>
+<p><strong>AWS supports replication</strong></p>
+<h3 id="6-3-synchronous-replication"><strong>6-3 Synchronous replication</strong></h3>
+<ul>
+<li>acknowledges a transaction after it has been durably stored in both the primary location and its replicas.</li>
+<li>protects data integrity from the event of a primary node failure</li>
+<li><strong>used to scale read capacity for queries that require the most up-to-date data (strong consistency)</strong>.</li>
+<li>compromises performance and availability</li>
+</ul>
+<h3 id="6-4-asynchronous-replication"><strong>6-4 Asynchronous replication</strong></h3>
+<ul>
+<li>decouples the primary node from its replicas at the expense of introducing replication lag</li>
+<li><strong>used to horizontally scale the system’s read capacity</strong> for queries that can tolerate that replication lag.</li>
+</ul>
+<h3 id="6-5-quorum-based-replication"><strong>6-5 Quorum-based replication</strong></h3>
+<ul>
+<li>combines synchronous and asynchronous replication to overcome the challenges of large-scale distributed database systems</li>
+<li>Replication to multiple nodes can be managed by defining a minimum number of nodes that must participate in a successful write operation</li>
+</ul>
+<h3 id="6-6-aws-provide-services-to-reduce-or-remove-single-point-of-failure"><strong>6-6 AWS provide services to reduce or remove single point of failure</strong></h3>
+<ul>
+<li>Regions, Availability Zones with multiple data centers</li>
+<li>ELB or Route 53 to configure health checks and mask failure by routing traffic to healthy endpoints</li>
+<li>Auto Scaling to automatically replace unhealthy nodes</li>
+<li>EC2 auto-recovery to recover unhealthy impaired nodes</li>
+<li>S3, DynamoDB with data redundantly stored across multiple facilities</li>
+<li>Multi-AZ RDS and Read Replicas</li>
+<li>ElastiCache Redis engine supports replication with automatic failover</li>
+</ul>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="页脚">
+      
+        
+        <a href="../../chap1/2Learning_path/" class="md-footer__link md-footer__link--prev" aria-label="上一页: L2 Associate SAA-C02 Exam Topics" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              L2 Associate SAA-C02 Exam Topics
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../2s3_cs/" class="md-footer__link md-footer__link--next" aria-label="下一页: L2 AWS Storage &amp; Content Delivery Cheat Sheet" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              L2 AWS Storage & Content Delivery Cheat Sheet
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "search": "../../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.467223ff.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,3463 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's AWS Certification Solutions Architect Tutorial">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+        <link rel="canonical" href="https://chao-xi.github.io/jxawscsaabook/chap7/1rds/">
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.5">
+    
+    
+      
+        <title>L1 AWS RDS - Jacob AWS Certification Solutions Architect Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2d9f7617.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ffa724">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="orange" data-md-color-accent="orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#l1-aws-rds" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AWS Certification Solutions Architect Book" class="md-header__button md-logo" aria-label="Jacob AWS Certification Solutions Architect Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AWS Certification Solutions Architect Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              L1 AWS RDS
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxawscsaabook.git/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscsaabook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AWS Certification Solutions Architect Book" class="md-nav__button md-logo" aria-label="Jacob AWS Certification Solutions Architect Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AWS Certification Solutions Architect Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxawscsaabook.git/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscsaabook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Chap1 Exam-Intro
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap1 Exam-Intro" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Chap1 Exam-Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/1Exam_Guide/" class="md-nav__link">
+        L1 SAA-C02 Exam Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/2Learning_path/" class="md-nav__link">
+        L2 Associate SAA-C02 Exam Topics
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Chap2 Services Cheat Sheet
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap2 Services Cheat Sheet" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Chap2 Services Cheat Sheet
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/1best_prac/" class="md-nav__link">
+        L1 AWS Best Practices
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/2s3_cs/" class="md-nav__link">
+        L2 AWS Storage & Content Delivery Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/3IS_cs/" class="md-nav__link">
+        L3 AWS Security & Identity Service Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/4Ns_cs/" class="md-nav__link">
+        L4 AWS Networking Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/5CS_cs/" class="md-nav__link">
+        L5 AWS Compute Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/6DS_cs/" class="md-nav__link">
+        L6 AWS Database Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/7AS_cs/" class="md-nav__link">
+        L7 AWS Analytics Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/8AS_cs/" class="md-nav__link">
+        L8 AWS Application Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/9MT_cs/" class="md-nav__link">
+        L9 AWS Management Tools Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/10EXAM_cs/" class="md-nav__link">
+        L10 AWS Certification Exam Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Chap3 Networking Exam Topics
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap3 Networking Exam Topics" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Chap3 Networking Exam Topics
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/1vpc/" class="md-nav__link">
+        L1 AWS Virtual Private Cloud – VPC
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/2bastion/" class="md-nav__link">
+        L2 AWS Bastion Host
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/3direct_connect/" class="md-nav__link">
+        L3 AWS Direct Connect – DX
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/4ELB/" class="md-nav__link">
+        L4 AWS Elastic Load Balancer – ELB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/5ALB/" class="md-nav__link">
+        L5 AWS Application Load Balancer – ALB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/6NLB/" class="md-nav__link">
+        L6 AWS Network Load Balancer – NLB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/7EAN_LB/" class="md-nav__link">
+        L7 AWS Classic Load Balancer vs Application Load Balancer vs Network Load Balancer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8elb_mon/" class="md-nav__link">
+        L8 AWS ELB Monitoring
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/9route53/" class="md-nav__link">
+        L9 AWS Certification – Route 53 Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/10route53_policy/" class="md-nav__link">
+        L10 AWS Route 53 Routing Policy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/11route53_resolver/" class="md-nav__link">
+        L11 AWS Route 53 Resolver
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/12api_gateway/" class="md-nav__link">
+        L12 AWS API Gateway
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/13cloudfront/" class="md-nav__link">
+        L13 AWS CloudFront
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/14direct_connect/" class="md-nav__link">
+        L14 AWS Direct Connect – DX
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          chap4 AWS Security, Identity & Compliance
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="chap4 AWS Security, Identity & Compliance" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          chap4 AWS Security, Identity & Compliance
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/1AWS_IAM/" class="md-nav__link">
+        L1 AWS Identity Access Management – IAM(unfinished)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          chap7 AWS Database Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="chap7 AWS Database Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          chap7 AWS Database Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          L1 AWS RDS
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        L1 AWS RDS
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-intro" class="md-nav__link">
+    1 Intro
+  </a>
+  
+    <nav class="md-nav" aria-label="1 Intro">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-relational-database-service-rds" class="md-nav__link">
+    1-1 Relational Database Service – RDS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-rds-components" class="md-nav__link">
+    1-2 RDS Components
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-rds-interfaces" class="md-nav__link">
+    1-3 RDS Interfaces
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-4-rds-pricing" class="md-nav__link">
+    1-4 RDS Pricing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-5-qa" class="md-nav__link">
+    1-5 QA
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-aws-rds-replication-multi-az-vs-read-replica" class="md-nav__link">
+    2 AWS RDS Replication – Multi-AZ vs Read Replica
+  </a>
+  
+    <nav class="md-nav" aria-label="2 AWS RDS Replication – Multi-AZ vs Read Replica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-rds-multi-az-vs-read-replica" class="md-nav__link">
+    2-1 RDS Multi-AZ vs Read Replica
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-multi-az-deployments" class="md-nav__link">
+    2-2 Multi-AZ deployments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-3-rds-read-replicas" class="md-nav__link">
+    2-3 RDS Read Replicas
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-4-qas" class="md-nav__link">
+    2-4 QAs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-aws-rds-storage-certification" class="md-nav__link">
+    3 AWS RDS Storage – Certification
+  </a>
+  
+    <nav class="md-nav" aria-label="3 AWS RDS Storage – Certification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-1-aws-rds-storage" class="md-nav__link">
+    3-1 AWS RDS Storage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-2-rds-storage-types" class="md-nav__link">
+    3-2 RDS Storage Types
+  </a>
+  
+    <nav class="md-nav" aria-label="3-2 RDS Storage Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#magnetic-standard" class="md-nav__link">
+    Magnetic (Standard)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mgeneral-purpose-ssd" class="md-nav__link">
+    MGeneral Purpose (SSD)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#provisioned-iops" class="md-nav__link">
+    Provisioned IOPS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-storage-and-changing-storage-type" class="md-nav__link">
+    Adding Storage and Changing Storage Type
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-3-performance-metrics" class="md-nav__link">
+    3-3 Performance Metrics
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-4-amazon-rds-storage-facts" class="md-nav__link">
+    3-4 Amazon RDS Storage Facts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-5-factors-that-impact-storage-performance" class="md-nav__link">
+    3-5 Factors That Impact Storage Performance
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-6-qas" class="md-nav__link">
+    3-6 QAs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-aws-rds-db-snapshot-backup-restore" class="md-nav__link">
+    4 AWS RDS DB Snapshot, Backup &amp; Restore
+  </a>
+  
+    <nav class="md-nav" aria-label="4 AWS RDS DB Snapshot, Backup &amp; Restore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-rds-backup-restore-and-snapshots" class="md-nav__link">
+    4-1 RDS BackUp, Restore and Snapshots
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-2-automated-backups" class="md-nav__link">
+    4-2 Automated backups
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-3-point-in-time-recovery" class="md-nav__link">
+    4-3 Point-In-Time Recovery
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-4-db-snapshots-user-initiated-manual" class="md-nav__link">
+    4-4 DB Snapshots (User Initiated – Manual)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-5-db-snapshots-creation" class="md-nav__link">
+    4-5 DB Snapshots Creation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-6-db-snapshot-restore" class="md-nav__link">
+    4-6 DB Snapshot Restore
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-7-db-snapshot-copy" class="md-nav__link">
+    4-7 DB Snapshot Copy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-8-db-snapshot-sharing" class="md-nav__link">
+    4-8 DB Snapshot Sharing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-9-aws-rds-db-snapshot-backup-restore-qas" class="md-nav__link">
+    4-9 AWS RDS DB Snapshot, Backup &amp; Restore QAs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-aws-rds-security" class="md-nav__link">
+    5 AWS RDS Security
+  </a>
+  
+    <nav class="md-nav" aria-label="5 AWS RDS Security">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-1-aws-rds-security" class="md-nav__link">
+    5-1 AWS RDS Security
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-2-rds-authentication-and-access-control" class="md-nav__link">
+    5-2 RDS Authentication and Access Control
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-3-encrypting-rds-resources" class="md-nav__link">
+    5-3 Encrypting RDS Resources
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-4-ssl-to-encrypt-a-connection-to-a-db-instance" class="md-nav__link">
+    5-4 SSL to Encrypt a Connection to a DB Instance
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-5-iam-database-authentication" class="md-nav__link">
+    5-5 IAM Database Authentication
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-6-rds-security-groups" class="md-nav__link">
+    5-6 RDS Security Groups
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-7-rds-rotating-secrets" class="md-nav__link">
+    5-7 RDS Rotating Secrets
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-8-master-user-account-privileges" class="md-nav__link">
+    5-8 Master User Account Privileges
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-9-event-notification" class="md-nav__link">
+    5-9 Event Notification
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-10-rds-encrypted-db-instances-limitations" class="md-nav__link">
+    5-10 RDS Encrypted DB Instances Limitations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-11-qas" class="md-nav__link">
+    5-11 QAs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-aws-rds-db-maintenance-upgrades" class="md-nav__link">
+    6 AWS RDS DB Maintenance &amp; Upgrades
+  </a>
+  
+    <nav class="md-nav" aria-label="6 AWS RDS DB Maintenance &amp; Upgrades">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-1-rds-db-instance-maintenance-and-upgrades" class="md-nav__link">
+    6-1 RDS DB Instance Maintenance and Upgrades
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-2-amazon-rds-maintenance" class="md-nav__link">
+    6-2 Amazon RDS Maintenance
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-3-operating-system-updates" class="md-nav__link">
+    6-3 Operating System Updates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-4-database-engine-version-upgrade" class="md-nav__link">
+    6-4 Database Engine Version Upgrade
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-5-rds-maintenance-window" class="md-nav__link">
+    6-5 RDS Maintenance Window
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-6-aws-rds-db-maintenance-upgrades-qas" class="md-nav__link">
+    6-6 AWS RDS DB Maintenance &amp; Upgrades QAs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-aws-rds-monitoring-notification" class="md-nav__link">
+    7 AWS RDS Monitoring &amp; Notification
+  </a>
+  
+    <nav class="md-nav" aria-label="7 AWS RDS Monitoring &amp; Notification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#7-1-aws-rds-monitoring-notification" class="md-nav__link">
+    7-1 AWS RDS Monitoring &amp; Notification
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-2-rds-cloudwatch-monitoring" class="md-nav__link">
+    7-2 RDS CloudWatch Monitoring
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-3-rds-enhanced-monitoring" class="md-nav__link">
+    7-3 RDS Enhanced Monitoring
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-4-cloudwatch-vs-enhanced-monitoring-metrics" class="md-nav__link">
+    7-4 CloudWatch vs Enhanced Monitoring Metrics
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-5-rds-performance-insights" class="md-nav__link">
+    7-5 RDS Performance Insights
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-6-rds-cloudtrail-logs" class="md-nav__link">
+    7-6 RDS CloudTrail Logs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-7-rds-recommendations" class="md-nav__link">
+    7-7 RDS Recommendations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-8-rds-event-notification" class="md-nav__link">
+    7-8 RDS Event Notification
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-9-rds-trusted-advisor" class="md-nav__link">
+    7-9 RDS Trusted Advisor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-10-aws-rds-monitoring-notification-qas" class="md-nav__link">
+    7-10 AWS RDS Monitoring &amp; Notification QAs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-aws-rds-best-practices" class="md-nav__link">
+    8 AWS RDS Best Practices
+  </a>
+  
+    <nav class="md-nav" aria-label="8 AWS RDS Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8-1-aws-rds-best-practices" class="md-nav__link">
+    8-1 AWS RDS Best Practices
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-2-amazon-rds-basic-operational-guidelines" class="md-nav__link">
+    8-2 Amazon RDS Basic Operational Guidelines
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-3-db-instance-ram-recommendations" class="md-nav__link">
+    8-3 DB Instance RAM Recommendations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-4-rds-security-best-practices" class="md-nav__link">
+    8-4 RDS Security Best Practices
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-5-using-enhanced-monitoring-to-identify-operating-system-issues" class="md-nav__link">
+    8-5 Using Enhanced Monitoring to Identify Operating System Issues
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-6-recovery" class="md-nav__link">
+    8-6 Recovery
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-7-qas" class="md-nav__link">
+    8-7 QAs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2DynamoDB/" class="md-nav__link">
+        L2 AWS DynamoDB(unfinished)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Chap10 AWS Migration & Transfer Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap10 AWS Migration & Transfer Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Chap10 AWS Migration & Transfer Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/1aws_cms/" class="md-nav__link">
+        L1 AWS Cloud Migration Services
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/2AWS_IE/" class="md-nav__link">
+        L2 AWS Import/Export
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/3AWS_DTS/" class="md-nav__link">
+        L3 AWS Data Transfer Services
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8">
+          Chap11 AWS Analytics Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap11 AWS Analytics Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Chap11 AWS Analytics Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/4Elasticsearch/" class="md-nav__link">
+        L4 AWS Elasticsearch
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-intro" class="md-nav__link">
+    1 Intro
+  </a>
+  
+    <nav class="md-nav" aria-label="1 Intro">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-relational-database-service-rds" class="md-nav__link">
+    1-1 Relational Database Service – RDS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-rds-components" class="md-nav__link">
+    1-2 RDS Components
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-rds-interfaces" class="md-nav__link">
+    1-3 RDS Interfaces
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-4-rds-pricing" class="md-nav__link">
+    1-4 RDS Pricing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-5-qa" class="md-nav__link">
+    1-5 QA
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-aws-rds-replication-multi-az-vs-read-replica" class="md-nav__link">
+    2 AWS RDS Replication – Multi-AZ vs Read Replica
+  </a>
+  
+    <nav class="md-nav" aria-label="2 AWS RDS Replication – Multi-AZ vs Read Replica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-rds-multi-az-vs-read-replica" class="md-nav__link">
+    2-1 RDS Multi-AZ vs Read Replica
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-multi-az-deployments" class="md-nav__link">
+    2-2 Multi-AZ deployments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-3-rds-read-replicas" class="md-nav__link">
+    2-3 RDS Read Replicas
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-4-qas" class="md-nav__link">
+    2-4 QAs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-aws-rds-storage-certification" class="md-nav__link">
+    3 AWS RDS Storage – Certification
+  </a>
+  
+    <nav class="md-nav" aria-label="3 AWS RDS Storage – Certification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-1-aws-rds-storage" class="md-nav__link">
+    3-1 AWS RDS Storage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-2-rds-storage-types" class="md-nav__link">
+    3-2 RDS Storage Types
+  </a>
+  
+    <nav class="md-nav" aria-label="3-2 RDS Storage Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#magnetic-standard" class="md-nav__link">
+    Magnetic (Standard)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mgeneral-purpose-ssd" class="md-nav__link">
+    MGeneral Purpose (SSD)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#provisioned-iops" class="md-nav__link">
+    Provisioned IOPS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-storage-and-changing-storage-type" class="md-nav__link">
+    Adding Storage and Changing Storage Type
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-3-performance-metrics" class="md-nav__link">
+    3-3 Performance Metrics
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-4-amazon-rds-storage-facts" class="md-nav__link">
+    3-4 Amazon RDS Storage Facts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-5-factors-that-impact-storage-performance" class="md-nav__link">
+    3-5 Factors That Impact Storage Performance
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-6-qas" class="md-nav__link">
+    3-6 QAs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-aws-rds-db-snapshot-backup-restore" class="md-nav__link">
+    4 AWS RDS DB Snapshot, Backup &amp; Restore
+  </a>
+  
+    <nav class="md-nav" aria-label="4 AWS RDS DB Snapshot, Backup &amp; Restore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-rds-backup-restore-and-snapshots" class="md-nav__link">
+    4-1 RDS BackUp, Restore and Snapshots
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-2-automated-backups" class="md-nav__link">
+    4-2 Automated backups
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-3-point-in-time-recovery" class="md-nav__link">
+    4-3 Point-In-Time Recovery
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-4-db-snapshots-user-initiated-manual" class="md-nav__link">
+    4-4 DB Snapshots (User Initiated – Manual)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-5-db-snapshots-creation" class="md-nav__link">
+    4-5 DB Snapshots Creation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-6-db-snapshot-restore" class="md-nav__link">
+    4-6 DB Snapshot Restore
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-7-db-snapshot-copy" class="md-nav__link">
+    4-7 DB Snapshot Copy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-8-db-snapshot-sharing" class="md-nav__link">
+    4-8 DB Snapshot Sharing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-9-aws-rds-db-snapshot-backup-restore-qas" class="md-nav__link">
+    4-9 AWS RDS DB Snapshot, Backup &amp; Restore QAs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-aws-rds-security" class="md-nav__link">
+    5 AWS RDS Security
+  </a>
+  
+    <nav class="md-nav" aria-label="5 AWS RDS Security">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-1-aws-rds-security" class="md-nav__link">
+    5-1 AWS RDS Security
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-2-rds-authentication-and-access-control" class="md-nav__link">
+    5-2 RDS Authentication and Access Control
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-3-encrypting-rds-resources" class="md-nav__link">
+    5-3 Encrypting RDS Resources
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-4-ssl-to-encrypt-a-connection-to-a-db-instance" class="md-nav__link">
+    5-4 SSL to Encrypt a Connection to a DB Instance
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-5-iam-database-authentication" class="md-nav__link">
+    5-5 IAM Database Authentication
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-6-rds-security-groups" class="md-nav__link">
+    5-6 RDS Security Groups
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-7-rds-rotating-secrets" class="md-nav__link">
+    5-7 RDS Rotating Secrets
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-8-master-user-account-privileges" class="md-nav__link">
+    5-8 Master User Account Privileges
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-9-event-notification" class="md-nav__link">
+    5-9 Event Notification
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-10-rds-encrypted-db-instances-limitations" class="md-nav__link">
+    5-10 RDS Encrypted DB Instances Limitations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-11-qas" class="md-nav__link">
+    5-11 QAs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-aws-rds-db-maintenance-upgrades" class="md-nav__link">
+    6 AWS RDS DB Maintenance &amp; Upgrades
+  </a>
+  
+    <nav class="md-nav" aria-label="6 AWS RDS DB Maintenance &amp; Upgrades">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-1-rds-db-instance-maintenance-and-upgrades" class="md-nav__link">
+    6-1 RDS DB Instance Maintenance and Upgrades
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-2-amazon-rds-maintenance" class="md-nav__link">
+    6-2 Amazon RDS Maintenance
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-3-operating-system-updates" class="md-nav__link">
+    6-3 Operating System Updates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-4-database-engine-version-upgrade" class="md-nav__link">
+    6-4 Database Engine Version Upgrade
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-5-rds-maintenance-window" class="md-nav__link">
+    6-5 RDS Maintenance Window
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-6-aws-rds-db-maintenance-upgrades-qas" class="md-nav__link">
+    6-6 AWS RDS DB Maintenance &amp; Upgrades QAs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-aws-rds-monitoring-notification" class="md-nav__link">
+    7 AWS RDS Monitoring &amp; Notification
+  </a>
+  
+    <nav class="md-nav" aria-label="7 AWS RDS Monitoring &amp; Notification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#7-1-aws-rds-monitoring-notification" class="md-nav__link">
+    7-1 AWS RDS Monitoring &amp; Notification
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-2-rds-cloudwatch-monitoring" class="md-nav__link">
+    7-2 RDS CloudWatch Monitoring
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-3-rds-enhanced-monitoring" class="md-nav__link">
+    7-3 RDS Enhanced Monitoring
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-4-cloudwatch-vs-enhanced-monitoring-metrics" class="md-nav__link">
+    7-4 CloudWatch vs Enhanced Monitoring Metrics
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-5-rds-performance-insights" class="md-nav__link">
+    7-5 RDS Performance Insights
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-6-rds-cloudtrail-logs" class="md-nav__link">
+    7-6 RDS CloudTrail Logs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-7-rds-recommendations" class="md-nav__link">
+    7-7 RDS Recommendations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-8-rds-event-notification" class="md-nav__link">
+    7-8 RDS Event Notification
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-9-rds-trusted-advisor" class="md-nav__link">
+    7-9 RDS Trusted Advisor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-10-aws-rds-monitoring-notification-qas" class="md-nav__link">
+    7-10 AWS RDS Monitoring &amp; Notification QAs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-aws-rds-best-practices" class="md-nav__link">
+    8 AWS RDS Best Practices
+  </a>
+  
+    <nav class="md-nav" aria-label="8 AWS RDS Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8-1-aws-rds-best-practices" class="md-nav__link">
+    8-1 AWS RDS Best Practices
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-2-amazon-rds-basic-operational-guidelines" class="md-nav__link">
+    8-2 Amazon RDS Basic Operational Guidelines
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-3-db-instance-ram-recommendations" class="md-nav__link">
+    8-3 DB Instance RAM Recommendations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-4-rds-security-best-practices" class="md-nav__link">
+    8-4 RDS Security Best Practices
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-5-using-enhanced-monitoring-to-identify-operating-system-issues" class="md-nav__link">
+    8-5 Using Enhanced Monitoring to Identify Operating System Issues
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-6-recovery" class="md-nav__link">
+    8-6 Recovery
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-7-qas" class="md-nav__link">
+    8-7 QAs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+<a href="https://github.com/Chao-Xi/jxawscsaabook.git/edit/master/docs/chap7/1rds.md" title="编辑此页" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
+
+
+
+<h1 id="l1-aws-rds"><strong>L1 AWS RDS</strong></h1>
+<h2 id="1-intro"><strong>1 Intro</strong></h2>
+<h3 id="1-1-relational-database-service-rds"><strong>1-1 Relational Database Service – RDS</strong></h3>
+<ul>
+<li>Relational Database Service (RDS) is a web service that makes it easier to set up, operate, and scale a relational database in the cloud.</li>
+<li>RDS provides cost-efficient, resizable capacity for an industry-standard relational database and manages common database administration tasks such as <strong>hardware provisioning, database setup, patching, and backups</strong>.</li>
+<li>RDS features &amp; benefits<ul>
+<li><strong>CPU, memory, storage, and IOPs can be scaled independently.</strong></li>
+<li><strong>manages backups, software patching, automatic failure detection, and recovery.</strong></li>
+<li><strong>automated backups can be performed as needed, or manual backups can be triggered as well.</strong> Backups can be used to restore a database, and the RDS restore process works reliably and efficiently.</li>
+<li>provides high availability with a primary instance and a synchronous standby secondary instance that can be failover to seamlessly when a problem occurs.</li>
+<li><strong>provides elasticity &amp; scalability by enabling Read Replicas to increase read scaling.</strong></li>
+<li>supports MySQL, MariaDB, PostgreSQL, Oracle, Microsoft SQL Server, and the new, MySQL-compatible Aurora DB engine</li>
+<li><strong>supports IAM users and permissions to control who has access to the RDS database service</strong></li>
+<li><strong>databases can be further protected by putting them in a VPC</strong>, using SSL for data in transit and encryption for data in rest</li>
+<li>However, <strong>as it is a managed service, shell (root ssh) access to DB instances is not provided,</strong> and this restricts access to certain system procedures and tables that require advanced privileges.</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-2-rds-components"><strong>1-2 RDS Components</strong></h3>
+<p><strong>DB Instance</strong></p>
+<ul>
+<li>is a basic building block of RDS</li>
+<li>is an isolated database environment in the cloud</li>
+<li>each DB instance runs a DB engine. AWS currently supports MySQL, MariaDB, PostgreSQL, Oracle, and Microsoft SQL Server &amp; Aurora DB engines</li>
+<li>can be accessed from AWS command-line tools, RDS APIs, or the AWS Management RDS Console.</li>
+<li>computation and memory capacity of a DB instance is determined by its DB instance class, which can be selected as per the needs</li>
+<li>supports three storage types: Magnetic, General Purpose (SSD), and Provisioned IOPS (SSD), which differ in performance and price</li>
+<li>each DB instance has a DB instance identifier, which is a customer-supplied name and must be unique for that customer in an AWS region. It uniquely identifies the DB instance when interacting with the RDS API and AWS CLI commands.</li>
+<li>each DB instance can host multiple user-created databases or a single Oracle database with multiple schemas.</li>
+<li>can be hosted in an AWS VPC environment for better control</li>
+</ul>
+<p><strong>Regions and Availability Zones</strong></p>
+<ul>
+<li>AWS resources are housed in highly available data center facilities in different areas of the world, <strong>these data centers are called regions which further contain multiple distinct locations called Availability Zones</strong></li>
+<li>Each AZ is engineered to be i<strong>solated from failures in other AZs</strong> and to provide inexpensive, low-latency network connectivity to other AZs in the same region</li>
+<li>DB instances can be hosted in different AZs, an option called a Multi-AZ deployment.<ul>
+<li>RDS automatically provisions and maintains a <strong>synchronous</strong> standby replica of the DB instance in a different AZ.</li>
+<li>Primary DB instance is synchronously replicated across AZs to the standby replica</li>
+<li><strong>Provides data redundancy, failover support, eliminates I/O freezes, and minimizes latency spikes during system backups.</strong></li>
+</ul>
+</li>
+</ul>
+<p><strong>Security Groups</strong></p>
+<ul>
+<li>security group controls the access to a DB instance, by allowing access to the specified IP address ranges or EC2 instances</li>
+</ul>
+<p><strong>DB Parameter Groups</strong></p>
+<ul>
+<li>A DB parameter group contains engine configuration values that can be applied to one or more DB instances of the same instance type</li>
+<li><strong>help define configuration values specific to the selected DB Engine for e.g. <code>max_connections</code>, <code>force_ssl</code> , <code>autocommit</code></strong></li>
+<li>supports default parameter group, which cannot be edited.</li>
+<li>supports custom parameter group, to override values</li>
+<li>supports static and dynamic parameter groups<ul>
+<li>changes to dynamic parameters are applied immediately (irrespective of apply immediately setting)</li>
+<li>changes to static parameters are <strong>NOT</strong> applied immediately and require a manual reboot.</li>
+</ul>
+</li>
+</ul>
+<p><strong>DB Option Groups</strong></p>
+<ul>
+<li>Some DB engines offer tools or optional features that simplify managing the databases and making the best use of data.</li>
+<li>RDS makes such tools available through option groups for e.g. Oracle <strong>Application Express (APEX), SQL Server Transparent Data Encryption, and MySQL Memcached support.</strong></li>
+</ul>
+<h3 id="1-3-rds-interfaces"><strong>1-3 RDS Interfaces</strong></h3>
+<p>RDS can be interacted with multiple interfaces</p>
+<ul>
+<li>AWS RDS Management console</li>
+<li>Command Line Interface</li>
+<li>Programmatic Interfaces which include SDKs, libraries in different languages, and RDS API</li>
+</ul>
+<h3 id="1-4-rds-pricing"><strong>1-4 RDS Pricing</strong></h3>
+<ul>
+<li><strong>Instance class</strong><ul>
+<li>Pricing is based on the class (e.g., micro, small, large, xlarge) of the DB instance consumed.</li>
+</ul>
+</li>
+<li><strong>Running time</strong><ul>
+<li>Usage is billed in one-second increments, with a minimum of 10 <strong>minutes</strong></li>
+</ul>
+</li>
+<li>Storage<ul>
+<li>Storage capacity provisioned for the DB instance is billed per GB per month</li>
+<li>If the provisioned storage capacity is scaled within the month, the bill will be pro-rated.</li>
+</ul>
+</li>
+<li>I/O requests per month<ul>
+<li>Total number of storage I/O requests made in a billing cycle.</li>
+</ul>
+</li>
+<li>Provisioned IOPS (per IOPS per month)<ul>
+<li>Provisioned IOPS rate, regardless of IOPS consumed, for RDS Provisioned IOPS (SSD) storage only.</li>
+<li>Provisioned storage for EBS volumes is billed in one-second increments, with a minimum of 10 minutes.</li>
+</ul>
+</li>
+<li><strong>Backup storag</strong>e<ul>
+<li>Automated backups &amp; any active database snapshots consume storage</li>
+<li>Increasing backup retention period or taking additional database snapshots increases the backup storage consumed by the database.</li>
+<li>RDS provides backup storage up to 100% of the provisioned database storage at no additional charge for e.g., if you have 10 GB-months of provisioned database storage, RDS provides up to 10 GB-months of backup storage at no additional charge.</li>
+<li>Most databases require less raw storage for a backup than for the primary dataset, so if multiple backups are not maintained, you will never pay for backup storage.<ul>
+<li>Backup storage is free only for active DB instances.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Data transfer</strong><ul>
+<li>Internet data transfer in and out of your DB instance.</li>
+</ul>
+</li>
+<li><strong>Reserved Instances</strong><ul>
+<li>In addition to regular RDS pricing, reserved DB instances can be purchased</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-5-qa"><strong>1-5 QA</strong></h3>
+<ol>
+<li>What does Amazon RDS stand for?<ul>
+<li>Regional Data Server.</li>
+<li><strong>Relational Database Service</strong></li>
+<li>Regional Database Service.</li>
+</ul>
+</li>
+<li>How many relational database engines does RDS currently support?<ul>
+<li><strong>MySQL, Postgres, MariaDB, Oracle, and Microsoft SQL Server</strong></li>
+<li>Just two: MySQL and Oracle.</li>
+<li>Five: MySQL, PostgreSQL, MongoDB, Cassandra and SQLite.</li>
+<li>Just one: MySQL.</li>
+</ul>
+</li>
+<li>If I modify a DB Instance or the DB parameter group associated with the instance, should I reboot the instance for the changes to take effect?<ul>
+<li>No</li>
+<li><strong>Yes</strong></li>
+</ul>
+</li>
+<li>What is the name of licensing model in which I can use your existing Oracle Database licenses to run Oracle deployments on Amazon RDS?<ul>
+<li><strong>Bring Your Own License</strong></li>
+<li>Role Bases License</li>
+<li>Enterprise License</li>
+<li>License Included</li>
+</ul>
+</li>
+<li>Will I be charged if the DB instance is idle?<ul>
+<li>No</li>
+<li><strong>Yes</strong></li>
+<li>Only is running in GovCloud</li>
+<li>Only if running in VPC</li>
+</ul>
+</li>
+<li>What is the minimum charge for the <strong>data transferred between Amazon RDS and Amazon EC2 Instances in the same Availability Zone</strong>?<ul>
+<li>USD 0.10 per GB</li>
+<li><strong>No charge. It is free.</strong></li>
+<li>USD 0.02 per GB</li>
+<li>USD 0.01 per GB</li>
+</ul>
+</li>
+<li>Does Amazon RDS allow direct host access via Telnet, Secure Shell (SSH), or Windows Remote Desktop Connection?<ul>
+<li>Yes</li>
+<li><strong>No</strong></li>
+<li>Depends on if it is in VPC or not</li>
+</ul>
+</li>
+<li>What are the two types of licensing options available for using Amazon RDS for Oracle?<ul>
+<li>BYOL and Enterprise License</li>
+<li><strong>BYOL and License Included</strong></li>
+<li>Enterprise License and License Included</li>
+<li>Role based License and License Included</li>
+</ul>
+</li>
+<li>A user plans to use RDS as a managed DB platform. Which of the below mentioned features is not supported by RDS?<ul>
+<li>Automated backup</li>
+<li><strong>Automated scaling to manage a higher load</strong></li>
+<li>Automated failure detection and recovery</li>
+<li>Automated software patching</li>
+</ul>
+</li>
+<li>A user is launching an AWS RDS with MySQL. Which of the below mentioned options allows the user to configure the InnoDB engine parameters?<ul>
+<li>Options group</li>
+<li>Engine parameters</li>
+<li><strong>Parameter groups</strong></li>
+<li>DB parameters</li>
+</ul>
+</li>
+<li>A user is planning to use the AWS RDS with MySQL. Which of the below mentioned services the user is not going to pay?<ul>
+<li>Data transfer</li>
+<li><strong>RDS CloudWatch metrics</strong></li>
+<li>Data storage</li>
+<li>I/O requests per month</li>
+</ul>
+</li>
+</ol>
+<h2 id="2-aws-rds-replication-multi-az-vs-read-replica"><strong>2 AWS RDS Replication – Multi-AZ vs Read Replica</strong></h2>
+<h3 id="2-1-rds-multi-az-vs-read-replica"><strong>2-1 RDS Multi-AZ vs Read Replica</strong></h3>
+<p>DB instances replicas can be created in two ways Multi-AZ &amp; Read Replica, which provide high availability, durability, and scalability to RDS.</p>
+<p><img alt="Alt Image Text" src="../../images/chap7_4_1.png" title="Body image" /></p>
+<h3 id="2-2-multi-az-deployments"><strong>2-2 Multi-AZ deployments</strong></h3>
+<ul>
+<li>RDS Multi-AZ deployment provides <strong>high availability, durability, and failover support</strong></li>
+<li>RDS automatically provisions and manages a <strong>synchronous</strong> standby instance in a different AZ (independent infrastructure in a physically separate location)</li>
+<li><strong>RDS automatically fails over to the standby so that database operations can resume quickly without administrative intervention in case of</strong><ul>
+<li><strong>Planned</strong> database maintenance</li>
+<li>Software patching</li>
+<li><strong>Rebooting of the Primary instance</strong></li>
+<li>Primary DB instance connectivity or host failure, or an</li>
+<li>Availability Zone failure</li>
+</ul>
+</li>
+<li>RDS maintains the same endpoint for the DB Instance after a failover, so the application can resume database operation without the need for manual administrative intervention.</li>
+</ul>
+<h3 id="2-3-rds-read-replicas"><strong>2-3 RDS Read Replicas</strong></h3>
+<ul>
+<li>Read replicas enable increased scalability and database availability in the case of an <strong>AZ failure.</strong></li>
+<li>Read Replicas allow elastic scaling beyond the capacity constraints of a single DB instance for read-heavy database workloads</li>
+<li><strong>RDS read replicas can be Multi-AZ i.e. set up with their own standby instances in a different AZ</strong>.</li>
+<li><strong>Load on the source DB instance can be reduced by routing read queries from applications to the Read Replica.</strong></li>
+<li>one or more replicas of a given source DB Instance and serve high-volume application read traffic from multiple copies of your data, thereby increasing aggregate read throughput. <strong>Read replicas can also be promoted when needed to become standalone DB instances.</strong></li>
+<li>RDS uses DB engines’ built-in replication functionality to create a special type of DB instance called a Read Replica from a source DB instance. It uses the engines’ native asynchronous replication to update the read replica whenever there is a change to the source DB instance.</li>
+<li>Read replicas are available in RDS for MySQL, MariaDB, PostgreSQL, Oracle, and SQL Server as well as Aurora.</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap7_4_2.png" title="Body image" /></p>
+<h3 id="2-4-qas"><strong>2-4 QAs</strong></h3>
+<ol>
+<li>You are running a successful multi-tier web application on AWS and your marketing department has asked you to add a reporting tier to the application. The reporting tier will aggregate and publish status reports every 30 minutes from user-generated information that is being stored in your web applications database. You are currently running a Multi-AZ RDS MySQL instance for the database tier. You also have implemented ElastiCache as a database caching layer between the application tier and database tier. Please select the answer that will allow you to successfully implement the reporting tier with as little impact as possible to your database.<ul>
+<li>Continually send transaction logs from your master database to an S3 bucket and generate the reports of the S3 bucket using S3 byte range requests.</li>
+<li>Generate the reports by querying the synchronously replicated standby RDS MySQL instance maintained through Multi-AZ (Standby instance cannot be used as a scaling solution)</li>
+<li><strong>Launch an RDS Read Replica connected to your Multi-AZ master database and generate reports by querying the Read Replica.</strong></li>
+<li>Generate the reports by querying the ElastiCache database caching tier. (ElasticCache does not maintain full data and is simply a caching solution)</li>
+</ul>
+</li>
+<li>A company is deploying a new two-tier web application in AWS. The company has limited staff and requires high availability, and the application requires complex queries and table joins. Which configuration provides the solution for the company’s requirements?<ul>
+<li>MySQL Installed on two Amazon EC2 Instances in a single Availability Zone (does not provide High Availability out of the box)</li>
+<li><strong>Amazon RDS for MySQL with Multi-AZ</strong></li>
+<li>Amazon ElastiCache (Just a caching solution)</li>
+<li>Amazon DynamoDB (Not suitable for complex queries and joins)</li>
+</ul>
+</li>
+<li>Your company is getting ready to do a major public announcement of a social media site on AWS. The website is running on EC2 instances deployed across multiple Availability Zones with a Multi-AZ RDS MySQL Extra Large DB Instance. The site performs a high number of small reads and writes per second and relies on an eventual consistency model. After comprehensive tests you discover that there is read contention on RDS MySQL. Which are the best approaches to meet these requirements? (Choose 2 answers)<ul>
+<li><strong>Deploy ElastiCache in-memory cache running in each availability zone</strong></li>
+<li>Implement sharding to distribute load to multiple RDS MySQL instances (this is only a read contention, the writes work fine)</li>
+<li>Increase the RDS MySQL Instance size and Implement provisioned IOPS (not scalable, this is only a read contention, the writes work fine)</li>
+<li><strong>Add an RDS MySQL read replica in each availability zone</strong></li>
+</ul>
+</li>
+<li>Your company has HQ in Tokyo and branch offices all over the world and is using logistics software with a multi-regional deployment on AWS in Japan, Europe and US. The logistic software has a 3-tier architecture and currently uses MySQL 5.6 for data persistence. Each region has deployed its own database. In the HQ region you run an hourly batch process reading data from every region to compute cross-regional reports that are sent by email to all offices this batch process must be completed as fast as possible to quickly optimize logistics. How do you build the database architecture in order to meet the requirements?<ul>
+<li><strong>For each regional deployment, use RDS MySQL with a master in the region and a read replica in the HQ region</strong></li>
+<li>For each regional deployment, use MySQL on EC2 with a master in the region and send hourly EBS snapshots to the HQ region</li>
+<li>For each regional deployment, use RDS MySQL with a master in the region and send hourly RDS snapshots to the HQ region</li>
+<li>For each regional deployment, use MySQL on EC2 with a master in the region and use S3 to copy data files hourly to the HQ region</li>
+<li>Use Direct Connect to connect all regional MySQL deployments to the HQ region and reduce network latency for the batch process</li>
+</ul>
+</li>
+<li>What would happen to an RDS (Relational Database Service) Multi-Availability Zone deployment if the primary DB instance fails?<ul>
+<li>IP of the primary DB Instance is switched to the standby DB Instance.</li>
+<li>A new DB instance is created in the standby availability zone.</li>
+<li><strong>The canonical name record (CNAME) is changed from primary to standby.</strong></li>
+<li>The RDS (Relational Database Service) DB instance reboots.</li>
+</ul>
+</li>
+<li>Your business is building a new application that will store its entire customer database on a RDS MySQL database, and will have various applications and users that will query that data for different purposes. Large analytics jobs on the database are likely to cause other applications to not be able to get the query results they need to, before time out. Also, as your data grows, these analytics jobs will start to take more time, increasing the negative effect on the other applications. How do you solve the contention issues between these different workloads on the same data?<ul>
+<li>Enable Multi-AZ mode on the RDS instance</li>
+<li>Use ElastiCache to offload the analytics job data</li>
+<li><strong>Create RDS Read-Replicas for the analytics work</strong></li>
+<li>Run the RDS instance on the largest size possible</li>
+</ul>
+</li>
+<li>Will my standby RDS instance be in the same Availability Zone as my primary?<ul>
+<li>Only for Oracle RDS types</li>
+<li>Yes</li>
+<li>Only if configured at launch</li>
+<li><strong>No</strong></li>
+</ul>
+</li>
+<li>A user is planning to set up the Multi-AZ feature of RDS. Which of the below mentioned conditions won’t take advantage of the Multi-AZ feature?<ul>
+<li>Availability zone outage</li>
+<li>A manual failover of the DB instance using Reboot with failover option</li>
+<li><strong>Region outage</strong></li>
+<li>When the user changes the DB instance’s server type</li>
+</ul>
+</li>
+<li>When you run a DB Instance as a Multi-AZ deployment, the “_____” serves database writes and reads<ul>
+<li>secondary</li>
+<li>backup</li>
+<li>stand by</li>
+<li><strong>primary</strong></li>
+</ul>
+</li>
+<li>When running my DB Instance as a Multi-AZ deployment, can I use the standby for read or write operations?<ul>
+<li>Yes</li>
+<li>Only with MSSQL based RDS</li>
+<li>Only for Oracle RDS instances</li>
+<li><strong>No</strong></li>
+</ul>
+</li>
+<li>Read Replicas require a transactional storage engine and are only supported for the <strong><em>_</em></strong>__ storage engine<ul>
+<li>OracleISAM</li>
+<li>MSSQLDB</li>
+<li><strong>InnoDB</strong></li>
+<li>MyISAM</li>
+</ul>
+</li>
+<li>A user is configuring the Multi-AZ feature of an RDS DB. The user came to know that this RDS DB does not use the AWS technology, but uses server mirroring to achieve replication. Which DB is the user using right now?<ul>
+<li>MySQL</li>
+<li>Oracle</li>
+<li><strong>MS SQL</strong></li>
+<li>PostgreSQL</li>
+</ul>
+</li>
+<li>If I have multiple Read Replicas for my master DB Instance and I promote one of them, what happens to the rest of the Read Replicas?<ul>
+<li><strong>The remaining Read Replicas will still replicate from the older master DB Instance</strong></li>
+<li>The remaining Read Replicas will be deleted</li>
+<li>The remaining Read Replicas will be combined to one read replica</li>
+</ul>
+</li>
+<li>If you have chosen Multi-AZ deployment, in the event of a planned or unplanned outage of your primary DB Instance, Amazon RDS automatically switches to the standby replica. The automatic failover mechanism simply changes the ______ record of the main DB Instance to point to the standby DB Instance.<ul>
+<li>DNAME</li>
+<li><strong>CNAME</strong></li>
+<li>TXT</li>
+<li>MX</li>
+</ul>
+</li>
+<li>When automatic failover occurs, Amazon RDS will emit a DB Instance event to inform you that automatic failover occurred. You can use the _____ to return information about events related to your DB Instance<ul>
+<li>FetchFailure</li>
+<li>DescriveFailure</li>
+<li><strong>DescribeEvents</strong></li>
+<li>FetchEvents</li>
+</ul>
+</li>
+<li>The new DB Instance that is created when you promote a Read Replica retains the backup window period.<ul>
+<li><strong>TRUE</strong></li>
+<li>FALSE</li>
+</ul>
+</li>
+<li>Will I be alerted when automatic failover occurs?<ul>
+<li><strong>Only if SNS configured</strong></li>
+<li>No</li>
+<li>Yes</li>
+<li>1Only if Cloudwatch configured</li>
+</ul>
+</li>
+<li>Can I initiate a “forced failover” for my MySQL Multi-AZ DB Instance deployment?<ul>
+<li>Only in certain regions</li>
+<li>Only in VPC</li>
+<li><strong>Yes</strong></li>
+<li>No</li>
+</ul>
+</li>
+<li>A user is accessing RDS from an application. The user has enabled the Multi-AZ feature with the MS SQL RDS DB. <strong>During a planned outage how will AWS ensure that a switch from DB to a standby replica will not affect access to the application</strong>?<ul>
+<li>RDS will have an internal IP which will redirect all requests to the new DB</li>
+<li><strong>RDS uses DNS to switch over to standby replica for seamless transition</strong></li>
+<li>The switch over changes Hardware so RDS does not need to worry about access</li>
+<li>RDS will have both the DBs running independently and the user has to manually switch over</li>
+</ul>
+</li>
+<li>Which of the following is part of the failover process for a Multi-AZ Amazon Relational Database Service (RDS) instance?<ul>
+<li>The failed RDS DB instance reboots.</li>
+<li>The IP of the primary DB instance is switched to the standby DB instance.</li>
+<li><strong>The DNS record for the RDS endpoint is changed from primary to standby</strong>.</li>
+<li>A new DB instance is created in the standby availability zone.</li>
+</ul>
+</li>
+<li>Which of these is not a reason a Multi-AZ RDS instance will failover?<ul>
+<li>An Availability Zone outage</li>
+<li>A manual failover of the DB instance was initiated using Reboot with failover</li>
+<li>To autoscale to a higher instance class</li>
+<li><strong>Master database corruption occurs</strong></li>
+<li>The primary DB instance fails</li>
+</ul>
+</li>
+<li>You need to scale an RDS deployment. You are operating at 10% writes and 90% reads, based on your logging. How best can you scale this in a simple way?<ul>
+<li>Create a second master RDS instance and peer the RDS groups.</li>
+<li>Cache all the database responses on the read side with CloudFront.</li>
+<li><strong>Create read replicas for RDS since the load is mostly reads</strong>.</li>
+<li>Create a Multi-AZ RDS installs and route read traffic to standby.</li>
+</ul>
+</li>
+<li>How does Amazon RDS multi Availability Zone model work?<ul>
+<li><strong>A second, standby database is deployed and maintained in a different availability zone from master, using synchronous replication.</strong> </li>
+<li>A second, standby database is deployed and maintained in a different availability zone from master using asynchronous replication.</li>
+<li>A second, standby database is deployed and maintained in a different region from master using asynchronous replication.</li>
+<li>A second, standby database is deployed and maintained in a different region from master using synchronous replication.</li>
+</ul>
+</li>
+<li>A customer is running an application in US-West (Northern California) region and wants to setup disaster recovery failover to the Asian Pacific (Singapore) region. The customer is interested in achieving a low Recovery Point Objective (RPO) for an Amazon RDS multi-AZ MySQL database instance. Which approach is best suited to this need?<ul>
+<li>Synchronous replication</li>
+<li><strong>Asynchronous replication</strong></li>
+<li>Route53 health checks</li>
+<li>Copying of RDS incremental snapshots</li>
+</ul>
+</li>
+<li>A user is using a small MySQL RDS DB. The user is experiencing high latency due to the Multi AZ feature. Which of the below mentioned options may not help the user in this situation?<ul>
+<li>Schedule the automated back up in non-working hours</li>
+<li>Use a large or higher size instance</li>
+<li>Use PIOPS</li>
+<li><strong>Take a snapshot from standby Replica</strong></li>
+</ul>
+</li>
+<li>Are Reserved Instances available for Multi-AZ Deployments?<ul>
+<li>Only for Cluster Compute instances</li>
+<li><strong>Yes for all instance types</strong></li>
+<li>Only for M3 instance types</li>
+</ul>
+</li>
+<li>My Read Replica appears “stuck” after a Multi-AZ failover and is unable to obtain or apply updates from the source DB Instance. What do I do?<ul>
+<li><strong>You will need to delete the Read Replica and create a new one to replace it.</strong></li>
+<li>You will need to disassociate the DB Engine and re-associate it.</li>
+<li>The instance should be deployed to Single AZ and then moved to Multi-AZ once again</li>
+<li>You will need to delete the DB Instance and create a new one to replace it.</li>
+</ul>
+</li>
+<li>What is the charge for the data transfer incurred in replicating data between your primary and standby?<ul>
+<li><strong>No charge. It is free</strong>.</li>
+<li>Double the standard data transfer charge</li>
+<li>Same as the standard data transfer charge</li>
+<li>Half of the standard data transfer charge</li>
+</ul>
+</li>
+<li>A user has enabled the Multi-AZ feature with the MS SQL RDS database server. Which of the below mentioned statements will help the user understand the Multi-AZ feature better?<ul>
+<li>In a Multi-AZ, AWS runs two DBs in parallel and copies the data asynchronously to the replica copy</li>
+<li>In a Multi-AZ, AWS runs two DBs in parallel and copies the data synchronously to the replica copy</li>
+<li><strong>In a Multi-AZ, AWS runs just one DB but copies the data synchronously to the standby replic</strong>a</li>
+<li>AWS MS SQL does not support the Multi-AZ feature</li>
+</ul>
+</li>
+<li>A company is running a batch analysis every hour on their main transactional DB running on an RDS MySQL instance to populate their central Data Warehouse running on Redshift. During the execution of the batch their transactional applications are very slow. When the batch completes they need to update the top management dashboard with the new data. The dashboard is produced by another system running on-premises that is currently started when a manually sent email notifies that an update is required The on-premises system cannot be modified because is managed by another team. How would you optimize this scenario to solve performance issues and automate the process as much as possible?<ul>
+<li>Replace RDS with Redshift for the batch analysis and SNS to notify the on-premises system to update the dashboard</li>
+<li>Replace RDS with Redshift for the batch analysis and SQS to send a message to the on-premises system to update the dashboard</li>
+<li><strong>Create an RDS Read Replica for the batch analysis and SNS to notify me on-premises system to update the dashboard</strong></li>
+<li>Create an RDS Read Replica for the batch analysis and SQS to send a message to the on-premises system to update the dashboard.</li>
+</ul>
+</li>
+</ol>
+<h2 id="3-aws-rds-storage-certification"><strong>3 AWS RDS Storage – Certification</strong></h2>
+<h3 id="3-1-aws-rds-storage"><strong>3-1 AWS RDS Storage</strong></h3>
+<ul>
+<li>RDS storage uses Elastic Block Store (EBS) volumes for database and log storage.</li>
+<li>RDS automatically stripes across multiple EBS volumes to enhance IOPS performance, depending on the amount of storage requested</li>
+</ul>
+<h3 id="3-2-rds-storage-types"><strong>3-2 RDS Storage Types</strong></h3>
+<ul>
+<li>RDS storage provides three storage types: <strong>Magnetic, General Purpose (SSD), and Provisioned IOPS (input/output operations per second)</strong>.</li>
+<li>These storage types differ in performance characteristics and price, which allows tailoring of storage performance and cost to the database needs</li>
+<li>MySQL, MariaDB, PostgreSQL, and Oracle RDS DB instances can be created with up to 6TB of storage and SQL Server RDS DB instances with <strong>up to 4TB of storage when using the Provisioned IOPS and General Purpose (SSD)</strong> storage types.</li>
+<li>Existing MySQL, PostgreSQL, and Oracle RDS database instances can be scaled to these new database storage limits without any downtime.</li>
+</ul>
+<h4 id="magnetic-standard"><strong>Magnetic (Standard)</strong></h4>
+<ul>
+<li>Magnetic storage, also called standard storage, offers cost-effective storage that is ideal for applications with light or burst I/O requirements.</li>
+<li>They deliver approximately 100 IOPS on average, with burst capability of up to hundreds of IOPS, and they can range in size from 5 GB to 3 TB, depending on the DB instance engine.</li>
+<li>Magnetic storage is not reserved for a single DB instance, so performance can vary greatly depending on the demands placed on shared resources by other customers.</li>
+</ul>
+<h4 id="mgeneral-purpose-ssd"><strong>MGeneral Purpose (SSD)</strong></h4>
+<ul>
+<li>General purpose, SSD-backed storage, also called gp2, can provide faster access than disk-based storage.</li>
+<li>They can deliver single-digit millisecond latencies, with a base performance of 3 IOPS per Gigabyte (GB) and the ability to burst to 3,000 IOPS for extended periods of time up to a maximum of 10,000 PIOPS.</li>
+<li>Gp2 volumes can range in size from 5 GB to 6 TB for MySQL, MariaDB, PostgreSQL, and Oracle DB instances, and from 20 GB to 4 TB for SQL Server DB instances.</li>
+<li>Gp2 is excellent for small to medium-sized databases.</li>
+</ul>
+<h4 id="provisioned-iops"><strong>Provisioned IOPS</strong></h4>
+<ul>
+<li>Provisioned IOPS storage is designed to meet the needs of I/O-intensive workloads, particularly database workloads, that are sensitive to storage performance and consistency in random access I/O throughput.</li>
+<li>Provisioned IOPS storage is a storage type that delivers fast, predictable, and consistent throughput performance.</li>
+<li>For any production application that requires fast and consistent I/O performance, Amazon recommends Provisioned IOPS (input/output operations per second) storage.</li>
+<li>Provisioned IOPS storage is optimized for I/O intensive, online transaction processing (OLTP) workloads that have consistent performance requirements.</li>
+<li>Provisioned IOPS helps performance tuning.</li>
+<li>Provisioned IOPS volumes can range in size from 100 GB to 6 TB for MySQL, MariaDB, PostgreSQL, and Oracle DB engines. SQL Server Express and Web editions can range in size from 100 GB to 4 TB, while SQL Server Standard and Enterprise editions can range in size from 200 GB to 4 TB.</li>
+<li>Dedicated IOPS rate and storage space allocation is specified, when a DB instance is created. RDS provisions that IOPS rate and storage for the lifetime of the DB instance or until its changed.</li>
+<li>RDS delivers within 10 percent of the provisioned IOPS performance 99.9 percent of the time over a given year.</li>
+</ul>
+<h4 id="adding-storage-and-changing-storage-type"><strong>Adding Storage and Changing Storage Type</strong></h4>
+<ul>
+<li>DB instance can be modified to use additional storage and converted to a different storage type.</li>
+<li><strong>However, storage allocated for a DB instance cannot be decreased</strong></li>
+<li>MySQL, MariaDB, PostgreSQL, and Oracle DB instances can be scaled up for storage, which helps improve I/O capacity.</li>
+<li><strong>Storage capacity nor the type of storage for a SQL Server DB instance can be changed due to extensibility limitations of striped storage attached to a Windows Server environment.</strong></li>
+<li>During the scaling process, the DB instance will be available for reads and writes, but may experience performance degradation</li>
+<li>Adding storage may take several hours; the duration of the process depends on several factors such as load, storage size, storage type, amount of IOPS provisioned (if any), and number of prior scale storage operations.</li>
+<li>While storage is being added, nightly backups are suspended and no other RDS operations can take place, including modify, reboot, delete, create Read Replica, and create DB Snapshot</li>
+</ul>
+<h3 id="3-3-performance-metrics"><strong>3-3 Performance Metrics</strong></h3>
+<ul>
+<li>
+<p>Amazon RDS provides several metrics that can be used to determine how the DB instance is performing.</p>
+</li>
+<li>
+<p><strong>IOPS</strong></p>
+<ul>
+<li>the number of I/O operations completed per second.</li>
+<li>it is reported as the average IOPS for a given time interval.</li>
+<li>RDS reports read and write IOPS separately on one minute intervals.</li>
+<li>Total IOPS is the sum of the read and write IOPS.</li>
+<li>Typical values for IOPS range from zero to tens of thousands per second.</li>
+</ul>
+</li>
+<li>
+<p><strong>Latency</strong></p>
+<ul>
+<li>the elapsed time between the submission of an I/O request and its completion</li>
+<li>it is reported as the average latency for a given time interval.</li>
+<li>RDS reports read and write latency separately on one minute intervals in units of seconds.</li>
+<li>Typical values for latency are in the millisecond (ms)</li>
+</ul>
+</li>
+<li>
+<p><strong>Throughput</strong></p>
+<ul>
+<li>the number of bytes per second transferred to or from disk</li>
+<li>it is reported as the average throughput for a given time interval.</li>
+<li>RDS reports read and write throughput separately on one minute intervals using units of megabytes per second (MB/s).</li>
+<li>Typical values for throughput range from zero to the I/O channel’s maximum bandwidth.</li>
+</ul>
+</li>
+<li>
+<p><strong>Queue Depth</strong></p>
+<ul>
+<li>the number of I/O requests in the queue waiting to be serviced.</li>
+<li>these are I/O requests that have been submitted by the application but have not been sent to the device because the device is busy servicing other I/O requests.</li>
+<li>it is reported as the average queue depth for a given time interval.</li>
+<li>RDS reports queue depth in one minute intervals. Typical values for queue depth range from zero to several hundred.</li>
+<li>Time spent waiting in the queue is a component of Latency and</li>
+<li>Service Time (not available as a metric).</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-4-amazon-rds-storage-facts"><strong>3-4 Amazon RDS Storage Facts</strong></h3>
+<ul>
+<li>First time a DB instance is started and accesses an area of disk for the first time, the process can take longer than all subsequent accesses to the same disk area. This is known as the “<strong>first touch penalty</strong>”. Once an area of disk has incurred the first touch penalty, that area of disk does not incur the penalty again for the life of the instance, even if the DB instance is rebooted, restarted, or the DB instance class changes. Note that a DB instance created from a snapshot, a point-in-time restore, or a read replica is a new instance and does incur this first touch penalty.</li>
+<li>RDS manages the DB instance and it reserves overhead space on the instance. While the amount of reserved storage varies by DB instance class and other factors, this reserved space can be as much as one or two percent of the total storage</li>
+<li>Provisioned IOPS provides a way to reserve I/O capacity by specifying IOPS. Like any other system capacity attribute, maximum throughput under load will be constrained by the resource that is consumed first, which could be IOPS, channel bandwidth, CPU, memory, or database internal resources.</li>
+<li>Current maximum channel bandwidth available is 4000 megabits per second (Mbps) full duplex. In terms of the read and write throughput metrics, this equates to about 210 megabytes per second (MB/s) in each direction. A perfectly balanced workload of 50% reads and 50% writes may attain a maximum combined throughput of 420 MB/s, which includes protocol overhead, so the actual data throughput may be less.</li>
+<li>Provisioned IOPS works with an I/O request size of 32 KB. Provisioned IOPS consumption is a linear function of I/O request size above 32 KB. An I/O request smaller than 32 KB is handled as one I/O; for e.g. 1000 16 KB I/O requests are treated the same as 1000 32 KB requests. I/O requests larger than 32 KB consume more than one I/O request; while, a 48 KB I/O request consumes 1.5 I/O requests of storage capacity; a 64 KB I/O request consumes 2 I/O requests</li>
+</ul>
+<h3 id="3-5-factors-that-impact-storage-performance"><strong>3-5 Factors That Impact Storage Performance</strong></h3>
+<ul>
+<li>Several factors can affect the performance of a DB instance, such as instance configuration, I/O characteristics, and workload demand.</li>
+<li>System related activities also consume I/O capacity and may reduce database instance performance while in progress:<ul>
+<li>DB snapshot creation</li>
+<li>Nightly backups</li>
+<li>Multi-AZ peer creation</li>
+<li>Read replica creation</li>
+<li>Scaling storage</li>
+</ul>
+</li>
+<li>System resources can constrain the throughput of a DB instance, but there can be other reasons for a bottleneck. Database could be the issue if :<ul>
+<li>Channel throughput limit is not reached</li>
+<li>Queue depths are consistently low</li>
+<li>CPU utilization is under 80%</li>
+<li>Free memory available</li>
+<li>No swap activity</li>
+<li>Plenty of free disk space</li>
+<li>Application has dozens of threads all submitting transactions as fast as the database will take them, but there is clearly unused I/O capacity</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-6-qas"><strong>3-6 QAs</strong></h3>
+<ol>
+<li>When should I choose Provisioned IOPS over Standard RDS storage?<ul>
+<li>If you have batch-oriented workloads</li>
+<li><strong>If you use production online transaction processing (OLTP) workloads</strong></li>
+<li>If you have workloads that are not sensitive to consistent performance</li>
+</ul>
+</li>
+<li>Is decreasing the storage size of a DB Instance permitted?
+    Depends on the RDMS used
+    Yes
+    No</li>
+<li>Because of the extensibility limitations of striped storage attached to Windows Server, Amazon RDS does not currently support increasing storage on a _____ DB Instance.<ul>
+<li><strong>SQL Server</strong></li>
+<li>MySQL</li>
+<li>Oracle</li>
+</ul>
+</li>
+<li>If I want to run a database in an Amazon instance, which is the most recommended Amazon storage option?<ul>
+<li>Amazon Instance Storage</li>
+<li><strong>Amazon EBS</strong></li>
+<li>You can’t run a database inside an Amazon instance.</li>
+<li>Amazon S3</li>
+</ul>
+</li>
+<li>For each DB Instance class, what is the maximum size of associated storage capacity?<ul>
+<li>1TiB</li>
+<li>2TiB</li>
+<li>8TiB</li>
+<li><strong>16TiB (The limit keeps on changing so please check the latest always)</strong></li>
+</ul>
+</li>
+</ol>
+<h2 id="4-aws-rds-db-snapshot-backup-restore"><strong>4 AWS RDS DB Snapshot, Backup &amp; Restore</strong></h2>
+<h3 id="4-1-rds-backup-restore-and-snapshots"><strong>4-1 RDS BackUp, Restore and Snapshots</strong></h3>
+<ul>
+<li>RDS creates a <strong>storage volume snapshot</strong> of the DB instance, backing up the entire DB instance and not just individual databases.</li>
+<li>RDS provides two different methods Automated and Manual for backing up your DB instances:</li>
+</ul>
+<h3 id="4-2-automated-backups"><strong>4-2 Automated backups</strong></h3>
+<ul>
+<li>Backups of the DB instance are <strong>automatically created and retained</strong></li>
+<li>Automated backups are enabled by default for a new DB instance.</li>
+<li>Automated backups occur during a daily user-configurable period of time, known as <strong>preferred backup window</strong>.<ul>
+<li>If a preferred backup window is not specified when an DB instance is created, RDS assigns a default 30-minute backup window which is selected at random from an 8-hour block of time per region.</li>
+<li>Changes to the backup window take effect immediately.</li>
+<li>Backup window cannot overlap with the weekly maintenance window for the DB instance.</li>
+</ul>
+</li>
+<li>Backups created during the backup window are retained for a user-configurable number of days , <strong>known as backup retention period</strong><ul>
+<li>If the backup retention period is not set, RDS defaults the period retention period to one day, if created using RDS API or the AWS CLI, or seven days if created AWS Console</li>
+<li>Backup retention period can be modified with valid values are 0 (for no backup retention) to a maximum of 35 days.</li>
+</ul>
+</li>
+<li><strong>Manual snapshot limits (50 per region)</strong> do not apply to automated backups</li>
+<li>If the backup requires more time than allotted to the backup window, the backup will continue to completion.</li>
+<li>An immediate outage occurs if the backup retention period is changed<ul>
+<li>from 0 to a non-zero value as the first backup occurs immediately or</li>
+<li>from non-zero value to 0 as it turns off automatic backups, and deletes all existing automated backups for the instance.</li>
+</ul>
+</li>
+<li><strong>RDS uses the periodic data backups in conjunction with the transaction logs to enable restoration of the DB Instance to any second during the retention period, up to the <em>LatestRestorableTime</em> (typically up to the last few minutes).</strong></li>
+<li>During the backup window,<ul>
+<li><strong>for Single AZ instance, storage I/O may be briefly suspended while the backup process initializes</strong> (typically under a few seconds) and a brief period of elevated latency might be experienced.</li>
+<li><strong>for Multi-AZ DB deployments, there is No I/O suspension since the backup is taken from the standby instance</strong></li>
+</ul>
+</li>
+<li><strong>First backup is a full backup, while the others are incremental.</strong></li>
+<li>Automated DB backups are deleted when<ul>
+<li>the retention period expires</li>
+<li>the automated DB backups for a DB instance is disabled</li>
+<li>the DB instance is deleted</li>
+</ul>
+</li>
+<li><strong>When a DB instance is deleted</strong>,<ul>
+<li>a final DB snapshot can be created upon deletion; which can be used to restore the deleted DB instance at a later date.</li>
+<li>RDS retains the final user-created DB snapshot along with all other manually created DB snapshots</li>
+<li><strong>all automated backups are deleted and cannot be recovered</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="4-3-point-in-time-recovery"><strong>4-3 Point-In-Time Recovery</strong></h3>
+<ul>
+<li><strong>In addition to the daily automated backup, RDS archives database change logs. This enables recovery of the database to any point in time during the backup retention period, up to the last five minutes of database usage.</strong></li>
+<li>Disabling automated backups also disables point-in-time recovery</li>
+<li>RDS stores multiple copies of your data, but for Single-AZ DB instances these copies are stored in a single availability zone.</li>
+<li>If for any reason a Single-AZ DB instance becomes unusable, point-in-time recovery can be used to launch a new DB instance with the latest restorable data</li>
+</ul>
+<h3 id="4-4-db-snapshots-user-initiated-manual"><strong>4-4 DB Snapshots (User Initiated – Manual)</strong></h3>
+<ul>
+<li>DB snapshots are manual, user-initiated backups that enables to backup a DB instance to a known state, and restore to that specific state at any time</li>
+<li><strong>RDS keeps all manual DB snapshots until explicitly deleted</strong></li>
+</ul>
+<h3 id="4-5-db-snapshots-creation"><strong>4-5 DB Snapshots Creation</strong></h3>
+<ul>
+<li>DB snapshot is a user-initiated storage volume snapshot of DB instance, backing up the entire DB instance and not just individual databases.</li>
+<li>DB snapshots enable backing up of the DB instance in a known state as needed, and can then be restored to that specific state at any time.</li>
+<li>DB snapshots are kept until explicitly deleted</li>
+<li>Creating DB snapshot on a Single-AZ DB instance results in a brief I/O suspension that typically lasting no more than a few minutes.</li>
+<li>Multi-AZ DB instances are not affected by this I/O suspension since the backup is taken on the standby instance</li>
+</ul>
+<h3 id="4-6-db-snapshot-restore"><strong>4-6 DB Snapshot Restore</strong></h3>
+<ul>
+<li>DB instance can be restored to any specific time during this retention period, creating a new DB instance.</li>
+<li>DB restore creates a New DB instance with a different endpoint</li>
+<li>RDS uses the periodic data backups in conjunction <strong>with the transaction logs to enable restoration of the DB Instance to any second during the retention period,</strong> up to the LatestRestorableTime (typically up to the last few minutes).</li>
+<li><strong>Option group associated with the DB snapshot is associated with the restored DB instance once it is created</strong>. However, option group is associated with the VPC, so would apply only when the instance is restored in the same VPC as the DB snapshot.</li>
+<li><strong>Default DB parameter and security groups are associated with the restored instance</strong>. After the restoration is complete, any custom DB parameter or security groups used by the instance restored from should be associated explicitly.</li>
+<li><strong>A DB instance can be restored with a different storage type than the source DB snapshot.</strong> In this case the restoration process will be slower because of the additional work required to migrate the data to the new storage type for e.g. from GP2 to Provisioned IOPS</li>
+<li>A DB instance can be restored with a different edition of the DB engine only if the DB snapshot has the required storage allocated for the new edition for e.g., to change from SQL Server Web Edition to SQL Server Standard Edition, the DB snapshot must have been created from a SQL Server DB instance that had at least 200 GB of allocated storage, which is the minimum allocated storage for SQL Server Standard edition</li>
+</ul>
+<h3 id="4-7-db-snapshot-copy"><strong>4-7 DB Snapshot Copy</strong></h3>
+<ul>
+<li>RDS supports two types of DB snapshot copying.<ul>
+<li>Copy an automated DB snapshot to create a manual DB snapshot in the same AWS region. Manual DB snapshot are not deleted automatically and can be kept indefinitely.</li>
+<li>Copy either an automated or manual DB snapshot from one region to another region. By copying the DB snapshot to another region, a manual DB snapshot is created that is retained in that region</li>
+</ul>
+</li>
+<li><strong>Automated backups cannot be shared. They need to be copied to a manual snapshot, and the manual snapshot can be shared</strong>.</li>
+<li><strong>Manual DB snapshots can be shared with other AWS accounts and copy DB snapshots shared to you by other AWS accounts</strong></li>
+<li>Snapshot Copy Encryption<ul>
+<li>DB snapshot that has been encrypted using an AWS Key Management System (AWS KMS) encryption key can be copied</li>
+<li>Copying an encrypted DB snapshot, results in an encrypted copy of the DB snapshot</li>
+<li>When copying, DB snapshot can either be encrypted with the same KMS encryption key as the original DB snapshot, or a different KMS encryption key to encrypt the copy of the DB snapshot.</li>
+<li>An unencrypted DB snapshot can be copied to an encrypted snapshot, a quick way to add encryption to a previously encrypted DB instance.</li>
+<li>Encrypted snapshot can be restored only to an encrypted DB instance</li>
+<li>If a KMS encryption key is specified when restoring from an unencrypted DB cluster snapshot, the restored DB cluster is encrypted using the specified KMS encryption key</li>
+<li>Copying an encrypted snapshot shared from another AWS account, requires access to the KMS encryption key that was used to encrypt the DB </li>
+<li><strong>NOTE – AWS now allows copying encrypted DB snapshots between accounts and across multiple regions as seamlessly as unencrypted snapshots. Refer blog post</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="4-8-db-snapshot-sharing"><strong>4-8 DB Snapshot Sharing</strong></h3>
+<ul>
+<li><strong>Manual DB snapshot or DB cluster snapshot can be shared with up to 20 other AWS accounts</strong>.</li>
+<li>Manual snapshot shared with other AWS accounts can copy the snapshot, or restore a DB instance or DB cluster from that snapshot.</li>
+<li>Manual snapshot can also be shared as public, which makes the snapshot available to all AWS accounts. Care should be taken when sharing a snapshot as public so that none of the private information is included</li>
+<li><strong>Shared snapshot can be copied to another region</strong>.</li>
+<li>However, following limitations apply when sharing manual snapshots with other AWS accounts:<ul>
+<li>When a DB instance or DB cluster is restored from a shared snapshot using the AWS CLI or RDS API, the Amazon Resource Name (ARN) of the shared snapshot as the snapshot identifier should be specified</li>
+<li>DB snapshot that uses an option group with permanent or persistent options cannot be shared</li>
+<li>A permanent option cannot be removed from an option group. Option groups with persistent options cannot be removed from a DB instance once the option group has been assigned to the DB instance.</li>
+</ul>
+</li>
+<li><strong>DB snapshots that have been encrypted “at rest” using the AES-256 encryption algorithm can be shared</strong></li>
+<li>Users can only copy encrypted DB snapshots if they have access to the AWS Key Management Service (AWS KMS) encryption key that was used to encrypt the DB snapshot.</li>
+<li>AWS KMS encryption keys can be shared with another AWS account by adding the other account to the KMS key policy.</li>
+<li>However, KMS key policy must first be updated by adding any accounts to share the snapshot with, before sharing an encrypted DB snapshot</li>
+</ul>
+<h3 id="4-9-aws-rds-db-snapshot-backup-restore-qas"><strong>4-9 AWS RDS DB Snapshot, Backup &amp; Restore QAs</strong></h3>
+<ol>
+<li>Amazon RDS <strong>automated backups and DB Snapshots</strong> are currently supported for only the <strong><em>_</em></strong>___ storage engine<ul>
+<li><strong>InnoDB</strong></li>
+<li>MyISAM</li>
+</ul>
+</li>
+<li>Automated backups are enabled by default for a new DB Instance.<ul>
+<li><strong>TRUE</strong></li>
+<li>FALSE</li>
+</ul>
+</li>
+<li>Amazon RDS DB snapshots and automated backups are stored in<ul>
+<li><strong>Amazon S3</strong></li>
+<li>Amazon EBS Volume</li>
+<li>Amazon RDS</li>
+<li>Amazon EMR</li>
+</ul>
+</li>
+<li>You receive a frantic call from a new DBA who accidentally dropped a table containing all your customers. Which Amazon RDS feature will allow you to reliably restore your database to within 5 minutes of when the mistake was made?<ul>
+<li>Multi-AZ RDS</li>
+<li>RDS snapshots</li>
+<li>RDS read replicas</li>
+<li><strong>RDS automated backup</strong></li>
+</ul>
+</li>
+<li>Disabling automated backups ______ <strong>disable the point-in-time recovery</strong>.<ul>
+<li>if configured to can</li>
+<li>will never</li>
+<li><strong>will</strong></li>
+</ul>
+</li>
+<li>Changes to the backup window take effect ______.<ul>
+<li>from the next billing cycle</li>
+<li>after 30 minutes</li>
+<li><strong>immediately</strong></li>
+<li>after 24 hours</li>
+</ul>
+</li>
+<li>You can modify the backup retention period; valid values are 0 (for no backup retention) to a maximum of <strong><em>_</em></strong>____ days.<ul>
+<li>45</li>
+<li><strong>35</strong></li>
+<li>15</li>
+<li>5</li>
+</ul>
+</li>
+<li>Amazon RDS automated backups and DB Snapshots are currently supported for only the ______ storage engine<ul>
+<li>MyISAM</li>
+<li><strong>InnoDB</strong> </li>
+</ul>
+</li>
+<li>What happens to the I/O operations while you take a database snapshot?<ul>
+<li><strong>I/O operations to the database are suspended for a few minutes while the backup is in progress</strong>.</li>
+<li>I/O operations to the database are sent to a Replica (if available) for a few minutes while the backup is in progress.</li>
+<li>I/O operations will be functioning normally</li>
+<li>I/O operations to the database are suspended for an hour while the backup is in progress</li>
+</ul>
+</li>
+<li>True or False: When you perform a restore operation to a point in time or from a DB Snapshot, a new DB Instance is created with a new endpoint.<ul>
+<li>FALSE</li>
+<li><strong>TRUE</strong> </li>
+</ul>
+</li>
+<li>True or False: Manually created DB Snapshots are deleted after the DB Instance is deleted.<ul>
+<li>TRUE</li>
+<li><strong>FALSE</strong></li>
+</ul>
+</li>
+<li>A user is running a MySQL RDS instance. The user will not use the DB for the next 3 months. How can the user save costs?<ul>
+<li>Pause the RDS activities from CLI until it is required in the future</li>
+<li>Stop the RDS instance</li>
+<li><strong>Create a snapshot of RDS to launch in the future and terminate the instance now</strong></li>
+<li>Change the instance size to micro</li>
+</ul>
+</li>
+</ol>
+<h2 id="5-aws-rds-security"><strong>5 AWS RDS Security</strong></h2>
+<h3 id="5-1-aws-rds-security"><strong>5-1 AWS RDS Security</strong></h3>
+<p><strong>AWS provides multiple features to provide RDS security:</strong> </p>
+<ul>
+<li>DB instance can be hosted in a VPC for the greatest possible <strong>network access control</strong></li>
+<li><strong>IAM policies can be used to assign permissions</strong> that determine who is allowed to manage RDS resources</li>
+<li>Security groups allow to control what IP addresses or EC2 instances can connect to the databases on a DB instance</li>
+<li><strong>Secure Socket Layer (SSL) connections with DB instances</strong></li>
+<li>RDS encryption to secure RDS instances and snapshots at rest.</li>
+<li>Network encryption and transparent data encryption (TDE) with Oracle DB instances</li>
+</ul>
+<h3 id="5-2-rds-authentication-and-access-control"><strong>5-2 RDS Authentication and Access Control</strong></h3>
+<ul>
+<li>IAM can be used to control which RDS operations each individual user has permission to call</li>
+</ul>
+<h3 id="5-3-encrypting-rds-resources"><strong>5-3 Encrypting RDS Resources</strong></h3>
+<ul>
+<li>RDS encrypted instances use the industry standard <strong>AES-256 encryption algorithm to encrypt data on the server that hosts the RDS instance</strong></li>
+<li><strong>RDS handles authentication of access and decryption of the data with a minimal impact on performance</strong>, and with no need to modify the database client applications</li>
+<li><strong>Data at Rest Encryption</strong><ul>
+<li>can be enabled on RDS instances to encrypt the <strong>underlying storage</strong></li>
+<li>encryption keys are <strong>managed by KMS</strong></li>
+<li>can be enabled only during instance creation</li>
+<li><strong>once enabled, the encryption keys cannot be changed</strong></li>
+<li>if the key is lost, the DB can only be restored from the backup</li>
+</ul>
+</li>
+<li>
+<p><strong>Once encryption is enabled for an RDS instance,</strong></p>
+<ul>
+<li><strong>logs are encrypted</strong></li>
+<li><strong>snapshots are encrypted</strong></li>
+<li>automated backups are encrypted</li>
+<li><strong>read replicas are encrypted</strong></li>
+</ul>
+</li>
+<li>
+<p>Encrypted snapshot from one AWS Region can be copied to another, by specifing the KMS key identifier of the destination AWS Region as KMS encryption keys are specific to the AWS Region that they are created in.</p>
+</li>
+<li>RDS DB Snapshot considerations<ul>
+<li><strong>DB snapshot encrypted using an KMS encryption key can be copied</strong></li>
+<li><strong>Copying an encrypted DB snapshot</strong>, results in an encrypted copy of the DB snapshot</li>
+<li>When copying, DB snapshot can either be encrypted with the same KMS encryption key as the original DB snapshot, or a different KMS encryption key to encrypt the copy of the DB snapshot.</li>
+<li><strong>An unencrypted DB snapshot can be copied to an encrypted snapshot, to add encryption to a previously unencrypted DB instance</strong>.</li>
+<li>Encrypted snapshot can be restored only to an encrypted DB instance</li>
+<li>If a KMS encryption key is specified when restoring from an unencrypted DB cluster snapshot, the restored DB cluster is encrypted using the specified KMS encryption key</li>
+<li>Copying an encrypted snapshot shared from another AWS account, requires access to the KMS encryption key used to encrypt the DB snapshot.</li>
+<li>Because KMS encryption keys are specific to the region that they are created in, encrypted snapshot cannot be copied to another region</li>
+</ul>
+</li>
+<li><strong>Transparent Data Encryption (TDE)</strong><ul>
+<li>Automatically encrypts the data before it is written to the underlying storage device and decrypts when it is read  from the storage device</li>
+<li>is supported by Oracle and SQL Server<ul>
+<li>Oracle requires key storage outside of the KMS and integrates with CloudHSM for this</li>
+<li>SQL Server requires a key but is managed by RDS</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-4-ssl-to-encrypt-a-connection-to-a-db-instance"><strong>5-4 SSL to Encrypt a Connection to a DB Instance</strong></h3>
+<ul>
+<li>Encrypt connections using <strong>SSL for data in transit between the applications and the DB instance</strong></li>
+<li>Amazon RDS creates an <strong>SSL certificate and installs the certificate on the DB instance when RDS provisions the instance</strong>.</li>
+<li>SSL certificates are signed by a certificate authority. SSL certificate includes the DB instance endpoint as the Common Name (CN) for the SSL certificate to guard against spoofing attacks</li>
+<li><strong>While SSL offers security benefits, be aware that SSL encryption is a compute-intensive operation and will increase the latency of the database connection.</strong></li>
+</ul>
+<h3 id="5-5-iam-database-authentication"><strong>5-5 IAM Database Authentication</strong></h3>
+<ul>
+<li>IAM database authentication works with MySQL and PostgreSQL.</li>
+<li>IAM database authentication prevents the need to store static user credentials in the database, because authentication is managed externally using IAM.</li>
+<li>IAM database authentication does not require password, but needs an authentication token</li>
+<li>An authentication token is a unique string of characters that RDS generates on request.</li>
+<li>Authentication tokens are generated using AWS Signature Version 4.</li>
+<li>Each Authentication token has a lifetime of 15 minutes</li>
+<li>IAM database authentication provides the following benefits:<ul>
+<li>Network traffic to and from the database is encrypted using Secure Sockets Layer (SSL).</li>
+<li>helps centrally manage access to the database resources, instead of managing access individually on each DB instance.</li>
+<li>enables using IAM Roles to access the database instead of a password, for greater security.</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-6-rds-security-groups"><strong>5-6 RDS Security Groups</strong></h3>
+<ul>
+<li>Security groups <strong>control the access that traffic has in and out of a DB instance</strong></li>
+<li>VPC security groups act like a firewall controlling network access to your DB instance.</li>
+<li>VPC security groups can be configured and associated with the DB instance to allow access from an IP address range, port, or EC2 security group</li>
+<li><strong>Database security groups default to a “deny all” access mode</strong> and customers must specifically authorize network ingress.</li>
+</ul>
+<h3 id="5-7-rds-rotating-secrets"><strong>5-7 RDS Rotating Secrets</strong></h3>
+<ul>
+<li><strong>RDS supports AWS Secrets Manager to automatically rotate the secret</strong></li>
+<li><strong>Secrets Manager uses a Lambda function Secrets Manager provides.</strong></li>
+<li><strong>Secrets Manager provides following benefits</strong><ul>
+<li><strong>Rotate secrets safely</strong> – rotate secrets automatically without disrupting the applications. Secrets Manager offers built-in integrations for rotating credentials for  RDS databases for MySQL, PostgreSQL, and  Aurora. Secrets Manager can be extended to meet custom rotation requirements by creating an Lambda function to rotate other types of secrets</li>
+<li><strong>Manage secrets centrally</strong> – to store, view, and manage all the secrets.</li>
+<li><strong>Security</strong> – By default, Secrets Manager encrypts these secrets with encryption keys that you own and control. <strong>Using fine-grained IAM policies, access to secrets can be controlled</strong></li>
+<li><strong>Monitor and audit easily</strong> – Secrets Manager integrates with AWS logging and monitoring services to enable meet your security and compliance requirements.</li>
+<li><strong>Pay as you go</strong> – Pay for the secrets stored and for the use of these secrets; there are no long-term contracts or licensing fees.</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-8-master-user-account-privileges"><strong>5-8 Master User Account Privileges</strong></h3>
+<ul>
+<li>When you create a new DB instance, the default master user that used gets certain privileges for that DB instance</li>
+<li>Subsequently, other users with permissions can be created</li>
+</ul>
+<h3 id="5-9-event-notification"><strong>5-9 Event Notification</strong></h3>
+<ul>
+<li>Event notifications can be configured for important events that occur on the DB instance</li>
+<li>Notifications of a variety of important events that can occur on the RDS instance, such as whether the instance was shut down, a backup was started, a failover occurred, the security group was changed, or your storage space is low can be received</li>
+</ul>
+<h3 id="5-10-rds-encrypted-db-instances-limitations"><strong>5-10 RDS Encrypted DB Instances Limitations</strong></h3>
+<ul>
+<li><strong>Encryption can be enabled only during creation of an RDS DB instance</strong></li>
+<li>For migrating and unencrypted data –<ul>
+<li><strong>Encrypt a copy of an unencrypted DB snapshot</strong>,</li>
+<li><strong>Create an encrypted copy of that snapshot</strong>.</li>
+<li><strong>Restore a DB instance from the encrypted snapshot</strong></li>
+</ul>
+</li>
+<li>DB instances that are encrypted can’t be modified to disable encryption.</li>
+<li>Unencrypted DB instance or an unencrypted read replica of an encrypted DB instance can’t have an encrypted read replica</li>
+<li>Encrypted read replicas must be encrypted with the same CMK as the source DB instance when both are in the same AWS Region.</li>
+<li>Unencrypted backup or snapshot can’t be restored to an encrypted DB instance.</li>
+</ul>
+<h3 id="5-11-qas"><strong>5-11 QAs</strong></h3>
+<ol>
+<li>Can I encrypt connections between my application and my DB Instance using SSL?<ul>
+<li>No</li>
+<li><strong>Yes</strong></li>
+<li>Only in VPC</li>
+<li>Only in certain regions</li>
+</ul>
+</li>
+<li>Which of these configuration or deployment practices is a security risk for RDS?
+Storing SQL function code in plaintext<ul>
+<li>Non-Multi-AZ RDS instance</li>
+<li>Having RDS and EC2 instances exist in the same subnet</li>
+<li><strong>RDS in a public subnet</strong> (Making RDS accessible to the public internet in a public subnet poses a security risk, by making your database directly addressable and spammable. DB instances deployed within a VPC can be configured to be accessible from the Internet or from EC2 instances outside the VPC. If a VPC security group specifies a port access such as TCP port 22, you would not be able to access the DB instance because the firewall for the DB instance provides access only via the IP addresses specified by the DB security groups the instance is a member of and the port defined when the DB instance was created.)</li>
+</ul>
+</li>
+</ol>
+<h2 id="6-aws-rds-db-maintenance-upgrades"><strong>6 AWS RDS DB Maintenance &amp; Upgrades</strong></h2>
+<h3 id="6-1-rds-db-instance-maintenance-and-upgrades"><strong>6-1 RDS DB Instance Maintenance and Upgrades</strong></h3>
+<p><strong>Changes to a DB instance can occur when a DB instance is manually modified for e.g. DB engine version is upgraded, or when Amazon RDS performs maintenance on an instance</strong></p>
+<h3 id="6-2-amazon-rds-maintenance"><strong>6-2 Amazon RDS Maintenance</strong></h3>
+<ul>
+<li>Periodically, Amazon RDS performs maintenance on Amazon RDS resources, such as DB instances and most often involves updates to the DB instance’s operating system (OS).</li>
+<li>Maintenance items can either<ul>
+<li>be applied manually on a DB instance at ones convenience</li>
+<li>or wait for the automatic maintenance process initiated by Amazon RDS during the defined weekly maintenance window.</li>
+</ul>
+</li>
+<li>Maintenance window only determines when pending operations start, but does not limit the total execution time of these operations. Maintenance operations are not guaranteed to finish before the maintenance window ends, and can continue beyond the specified end time.</li>
+<li>Maintenance update availability can be checked both on the RDS console and by using the RDS API. And if an update is available, one can<ul>
+<li>Defer the maintenance items.</li>
+<li>Apply the maintenance items immediately.</li>
+<li>Schedule them to start during the next defined maintenance window</li>
+</ul>
+</li>
+<li>
+<p><strong>Maintenance items marked as</strong></p>
+<ul>
+<li><strong>Required cannot be deferred indefinitely</strong>, if deferred AWS will send a notify the time when the update will be performed next</li>
+<li><strong>Available and can be deferred indefinitely and the update will not be applied to the DB instance.</strong></li>
+</ul>
+</li>
+<li>
+<p><strong><mark>Required patching is automatically scheduled only for patches that are related to security and instance reliability</mark></strong>. Such patching occurs infrequently (typically once every few months) and seldom requires more than a fraction of your maintenance window.</p>
+</li>
+<li>Maintenance items require that RDS take your DB instance offline for a short time. Maintenance that requires DB instance to be offline include scale compute operations, which generally take only a few minutes from start to finish, and required operating system or database patching.</li>
+<li>
+<p><strong><mark>Multi-AZ deployment for the DB instance reduces the impact of a maintenance event by following these steps: </mark></strong>*</p>
+<ul>
+<li><strong>Perform maintenance on the standby</strong>.</li>
+<li><strong>Promote the standby to primary</strong>.</li>
+<li><strong>Perform maintenance on the old primary, which becomes the new standby</strong>.</li>
+</ul>
+</li>
+<li>
+<p>When database engine for the DB instance is modified in a Multi-AZ deployment, RDS upgrades both the primary and secondary DB instances at the same time. In this case, the database engine for the entire Multi-AZ deployment is shut down during the upgrade.</p>
+</li>
+</ul>
+<h3 id="6-3-operating-system-updates"><strong>6-3 Operating System Updates</strong></h3>
+<ul>
+<li>Upgrades to the operating system are most often for security issues and should be done as soon as possible.</li>
+<li>OS updates on a DB instance can be applied at ones convenience or can wait for the maintenance process initiated by RDS to apply the update during the defined maintenance window</li>
+<li>DB instance is not automatically backed up when an OS update is applied, and should be backup up before the update is applied</li>
+</ul>
+<h3 id="6-4-database-engine-version-upgrade"><strong>6-4 Database Engine Version Upgrade</strong></h3>
+<ul>
+<li>DB instance engine version can be upgraded when a new DB engine version is supported by RDS.</li>
+<li>
+<p>Database version upgrades consist of major and minor version upgrades.</p>
+<ul>
+<li>
+<p><strong>Major database version upgrades</strong></p>
+<ul>
+<li>can contain changes that are not backward-compatible</li>
+<li><strong>RDS doesn’t apply major version upgrades automatically</strong></li>
+<li><strong>DB instance should be manually modified and thoroughly tested before applying it to the production instances.</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Minor version upgrades</strong></p>
+<ul>
+<li>Each DB engine handles minor version upgrade slightly differently
+for e.g. RDS automatically apply minor version upgrades to a DB instance running PostgreSQL, but must be manually applied to a DB instance running Oracle.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Amazon posts an announcement to the forums announcement page and sends a customer e-mail notification before upgrading an DB instance</p>
+</li>
+<li>Amazon schedule the upgrades at specific times through the year, to help plan around them, because downtime is required to upgrade a DB engine version, even for Multi-AZ instances.</li>
+<li>
+<p><strong>RDS takes two DB snapshots during the upgrade process</strong>.</p>
+<ul>
+<li><strong>First DB snapshot is of the DB instance before any upgrade changes have been made.</strong> If the upgrade fails, it can be restored from the snapshot to create a DB instance running the old version.</li>
+<li><strong>Second DB snapshot is taken when the upgrade completes.</strong> After the upgrade is complete, database engine can’t be reverted to the previous version. For returning to the previous version, restore the first DB snapshot taken to create a new DB instance.</li>
+</ul>
+</li>
+<li>
+<p>If the DB instance is using read replication, all of the Read Replicas must be upgraded before upgrading the source instance.</p>
+</li>
+<li>If the DB instance is in a Multi-AZ deployment, both the primary and standby replicas are upgraded at the same time and would result in an outage. The time for the outage varies based on your database engine, version, and the size of your DB instance.</li>
+</ul>
+<h3 id="6-5-rds-maintenance-window"><strong>6-5 RDS Maintenance Window</strong></h3>
+<ul>
+<li>Every DB instance has a weekly maintenance window defined during which any system changes are applied.</li>
+<li>Maintenance window is an opportunity to control when DB instance modifications and software patching occur, in the event either are requested or required.</li>
+<li>If a maintenance event is scheduled for a given week, it will be initiated during the 30 minute maintenance window as defined</li>
+<li>Maintenance events mostly complete during the 30 minute maintenance window, although larger maintenance events may take more time</li>
+<li>30-minute maintenance window is selected at random from an 8-hour block of time per region. If you don’t specify a preferred maintenance window when you create the DB instance, Amazon RDS assigns a 30-minute maintenance window on a randomly selected day of the week.</li>
+<li>RDS will consume some of the resources on the DB instance while maintenance is being applied, minimally effecting performance.</li>
+<li>For some maintenance events, a Multi-AZ failover may be required for a maintenance update to complete.</li>
+</ul>
+<h3 id="6-6-aws-rds-db-maintenance-upgrades-qas"><strong>6-6 AWS RDS DB Maintenance &amp; Upgrades QAs</strong></h3>
+<ol>
+<li>A user has launched an RDS MySQL DB with the Multi AZ feature. The user has scheduled the scaling of instance storage during maintenance window. What is the correct order of events during maintenance window? 1. Perform maintenance on standby 2. Promote standby to primary 3. Perform maintenance on original primary 4. Promote original master back as primary<ul>
+<li>1, 2, 3, 4</li>
+<li><strong>1, 2, 3</strong></li>
+<li>2, 3, 4, 1</li>
+</ul>
+</li>
+<li>Can I control if and when MySQL based RDS Instance is upgraded to new supported versions?<ul>
+<li>No</li>
+<li>Only in VPC</li>
+<li><strong>Yes</strong></li>
+</ul>
+</li>
+<li>A user has scheduled the maintenance window of an RDS DB on Monday at 3 AM. Which of the below mentioned events may force to take the DB instance offline during the maintenance window?<ul>
+<li>Enabling Read Replica</li>
+<li>Making the DB Multi AZ</li>
+<li>DB password change</li>
+<li><strong>Security patching</strong></li>
+</ul>
+</li>
+<li>A user has launched an RDS postgreSQL DB with AWS. The user did not specify the maintenance window during creation. The user has configured RDS to update the DB instance type from micro to large. If the user wants to have it during the maintenance window, what will AWS do?<ul>
+<li>AWS will not allow to update the DB until the maintenance window is configured</li>
+<li><strong>AWS will select the default maintenance window if the user has not provided it</strong></li>
+<li>AWS will ask the user to specify the maintenance window during the update</li>
+<li>It is not possible to change the DB size from micro to large with RDS</li>
+</ul>
+</li>
+<li>Can I test my DB Instance against a new version before upgrading?<ul>
+<li>No</li>
+<li><strong>Yes</strong></li>
+<li>Only in VPC</li>
+</ul>
+</li>
+</ol>
+<h2 id="7-aws-rds-monitoring-notification"><strong>7 AWS RDS Monitoring &amp; Notification</strong></h2>
+<h3 id="7-1-aws-rds-monitoring-notification"><strong>7-1 AWS RDS Monitoring &amp; Notification</strong></h3>
+<ul>
+<li>RDS integrates with CloudWatch and provides metrics for monitoring</li>
+<li>CloudWatch alarms can be created over a single metric that sends an SNS message when the alarm changes state</li>
+<li>RDS also provides SNS notification whenever any RDS event occurs</li>
+</ul>
+<h3 id="7-2-rds-cloudwatch-monitoring"><strong>7-2 RDS CloudWatch Monitoring</strong></h3>
+<ul>
+<li>RDS DB instance can be monitored using CloudWatch, which collects and processes raw data from RDS into readable, near real-time metrics.</li>
+<li>Statistics are recorded for a period of two weeks, so that you can access historical information and gain a better perspective on how the service is performing.</li>
+<li>By default, RDS metric data is automatically sent to CloudWatch in 1-minute periods</li>
+<li>CloudWatch RDS Metrics<ul>
+<li>BinLogDiskUsage – Amount of disk space occupied by binary logs on the master. Applies to MySQL read replicas.</li>
+<li>CPUUtilization – Percentage of CPU utilization.</li>
+<li>DatabaseConnections – Number of database connections in use.</li>
+<li>DiskQueueDepth – The number of outstanding IOs (read/write requests) waiting to access the disk.</li>
+<li>FreeableMemory – Amount of available random access memory.</li>
+<li>FreeStorageSpace – Amount of available storage space.</li>
+<li><strong>ReplicaLag</strong> – Amount of time a Read Replica DB instance lags behind the source DB instance.</li>
+<li>SwapUsage – Amount of swap space used on the DB instance.</li>
+<li>ReadIOPS – Average number of disk I/O operations per second.</li>
+<li>WriteIOPS – Average number of disk I/O operations per second.</li>
+<li>ReadLatency – Average amount of time taken per disk I/O operation.</li>
+<li>WriteLatency – Average amount of time taken per disk I/O operation.</li>
+<li>ReadThroughput – Average number of bytes read from disk per second.</li>
+<li>WriteThroughput – Average number of bytes written to disk per second.</li>
+<li>NetworkReceiveThroughput – Incoming (Receive) network traffic on the DB instance, including both customer database traffic and Amazon RDS traffic used for monitoring and replication.</li>
+<li>NetworkTransmitThroughput – Outgoing (Transmit) network traffic on the DB instance, including both customer database traffic and Amazon RDS traffic used for monitoring and replication.</li>
+</ul>
+</li>
+</ul>
+<h3 id="7-3-rds-enhanced-monitoring"><strong>7-3 RDS Enhanced Monitoring</strong></h3>
+<ul>
+<li>RDS provides metrics in real time for the operating system (OS) that the DB instance runs on.</li>
+<li>By default, Enhanced Monitoring metrics are stored for 30 days in the CloudWatch Logs, which are different from typical CloudWatch metrics.</li>
+</ul>
+<h3 id="7-4-cloudwatch-vs-enhanced-monitoring-metrics"><strong>7-4 CloudWatch vs Enhanced Monitoring Metrics</strong></h3>
+<ul>
+<li>CloudWatch gathers metrics about CPU utilization from the hypervisor for a DB instance, and Enhanced Monitoring gathers its metrics from an agent on the instance.</li>
+<li>Enhanced Monitoring metrics are useful to understand how different processes or threads on a DB instance use the CPU.</li>
+<li>There might be differences between the measurements, because the hypervisor layer performs a small amount of work. The differences can be greater if the DB instances use smaller instance classes, because then there are likely more virtual machines (VMs) that are managed by the hypervisor layer on a single physical instance.</li>
+</ul>
+<h3 id="7-5-rds-performance-insights"><strong>7-5 RDS Performance Insights</strong></h3>
+<ul>
+<li>Performance Insights is a database performance tuning and monitoring feature that helps illustrate the database’s performance and help analyze any issues that affect it</li>
+<li>With the Performance Insights dashboard, you can visualize the database load and filter the load by waits, SQL statements, hosts, or users.</li>
+</ul>
+<h3 id="7-6-rds-cloudtrail-logs"><strong>7-6 RDS CloudTrail Logs</strong></h3>
+<ul>
+<li>CloudTrail provides a record of actions taken by a user, role, or an AWS service in RDS.</li>
+<li>CloudTrail captures all API calls for RDS as events, including calls from the console and from code calls to RDS API operations.</li>
+<li>CloudTrail can help determine the request that was made to RDS, the IP address from which the request was made, who made the request, when it was made, and additional details.</li>
+</ul>
+<h3 id="7-7-rds-recommendations"><strong>7-7 RDS Recommendations</strong></h3>
+<ul>
+<li>RDS provides automated recommendations for database resources.</li>
+<li>The recommendations provide best practice guidance by analyzing DB instance configuration, usage, and performance data.</li>
+</ul>
+<h3 id="7-8-rds-event-notification"><strong>7-8 RDS Event Notification</strong></h3>
+<ul>
+<li>RDS uses the SNS to provide notification when an RDS event occurs</li>
+<li>RDS groups the events into categories, which can be subscribed so that a notification is sent when an event in that category occurs.</li>
+<li>Event category for a DB instance, DB cluster, DB snapshot, DB cluster snapshot, DB security group or for a DB parameter group can be subscribed</li>
+<li>Event notifications are sent to the email addresses provided during subscription creation</li>
+<li>Subscription can be easily turn off notification without deleting a subscription by setting the Enabled radio button to No in the RDS console or by setting the Enabled parameter to false using the CLI or RDS API.</li>
+</ul>
+<h3 id="7-9-rds-trusted-advisor"><strong>7-9 RDS Trusted Advisor</strong></h3>
+<ul>
+<li>Trusted Advisor inspects the AWS environment and then makes recommendations when opportunities exist to save money, improve system availability and performance, or help close security gaps.</li>
+<li>Trusted Advisor has the following RDS-related checks:<ul>
+<li>RDS Idle DB Instances</li>
+<li><strong>RDS Security Group Access Risk</strong></li>
+<li>RDS Backups</li>
+<li>RDS Multi-AZ</li>
+</ul>
+</li>
+</ul>
+<h3 id="7-10-aws-rds-monitoring-notification-qas"><strong>7-10 AWS RDS Monitoring &amp; Notification QAs</strong></h3>
+<ol>
+<li>You run a web application with the following components Elastic Load Balancer (ELB), 3 Web/Application servers, 1 MySQL RDS database with read replicas, and Amazon Simple Storage Service (Amazon S3) for static content. Average response time for users is increasing slowly. What three CloudWatch RDS metrics will allow you to identify if the database is the bottleneck? Choose 3 answers<ul>
+<li><strong>The number of outstanding IOs waiting to access the disk</strong></li>
+<li><strong>The amount of write latency</strong></li>
+<li>The amount of disk space occupied by binary logs on the master.</li>
+<li><strong>The amount of time a Read Replica DB Instance lags behind the source DB Instance</strong></li>
+<li>The average number of disk I/O operations per second.</li>
+</ul>
+</li>
+<li>Typically, you want your application to check whether a request generated an error before you spend any time processing results. The easiest way to find out if an error occurred is to look for an <strong><em>_</em></strong>___ node in the response from the Amazon RDS API.<ul>
+<li>Incorrect</li>
+<li><strong>Error</strong></li>
+<li>FALSE</li>
+</ul>
+</li>
+<li>In the Amazon CloudWatch, which metric should I be checking to ensure that your DB Instance has enough free storage space?<ul>
+<li>FreeStorage</li>
+<li><strong>FreeStorageSpace</strong></li>
+<li>FreeStorageVolume</li>
+<li>FreeDBStorageSpace</li>
+</ul>
+</li>
+<li>A user is receiving a notification from the RDS DB whenever there is a change in the DB security group. The user does not want to receive these notifications for only a month. Thus, he does not want to delete the notification. How can the user configure this?<ul>
+<li>Change the Disable button for notification to “Yes” in the RDS console</li>
+<li>Set the send mail flag to false in the DB event notification console</li>
+<li>The only option is to delete the notification from the console</li>
+<li><strong>Change the Enable button for notification to “No” in the RDS console</strong></li>
+</ul>
+</li>
+<li>A sys admin is planning to subscribe to the RDS event notifications. For which of the below mentioned source categories the subscription cannot be configured?<ul>
+<li>DB security group</li>
+<li>DB snapshot</li>
+<li><strong>DB options group</strong></li>
+<li>DB parameter group</li>
+</ul>
+</li>
+<li>A user is planning to setup notifications on the RDS DB for a snapshot. Which of the below mentioned event categories is not supported by RDS for this snapshot source type?<ul>
+<li><strong>Backup</strong></li>
+<li>Creation</li>
+<li>Deletion</li>
+<li>Restoration</li>
+</ul>
+</li>
+<li>A system admin is planning to setup event notifications on RDS. Which of the below mentioned services will help the admin setup notifications?<ul>
+<li>AWS SES</li>
+<li>AWS Cloudtrail</li>
+<li>AWS CloudWatch</li>
+<li><strong>AWS SNS</strong></li>
+</ul>
+</li>
+<li>A user has setup an RDS DB with Oracle. The user wants to get notifications when someone modifies the security group of that DB. How can the user configure that?<ul>
+<li>It is not possible to get the notifications on a change in the security group</li>
+<li>Configure SNS to monitor security group changes</li>
+<li><strong>Configure event notification on the DB security group</strong></li>
+<li>Configure the CloudWatch alarm on the DB for a change in the security group</li>
+</ul>
+</li>
+<li>It is advised that you watch the Amazon CloudWatch “_____” metric (available via the AWS Management Console or Amazon Cloud Watch APIs) carefully and recreate the Read Replica should it fall behind due to replication errors.<ul>
+<li>Write Lag</li>
+<li>Read Replica</li>
+<li><strong>Replica Lag</strong></li>
+<li>Single Replica</li>
+</ul>
+</li>
+</ol>
+<h2 id="8-aws-rds-best-practices"><strong>8 AWS RDS Best Practices</strong></h2>
+<h3 id="8-1-aws-rds-best-practices"><strong>8-1 AWS RDS Best Practices</strong></h3>
+<p><strong>AWS recommends RDS best practices in terms of Monitoring, Performance and security</strong></p>
+<h3 id="8-2-amazon-rds-basic-operational-guidelines"><strong>8-2 Amazon RDS Basic Operational Guidelines</strong></h3>
+<p><strong>Monitoring</strong></p>
+<ul>
+<li><strong>Memory, CPU, and storage usage should be monitored.</strong></li>
+<li>CloudWatch can be setup for notifications when usage patterns change or when the capacity of deployment is approached, so that system performance and availability can be maintained</li>
+</ul>
+<p><strong>Scaling</strong></p>
+<ul>
+<li>Scale up the DB instance when approaching storage capacity limits.</li>
+<li>There should be some buffer in storage and memory to accommodate unforeseen increases in demand from the applications.</li>
+</ul>
+<p><strong>Backups</strong></p>
+<ul>
+<li>Enable Automatic Backups and set the backup window to occur during the daily low in WriteIOPS.</li>
+</ul>
+<p><strong>On a MySQL DB instance</strong>,</p>
+<ul>
+<li>Do not create more than 10,000 tables using Provisioned IOPS or 1000 tables using standard storage. Large numbers of tables will significantly increase database recovery time after a failover or database crash. If you need to create more tables than recommended, set the innodb_file_per_table parameter to 0.</li>
+<li>Avoid tables in the database growing too large. Provisioned storage limits restrict the maximum size of a MySQL table file to 6 TB. Instead, partition the large tables so that file sizes are well under the 6 TB limit. This can also improve performance and recovery time.</li>
+</ul>
+<p><strong>Performance</strong></p>
+<ul>
+<li>If the database workload requires more I/O than provisioned, recovery after a failover or database failure will be slow.</li>
+<li>To increase the I/O capacity of a DB instance,<ul>
+<li>Migrate to a DB instance class with High I/O capacity.</li>
+<li>Convert from standard storage to Provisioned IOPS storage, and use a DB instance class that is optimized for Provisioned IOPS.</li>
+<li>if using Provisioned IOPS storage, provision additional throughput capacity.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Multi-AZ &amp; Failover</strong></p>
+<ul>
+<li><strong>Deploy applications in all Availability Zones, so if an AZ goes down, applications in other AZs will still be available.</strong></li>
+<li><strong>Use Amazon RDS DB events to monitor failovers.</strong></li>
+<li><strong>Set a TTL of less than 30 seconds, if the client application is caching the DNS data of the DB instances.</strong> As the underlying IP address of a DB instance can change after a failover, caching the DNS data for an extended time can lead to connection failures if the application tries to connect to an IP address that no longer is in service.</li>
+<li><strong>Multi-AZ requires transaction logging feature to be enabled. Do not use features like Simple recover mode, offline mode or Read-only mode which turn of transaction logging.</strong></li>
+<li>To shorten failover time<ul>
+<li>Ensure that sufficient Provisioned IOPS allocated for your workload. Inadequate I/O can lengthen failover times. Database recovery requires I/O.</li>
+<li>Use smaller transactions. Database recovery relies on transactions, so break up large transactions into multiple smaller transactions to shorten failover time</li>
+</ul>
+</li>
+<li>Test failover for your DB instance to understand how long the process takes for your use case and to ensure that the application that accesses your DB instance can automatically connect to the new DB instance after failover.</li>
+</ul>
+<h3 id="8-3-db-instance-ram-recommendations"><strong>8-3 DB Instance RAM Recommendations</strong></h3>
+<ul>
+<li>An Amazon RDS performance best practice is to allocate enough RAM so that the working set resides almost completely in memory.</li>
+<li>Value of ReadIOPS should be small and stable.</li>
+<li>ReadIOPS metric can be checked, using AWS CloudWatch while the DB instance is under load, to tell if the working set is almost all in memory</li>
+<li>If scaling up the DB instance class with more RAM, results in a dramatic drop in ReadIOPS, the working set was not almost completely in memory.</li>
+<li>Continue to scale up until ReadIOPS no longer drops dramatically after a scaling operation, or ReadIOPS is reduced to a very small amount.</li>
+</ul>
+<h3 id="8-4-rds-security-best-practices"><strong>8-4 RDS Security Best Practices</strong></h3>
+<ul>
+<li>Do not use AWS root credentials to manage Amazon RDS resources; and IAM users should be created for everyone,</li>
+<li><strong>Grant each user the minimum set of permissions required to perform his or her duties.</strong></li>
+<li>Use IAM groups to effectively manage permissions for multiple users.</li>
+<li><strong>Rotate your IAM credentials regularly</strong>.</li>
+</ul>
+<h3 id="8-5-using-enhanced-monitoring-to-identify-operating-system-issues"><strong>8-5 Using Enhanced Monitoring to Identify Operating System Issues</strong></h3>
+<ul>
+<li>Amazon RDS provides metrics in real time for the operating system (OS) that your DB instance runs on.</li>
+<li>Enhanced monitoring is available for all DB instance classes except for db.t1.micro and db.m1.small.</li>
+<li>Using Metrics to Identify Performance Issues</li>
+<li>To identify performance issues caused by insufficient resources and other common bottlenecks, you can monitor the metrics available for your Amazon RDS DB instance</li>
+<li>Performance metrics should be monitored on a regular basis to benchmark  the average, maximum, and minimum values for a variety of time ranges. to help identify performance degradation.</li>
+<li>Amazon CloudWatch alarms can be set for particular metric thresholds to be alerted when they are reached or breached</li>
+<li>A DB instance has a number of different categories of metrics which includes CPU, memory, disk space, IOPS, db connections and network traffic, and how to determine acceptable values depends on the metric.</li>
+<li>One of the best ways to improve DB instance performance is to tune the most commonly used and most resource-intensive queries to make them less expensive to run.</li>
+</ul>
+<h3 id="8-6-recovery"><strong>8-6 Recovery</strong></h3>
+<p><strong>MySQL</strong></p>
+<ul>
+<li>InnoDB is the recommended and supported storage engine for MySQL DB instances on Amazon RDS.</li>
+<li>However, MyISAM performs better than InnoDB if you require intense, full-text search capability.</li>
+<li>Point-In-Time Restore and snapshot restore features of Amazon RDS for MySQL require a crash-recoverable storage engine and are supported for the InnoDB storage engine only.</li>
+<li>Although MySQL supports multiple storage engines with varying capabilities, not all of them are optimized for crash recovery and data durability.</li>
+<li>MyISAM storage engine does not support reliable crash recovery and might prevent a Point-In-Time Restore or snapshot restore from working as intended which might result in lost or corrupt data when MySQL is restarted after a crash.</li>
+</ul>
+<p><strong>MariaDB</strong></p>
+<ul>
+<li>XtraDB is the recommended and supported storage engine for MariaDB DB instances on Amazon RDS.</li>
+<li>Point-In-Time Restore and snapshot restore features of Amazon RDS for MariaDB require a crash-recoverable storage engine and are supported for the XtraDB storage engine only.</li>
+<li>Although MariaDB supports multiple storage engines with varying capabilities, not all of them are optimized for crash recovery</li>
+<li>and data durability.</li>
+<li>For e.g although Aria is a crash-safe replacement for MyISAM, it might still prevent a Point-In-Time Restore or snapshot restore from working as intended. This might result in lost or corrupt data when MariaDB is restarted after a crash.</li>
+</ul>
+<h3 id="8-7-qas"><strong>8-7 QAs</strong></h3>
+<ol>
+<li>You are running a database on an EC2 instance, with the data stored on Elastic Block Store (EBS) for persistence At times throughout the day, you are seeing large variance in the response times of the database queries Looking into the instance with the isolate command you see a lot of wait time on the disk volume that the database’s data is stored on. What two ways can you improve the performance of the database’s storage while maintaining the current persistence of the data? Choose 2 answers<ul>
+<li>Move to an SSD backed instance</li>
+<li><strong>Move the database to an EBS-Optimized Instance</strong></li>
+<li>Use Provisioned IOPs EBS</li>
+<li>Use the ephemeral storage on an m2.4xLarge Instance Instead</li>
+</ul>
+</li>
+<li>Amazon RDS automated backups and DB Snapshots are currently supported for only the <strong><em>_</em></strong>___ storage engine<ul>
+<li><strong>InnoDB</strong></li>
+<li>MyISAM</li>
+</ul>
+</li>
+</ol>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="页脚">
+      
+        
+        <a href="../../chap4/1AWS_IAM/" class="md-footer__link md-footer__link--prev" aria-label="上一页: L1 AWS Identity Access Management – IAM(unfinished)" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              L1 AWS Identity Access Management – IAM(unfinished)
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../2DynamoDB/" class="md-footer__link md-footer__link--next" aria-label="下一页: L2 AWS DynamoDB(unfinished)" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              L2 AWS DynamoDB(unfinished)
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "search": "../../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.467223ff.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1630 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's AWS Certification Solutions Architect Tutorial">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+        <link rel="canonical" href="https://chao-xi.github.io/jxawscsaabook/chap2/5CS_cs/">
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.5">
+    
+    
+      
+        <title>L5 AWS Compute Services Cheat Sheet - Jacob AWS Certification Solutions Architect Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2d9f7617.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ffa724">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="orange" data-md-color-accent="orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#l5-aws-compute-services-cheat-sheet" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AWS Certification Solutions Architect Book" class="md-header__button md-logo" aria-label="Jacob AWS Certification Solutions Architect Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AWS Certification Solutions Architect Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              L5 AWS Compute Services Cheat Sheet
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxawscsaabook.git/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscsaabook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AWS Certification Solutions Architect Book" class="md-nav__button md-logo" aria-label="Jacob AWS Certification Solutions Architect Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AWS Certification Solutions Architect Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxawscsaabook.git/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscsaabook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Chap1 Exam-Intro
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap1 Exam-Intro" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Chap1 Exam-Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/1Exam_Guide/" class="md-nav__link">
+        L1 SAA-C02 Exam Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/2Learning_path/" class="md-nav__link">
+        L2 Associate SAA-C02 Exam Topics
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Chap2 Services Cheat Sheet
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap2 Services Cheat Sheet" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Chap2 Services Cheat Sheet
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1best_prac/" class="md-nav__link">
+        L1 AWS Best Practices
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2s3_cs/" class="md-nav__link">
+        L2 AWS Storage & Content Delivery Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3IS_cs/" class="md-nav__link">
+        L3 AWS Security & Identity Service Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4Ns_cs/" class="md-nav__link">
+        L4 AWS Networking Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          L5 AWS Compute Services Cheat Sheet
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        L5 AWS Compute Services Cheat Sheet
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-elastic-cloud-compute-ec2" class="md-nav__link">
+    1 Elastic Cloud Compute – EC2
+  </a>
+  
+    <nav class="md-nav" aria-label="1 Elastic Cloud Compute – EC2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-features" class="md-nav__link">
+    1-1 Features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-amazon-machine-image-ami" class="md-nav__link">
+    1-2 Amazon Machine Image – AMI
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-instance-types" class="md-nav__link">
+    1-3 Instance Types
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-instance-purchasing-option" class="md-nav__link">
+    2 Instance Purchasing Option
+  </a>
+  
+    <nav class="md-nav" aria-label="2 Instance Purchasing Option">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-on-demand-instances" class="md-nav__link">
+    2-1 On-Demand Instances
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-reserved-instances" class="md-nav__link">
+    2-2 Reserved Instances
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-3-scheduled-reserved-instances" class="md-nav__link">
+    2-3 Scheduled Reserved Instances
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-4-spot-instances" class="md-nav__link">
+    2-4 Spot Instances
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-5-dedicated-instances" class="md-nav__link">
+    2-5 Dedicated Instances
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-6-dedicated-host" class="md-nav__link">
+    2-6 Dedicated Host
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-enhanced-networking" class="md-nav__link">
+    3 Enhanced Networking
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-placement-group" class="md-nav__link">
+    4 Placement Group
+  </a>
+  
+    <nav class="md-nav" aria-label="4 Placement Group">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-cluster-placement-group" class="md-nav__link">
+    4-1 Cluster Placement Group
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-3-spread-placement-groups" class="md-nav__link">
+    4-3 Spread Placement Groups
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-4-partition-placement-groups" class="md-nav__link">
+    4-4 Partition Placement Groups
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-ec2-monitoring" class="md-nav__link">
+    5 EC2 Monitoring
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-elastic-load-balancer" class="md-nav__link">
+    6 Elastic Load Balancer
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-application-load-balancer" class="md-nav__link">
+    7 Application Load Balancer
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-network-load-balancer" class="md-nav__link">
+    8 Network Load Balancer
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-auto-scaling" class="md-nav__link">
+    9 Auto Scaling
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-aws-auto-scaling-elb" class="md-nav__link">
+    10 AWS Auto Scaling &amp; ELB
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6DS_cs/" class="md-nav__link">
+        L6 AWS Database Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7AS_cs/" class="md-nav__link">
+        L7 AWS Analytics Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8AS_cs/" class="md-nav__link">
+        L8 AWS Application Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9MT_cs/" class="md-nav__link">
+        L9 AWS Management Tools Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10EXAM_cs/" class="md-nav__link">
+        L10 AWS Certification Exam Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Chap3 Networking Exam Topics
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap3 Networking Exam Topics" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Chap3 Networking Exam Topics
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/1vpc/" class="md-nav__link">
+        L1 AWS Virtual Private Cloud – VPC
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/2bastion/" class="md-nav__link">
+        L2 AWS Bastion Host
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/3direct_connect/" class="md-nav__link">
+        L3 AWS Direct Connect – DX
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/4ELB/" class="md-nav__link">
+        L4 AWS Elastic Load Balancer – ELB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/5ALB/" class="md-nav__link">
+        L5 AWS Application Load Balancer – ALB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/6NLB/" class="md-nav__link">
+        L6 AWS Network Load Balancer – NLB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/7EAN_LB/" class="md-nav__link">
+        L7 AWS Classic Load Balancer vs Application Load Balancer vs Network Load Balancer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8elb_mon/" class="md-nav__link">
+        L8 AWS ELB Monitoring
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/9route53/" class="md-nav__link">
+        L9 AWS Certification – Route 53 Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/10route53_policy/" class="md-nav__link">
+        L10 AWS Route 53 Routing Policy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/11route53_resolver/" class="md-nav__link">
+        L11 AWS Route 53 Resolver
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/12api_gateway/" class="md-nav__link">
+        L12 AWS API Gateway
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/13cloudfront/" class="md-nav__link">
+        L13 AWS CloudFront
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/14direct_connect/" class="md-nav__link">
+        L14 AWS Direct Connect – DX
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          chap4 AWS Security, Identity & Compliance
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="chap4 AWS Security, Identity & Compliance" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          chap4 AWS Security, Identity & Compliance
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/1AWS_IAM/" class="md-nav__link">
+        L1 AWS Identity Access Management – IAM(unfinished)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          chap7 AWS Database Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="chap7 AWS Database Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          chap7 AWS Database Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/1rds/" class="md-nav__link">
+        L1 AWS RDS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/2DynamoDB/" class="md-nav__link">
+        L2 AWS DynamoDB(unfinished)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Chap10 AWS Migration & Transfer Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap10 AWS Migration & Transfer Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Chap10 AWS Migration & Transfer Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/1aws_cms/" class="md-nav__link">
+        L1 AWS Cloud Migration Services
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/2AWS_IE/" class="md-nav__link">
+        L2 AWS Import/Export
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/3AWS_DTS/" class="md-nav__link">
+        L3 AWS Data Transfer Services
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8">
+          Chap11 AWS Analytics Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap11 AWS Analytics Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Chap11 AWS Analytics Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/4Elasticsearch/" class="md-nav__link">
+        L4 AWS Elasticsearch
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-elastic-cloud-compute-ec2" class="md-nav__link">
+    1 Elastic Cloud Compute – EC2
+  </a>
+  
+    <nav class="md-nav" aria-label="1 Elastic Cloud Compute – EC2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-features" class="md-nav__link">
+    1-1 Features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-amazon-machine-image-ami" class="md-nav__link">
+    1-2 Amazon Machine Image – AMI
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-instance-types" class="md-nav__link">
+    1-3 Instance Types
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-instance-purchasing-option" class="md-nav__link">
+    2 Instance Purchasing Option
+  </a>
+  
+    <nav class="md-nav" aria-label="2 Instance Purchasing Option">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-on-demand-instances" class="md-nav__link">
+    2-1 On-Demand Instances
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-reserved-instances" class="md-nav__link">
+    2-2 Reserved Instances
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-3-scheduled-reserved-instances" class="md-nav__link">
+    2-3 Scheduled Reserved Instances
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-4-spot-instances" class="md-nav__link">
+    2-4 Spot Instances
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-5-dedicated-instances" class="md-nav__link">
+    2-5 Dedicated Instances
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-6-dedicated-host" class="md-nav__link">
+    2-6 Dedicated Host
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-enhanced-networking" class="md-nav__link">
+    3 Enhanced Networking
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-placement-group" class="md-nav__link">
+    4 Placement Group
+  </a>
+  
+    <nav class="md-nav" aria-label="4 Placement Group">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-cluster-placement-group" class="md-nav__link">
+    4-1 Cluster Placement Group
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-3-spread-placement-groups" class="md-nav__link">
+    4-3 Spread Placement Groups
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-4-partition-placement-groups" class="md-nav__link">
+    4-4 Partition Placement Groups
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-ec2-monitoring" class="md-nav__link">
+    5 EC2 Monitoring
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-elastic-load-balancer" class="md-nav__link">
+    6 Elastic Load Balancer
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-application-load-balancer" class="md-nav__link">
+    7 Application Load Balancer
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-network-load-balancer" class="md-nav__link">
+    8 Network Load Balancer
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-auto-scaling" class="md-nav__link">
+    9 Auto Scaling
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-aws-auto-scaling-elb" class="md-nav__link">
+    10 AWS Auto Scaling &amp; ELB
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+<a href="https://github.com/Chao-Xi/jxawscsaabook.git/edit/master/docs/chap2/5CS_cs.md" title="编辑此页" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
+
+
+
+<h1 id="l5-aws-compute-services-cheat-sheet"><strong>L5 AWS Compute Services Cheat Sheet</strong></h1>
+<h2 id="1-elastic-cloud-compute-ec2"><strong>1 Elastic Cloud Compute – EC2</strong></h2>
+<p>provides <strong>scalable computing capacity</strong></p>
+<h3 id="1-1-features"><strong>1-1 Features</strong></h3>
+<ul>
+<li>Virtual computing environments, known as <strong>EC2 instances</strong></li>
+<li>Preconfigured templates for EC2 instances, known as <strong>Amazon Machine Images (AMIs)</strong>, that package the bits needed for the server (including the operating system and additional software)</li>
+<li>Various configurations of CPU, memory, storage, and networking capacity for your instances, known as <strong>Instance types</strong></li>
+<li>Secure login information for your instances using key pairs (public-private keys where private is kept by user)</li>
+<li>Storage volumes for temporary data that’s deleted when you stop or terminate your instance, known as Instance store volumes</li>
+<li>Persistent storage volumes for data using <strong>Elastic Block Store (EBS)</strong></li>
+<li>Multiple physical locations for your resources, such as instances and EBS volumes, known as <strong>Regions and Availability Zones</strong></li>
+<li>A firewall to specify the protocols, ports, and source IP ranges that can reach your instances using <strong>Security Groups</strong></li>
+<li>Static IP addresses, known as <strong>Elastic IP addresses</strong></li>
+<li>Metadata, known as <strong>tags</strong>, can be created and assigned to EC2 resources</li>
+<li>Virtual networks that are logically isolated from the rest of the AWS cloud, and can optionally connect to on-premises network, known as <strong>Virtual private clouds (VPCs)</strong></li>
+</ul>
+<h3 id="1-2-amazon-machine-image-ami"><strong>1-2 Amazon Machine Image – AMI</strong></h3>
+<ul>
+<li><strong>template</strong> from which EC2 instances can be launched quickly</li>
+<li><strong>does NOT span across regions</strong>, and needs to be copied</li>
+<li><strong>can be shared with other specific AWS accounts or made public</strong></li>
+</ul>
+<h3 id="1-3-instance-types"><strong>1-3 Instance Types</strong></h3>
+<ul>
+<li><strong>T</strong> for applications needing <strong>general</strong> usage<ul>
+<li>T2 instances are <strong>Burstable Performance Instances</strong> that provide a baseline level of CPU performance with the ability to burst above the baseline.</li>
+<li>T2 instances accumulate <strong>CPU Credits when they are idle, and consume CPU Credits when they are active.</strong></li>
+<li>T2 <strong>Unlimited Instances can sustain high CPU performance</strong> for as long as a workload needs it at an additional cost.</li>
+</ul>
+</li>
+<li><strong>R</strong> for applications needing more <strong>RAM or Memory</strong></li>
+<li><strong>C</strong> for applications needing more <strong>Compute</strong></li>
+<li><strong>M</strong> for applications needing more <strong>Medium or Moderate</strong> performance on both Memory and CPU</li>
+<li><strong>I</strong> for applications needing more <strong>IOPS</strong></li>
+<li><strong>G</strong> for applications needing more <strong>GPU</strong></li>
+</ul>
+<h2 id="2-instance-purchasing-option"><strong>2 Instance Purchasing Option</strong></h2>
+<h3 id="2-1-on-demand-instances"><strong>2-1 On-Demand Instances</strong></h3>
+<ul>
+<li>pay for instances and compute capacity that you use by the hour</li>
+<li>no long-term commitments or up-front payments</li>
+</ul>
+<h3 id="2-2-reserved-instances"><strong>2-2 Reserved Instances</strong></h3>
+<ul>
+<li>provides lower hourly running costs by providing a billing discount</li>
+<li>capacity reservation is applied to instances</li>
+<li>suited if consistent, heavy, predictable usage</li>
+<li>provides benefits with Consolidate Billing</li>
+<li><strong>can be modified to switch Availability Zones or the instance size within the same instance type, given the instance size footprint (Normalization factor) remains the same</strong></li>
+<li>pay for the entire term regardless of the usage</li>
+<li>is not a physical instance that is launched, but rather a billing discount applied to the use of On-Demand Instances</li>
+</ul>
+<h3 id="2-3-scheduled-reserved-instances"><strong>2-3 Scheduled Reserved Instances</strong></h3>
+<ul>
+<li>enable capacity reservations purchase that recurs on a daily, weekly, or monthly basis, with a specified start time and duration, for a one-year term.</li>
+<li>enable capacity reservations purchase that recurs on a daily, weekly, or monthly basis, with a specified start time and duration, for a one-year term.</li>
+<li>good choice for workloads that do not run continuously, but do run on a regular schedule</li>
+</ul>
+<h3 id="2-4-spot-instances"><strong>2-4 Spot Instances</strong></h3>
+<ul>
+<li><strong>cost-effective choice but does NOT guarantee availability</strong></li>
+<li>applications flexible in the timing when they can run and also able to handle interruption by storing the state externally</li>
+<li><strong>provides a two-minute warning if the instance is to be terminated to save any unsaved work</strong></li>
+<li>Spot blocks can also be launched with a required duration, which are not interrupted due to changes in the Spot price</li>
+<li>Spot Fleet is a collection, or fleet, of Spot Instances, and optionally On-Demand Instances, which attempts to launch the number of Spot and On-Demand Instances to meet the specified target capacity</li>
+</ul>
+<h3 id="2-5-dedicated-instances"><strong>2-5 Dedicated Instances</strong></h3>
+<p>is a tenancy option that enables instances to run in VPC on <strong>hardware that’s isolated, dedicated to a single customer</strong></p>
+<h3 id="2-6-dedicated-host"><strong>2-6 Dedicated Host</strong></h3>
+<p>is a physical server with EC2 instance capacity fully dedicated to your use</p>
+<p>Light, Medium, and Heavy Utilization Reserved Instances are no longer available for purchase and were part of the Previous Generation AWS EC2 purchasing model</p>
+<h2 id="3-enhanced-networking"><strong>3 Enhanced Networking</strong></h2>
+<ul>
+<li>results in higher bandwidth, higher packet per second (PPS) performance, lower latency, consistency, scalability, and lower jitter</li>
+<li><strong>supported using Single Root – I/O Virtualization (SR-IOV) only on supported instance types</strong></li>
+<li><strong>is supported only with a VPC (not EC2 Classic), HVM virtualization type and available by default on Amazon AMI</strong> but can be installed on other AMIs as well</li>
+</ul>
+<h2 id="4-placement-group"><strong>4 Placement Group</strong></h2>
+<h3 id="4-1-cluster-placement-group"><strong>4-1 Cluster Placement Group</strong></h3>
+<ul>
+<li>provide low latency, High-Performance Computing <strong>via 10Gbps network</strong></li>
+<li><strong>is a logical grouping on instances within a Single AZ</strong></li>
+<li>don’t span availability zones, can span multiple subnets but subnets must be in the same AZ</li>
+<li>can span across peered VPCs for the same Availability Zones</li>
+<li><mark><strong>An existing instance can be moved to a placement group</strong>, or moved from one placement group to another, or removed from a placement group, given it is in the stopped state.</mark></li>
+<li>for capacity errors, stop and start the instances in the placement group</li>
+<li>use homogenous instance types which support enhanced networking and launch all the instances at once</li>
+</ul>
+<h3 id="4-3-spread-placement-groups"><strong>4-3 Spread Placement Groups</strong></h3>
+<ul>
+<li>is a group of instances that are each placed on <strong>distinct underlying hardware i.e. each instance on a distinct rack across AZ</strong></li>
+<li>recommended for applications that have a small number of critical instances that should be <strong>kept separate from each othe</strong>r.</li>
+<li><strong>reduces the risk of simultaneous failures that might occur</strong> when instances share the same underlying hardware.</li>
+</ul>
+<h3 id="4-4-partition-placement-groups"><strong>4-4 Partition Placement Groups</strong></h3>
+<ul>
+<li>is a group of instances spread across partitions i.e. <strong>group of instances spread across racks across AZs</strong></li>
+<li>reduces the likelihood of correlated hardware failures for the application.</li>
+<li>can be used to spread deployment of large distributed and replicated workloads, such as HDFS, HBase, and Cassandra, across distinct hardware</li>
+</ul>
+<h2 id="5-ec2-monitoring"><strong>5 EC2 Monitoring</strong></h2>
+<ul>
+<li>CloudWatch provides monitoring for EC2 instances</li>
+<li>Status monitoring helps quickly determine whether EC2 has detected any problems that might prevent instances from running applications.</li>
+<li>Status monitoring includes<ul>
+<li>System Status checks – indicate issues with the underlying hardware</li>
+<li>Instance Status checks – indicate issues with the underlying instance.</li>
+</ul>
+</li>
+</ul>
+<p>Elastic Load Balancer</p>
+<h2 id="6-elastic-load-balancer"><strong>6 Elastic Load Balancer</strong></h2>
+<ul>
+<li>Managed load balancing service and scales automatically</li>
+<li>distributes incoming application traffic across multiple EC2 instances</li>
+<li>is distributed system that is fault tolerant and actively monitored by AWS scales it as per the demand</li>
+<li><strong>are engineered to not be a single point of failure</strong></li>
+<li><strong><mark>need to Pre-Warm ELB if the demand is expected to shoot especially during load testing. AWS documentation does not mention it now.</mark></strong></li>
+<li>supports routing traffic to instances in multiple AZs in the same region</li>
+<li>performs <strong>Health Checks to route traffic</strong> only to the healthy instances</li>
+<li>support Listeners with HTTP, HTTPS, SSL, TCP protocols</li>
+<li>has an associated IPv4 and dual stack DNS name</li>
+<li>can <strong>offload the work of encryption and decryption (SSL termination) so that the EC2 instances can focus on their main work</strong></li>
+<li>supports Cross Zone load balancing to help route traffic evenly across all EC2 instances regardless of the AZs they reside in</li>
+<li>to help identify the IP address of a client<ul>
+<li>supports Proxy Protocol header for TCP/SSL connections</li>
+<li>supports X-Forward headers for HTTP/HTTPS connections</li>
+</ul>
+</li>
+<li>supports <strong>Stick Sessions (session affinity) to bind a user’s session</strong> to a specific application instance,<ul>
+<li><strong>it is not fault tolerant, if an instance is lost the information is lost</strong></li>
+<li>requires HTTP/HTTPS listener and does not work with TCP</li>
+<li>requires SSL termination on ELB as it users the headers</li>
+</ul>
+</li>
+<li>supports <strong>Connection draining to help complete the in-flight requests in case an instance is deregistered</strong></li>
+<li>For High Availability, it is recommended to attach one subnet per AZ for <strong>at least two AZs</strong>, even if the instances are in a single subnet.</li>
+<li>supports Static/Elastic IP (NLB only)</li>
+<li>IPv4 &amp; IPv6 support however VPC does not support IPv6. VPC now supports IPV6.</li>
+<li><strong>HTTPS listener does not support Client Side Certificate</strong></li>
+<li>For SSL termination at backend instances or support for Client Side Certificate use TCP for connections from the client to the ELB, <strong>use the SSL protocol for connections from the ELB to the back-end application, and deploy certificates on the back-end instances handling requests</strong></li>
+<li>Uses <strong>Server Name Indication to supports multiple SSL certificates</strong></li>
+</ul>
+<h2 id="7-application-load-balancer"><strong>7 Application Load Balancer</strong></h2>
+<ul>
+<li>supports <strong>HTTP and HTTPS (Secure HTTP) protocols</strong></li>
+<li>supports <strong>HTTP/2</strong>, which is enabled natively. <strong>Clients that support HTTP/2 can connect over TLS</strong></li>
+<li>supports <strong>WebSockets</strong> and <strong>Secure WebSockets</strong> natively</li>
+<li>supports <strong>Request tracing</strong>, by default.<ul>
+<li>request tracing can be used to track HTTP requests from clients to targets or other services.</li>
+<li>Load balancer upon receiving a request from a client, adds or updates the <strong>X-Amzn-Trace-Id header</strong> before sending the request to the target</li>
+</ul>
+</li>
+<li>supports <strong>containerized applications</strong>. <strong>Using Dynamic port mapping</strong>, ECS can select an unused port when scheduling a task and register the task with a target group using this port.</li>
+<li><strong>supports Sticky Sessions (Session Affinity) using load balancer generated cookies</strong>, to route requests from the same client to the same target</li>
+<li>supports <strong>SSL termination, to decrypt the request on ALB before sending it to the underlying targets</strong>.</li>
+<li>supports <strong>layer 7 specific features like X-Forwarded-For</strong> headers to help determine the actual client IP, port and protocol</li>
+<li>automatically <strong>scales</strong> its request handling capacity in response to incoming application traffic.</li>
+<li>supports hy<strong>brid load balancing, to route traffic to instances in VPC and an on-premises location</strong></li>
+<li>provides <strong>High Availability</strong>, by allowing more than one AZ to be specified</li>
+<li>integrates with <strong>ACM</strong> to <strong>provision and bind a SSL/TLS certificate</strong> to the load balancer thereby making the entire SSL offload process very easy</li>
+<li>supports <strong>multiple certificates</strong> for the same domain to a secure listener</li>
+<li>supports <strong>IPv6</strong> addressing, for an Internet facing load balancer</li>
+<li>supports <strong>Cross-zone load balancing</strong>, and cannot be disabled.</li>
+<li>supports <strong>Security Groups</strong> to <strong>control the traffic allowed to and from the load balancer</strong>.</li>
+<li>provides <strong>Access Logs, to record all requests sent the load balancer</strong>, and store the logs in S3 for later analysis in compressed format</li>
+<li>provides <strong>Delete Protection</strong>, to prevent the <strong>ALB from accidental deletion</strong></li>
+<li>supports <strong>Connection Idle Timeout</strong> – A<strong>LB maintains two connections for each request one with the Client (front end) and one with the target instance (back end)</strong>. If no data has been sent or received by the time that the idle timeout period elapses, ALB closes the front-end connection</li>
+<li>integrates with <strong>CloudWatch to provide metrics such as request counts</strong>, error counts, error types, and request latency</li>
+<li>integrates with <strong>AWS WAF, a web application firewall that helps protect web applications from attacks by allowing rules configuration</strong> based on IP addresses, HTTP headers, and custom URI strings</li>
+<li><strong>integrates with CloudTrail</strong> to receive a history of ALB API calls made on the AWS account</li>
+<li><strong><mark>back-end server authentication is NOT supported</mark></strong></li>
+<li><strong><mark>does not provide Static, Elastic IP addresses</mark></strong></li>
+</ul>
+<h2 id="8-network-load-balancer"><strong>8 Network Load Balancer</strong></h2>
+<ul>
+<li>handles <strong>volatile workloads</strong> and <strong>scale to millions of requests per second, without the need of pre-warming</strong></li>
+<li>offers <strong>extremely low latencies</strong> for latency-sensitive applications</li>
+<li>provides <strong>static IP/Elastic IP addresses</strong> for the load balancer</li>
+<li>allows <strong>registering targets by IP address, including targets outside the VPC (on-premises) for the load balancer</strong>.</li>
+<li>supports <strong>containerized applications</strong>. Using Dynamic port mapping, ECS can select an unused port when scheduling a task and register the task with a target group using this port.</li>
+<li>monitors the health of its registered targets and routes the traffic only to healthy targets</li>
+<li>enable <strong>cross-zone loading balancing</strong> only after creating the NLB</li>
+<li>preserves <strong>client side source IP</strong> allowing the back-end to see client IP address. <ul>
+<li>Target groups can be created with target type as instance ID or IP address. </li>
+<li>If targets registered by instance ID, the source IP addresses of the clients are preserved and provided to the applications.</li>
+<li>If register targets registered by IP address, the source IP addresses are the private IP addresses of the load balancer nodes.</li>
+</ul>
+</li>
+<li>supports <strong>both network and application target health checks</strong>.</li>
+<li>supports long-lived TCP connections ideal for WebSocket type of applications</li>
+<li>supports <strong>Zonal Isolation</strong>, which is designed for application architectures in a single zone and can be enabled in a single AZ to support architectures that require zonal isolation</li>
+<li><strong><mark>does not support stick sessions</mark></strong></li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap2_5_1.png" title="Body image" /></p>
+<h2 id="9-auto-scaling"><strong>9 Auto Scaling</strong></h2>
+<ul>
+<li>ensures correct number of EC2 instances are always running to handle the load by scaling up or down automatically as demand changes</li>
+<li><strong><mark>cannot span multiple regions</mark></strong>.</li>
+<li><em>attempts to distribute instances evenly between the AZs</em> that are enabled for the Auto Scaling group</li>
+<li>performs checks either using EC2 status checks or can use ELB health checks to determine the health of an instance and terminates the instance if unhealthy, to launch a new instance</li>
+<li><strong>can be scaled using manual scaling, scheduled scaling or demand based scaling</strong></li>
+<li><strong>cooldown period</strong> helps ensure instances are not launched or terminated before the previous scaling activity takes effect to allow the newly launched instances to start handling traffic and reduce load</li>
+</ul>
+<h2 id="10-aws-auto-scaling-elb"><strong>10 AWS Auto Scaling &amp; ELB</strong></h2>
+<ul>
+<li>Auto Scaling &amp; ELB can be used for <strong>High Availability and Redundancy</strong> by spanning Auto Scaling groups across multiple AZs within a region and then setting up ELB to distribute incoming traffic across those AZs</li>
+<li><strong>With Auto Scaling, use ELB health check with the instances to ensure that traffic is routed only to the healthy instances</strong></li>
+</ul>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="页脚">
+      
+        
+        <a href="../4Ns_cs/" class="md-footer__link md-footer__link--prev" aria-label="上一页: L4 AWS Networking Services Cheat Sheet" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              L4 AWS Networking Services Cheat Sheet
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../6DS_cs/" class="md-footer__link md-footer__link--next" aria-label="下一页: L6 AWS Database Services Cheat Sheet" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              L6 AWS Database Services Cheat Sheet
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "search": "../../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.467223ff.min.js"></script>
+      
+    
+  </body>
+</html>

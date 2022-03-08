@@ -1,0 +1,1729 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's AWS Certification Solutions Architect Tutorial">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+        <link rel="canonical" href="https://chao-xi.github.io/jxawscsaabook/chap2/6DS_cs/">
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.5">
+    
+    
+      
+        <title>L6 AWS Database Services Cheat Sheet - Jacob AWS Certification Solutions Architect Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2d9f7617.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ffa724">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="orange" data-md-color-accent="orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#l6-aws-database-services-cheat-sheet" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AWS Certification Solutions Architect Book" class="md-header__button md-logo" aria-label="Jacob AWS Certification Solutions Architect Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AWS Certification Solutions Architect Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              L6 AWS Database Services Cheat Sheet
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxawscsaabook.git/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscsaabook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AWS Certification Solutions Architect Book" class="md-nav__button md-logo" aria-label="Jacob AWS Certification Solutions Architect Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AWS Certification Solutions Architect Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxawscsaabook.git/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscsaabook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Chap1 Exam-Intro
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap1 Exam-Intro" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Chap1 Exam-Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/1Exam_Guide/" class="md-nav__link">
+        L1 SAA-C02 Exam Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/2Learning_path/" class="md-nav__link">
+        L2 Associate SAA-C02 Exam Topics
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Chap2 Services Cheat Sheet
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap2 Services Cheat Sheet" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Chap2 Services Cheat Sheet
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1best_prac/" class="md-nav__link">
+        L1 AWS Best Practices
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2s3_cs/" class="md-nav__link">
+        L2 AWS Storage & Content Delivery Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3IS_cs/" class="md-nav__link">
+        L3 AWS Security & Identity Service Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4Ns_cs/" class="md-nav__link">
+        L4 AWS Networking Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5CS_cs/" class="md-nav__link">
+        L5 AWS Compute Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          L6 AWS Database Services Cheat Sheet
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        L6 AWS Database Services Cheat Sheet
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-relational-database-service-rds" class="md-nav__link">
+    1 Relational Database Service – RDS
+  </a>
+  
+    <nav class="md-nav" aria-label="1 Relational Database Service – RDS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-rds-security" class="md-nav__link">
+    1-1 RDS Security
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-multi-az-deployment" class="md-nav__link">
+    1-2 Multi-AZ deployment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-read-replicas" class="md-nav__link">
+    1-3 Read Replicas
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-4-rds-components" class="md-nav__link">
+    1-4 RDS Components
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-5-rds-monitoring-notification" class="md-nav__link">
+    1-5 RDS Monitoring &amp; Notification
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-aurora" class="md-nav__link">
+    2 Aurora
+  </a>
+  
+    <nav class="md-nav" aria-label="2 Aurora">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-read-replicas" class="md-nav__link">
+    2-1 Read Replicas
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-security" class="md-nav__link">
+    2-2 Security
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-3-aurora-serverless" class="md-nav__link">
+    2-3 Aurora Serverless
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-3-aurora-global-database" class="md-nav__link">
+    2-3 Aurora Global Database
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-4-aurora-backtrack" class="md-nav__link">
+    2-4 Aurora Backtrack
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-5-aurora-clone-feature" class="md-nav__link">
+    2-5 Aurora Clone feature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-dynamodb" class="md-nav__link">
+    3 DynamoDB
+  </a>
+  
+    <nav class="md-nav" aria-label="3 DynamoDB">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-1-supports-secondary-indexes" class="md-nav__link">
+    3-1 supports Secondary Indexes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-2-local-vs-global-secondary-index" class="md-nav__link">
+    3-2 Local vs Global secondary index
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-3-dynamodb-consistency" class="md-nav__link">
+    3-3 DynamoDB Consistency
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-4-dynamodb-throughput-capacity" class="md-nav__link">
+    3-4 DynamoDB Throughput Capacity
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-4-dynamodb-global-tables" class="md-nav__link">
+    3-4 DynamoDB Global Tables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-4-dynamodb-streams" class="md-nav__link">
+    3-4 DynamoDB Streams
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-5-dynamodb-time-to-live-ttl" class="md-nav__link">
+    3-5 DynamoDB Time to Live (TTL)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-6-dynamodb-accelerator-dax" class="md-nav__link">
+    3-6 DynamoDB Accelerator (DAX)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-elasticache" class="md-nav__link">
+    4 ElastiCache
+  </a>
+  
+    <nav class="md-nav" aria-label="4 ElastiCache">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-elasticache-with-redis" class="md-nav__link">
+    4-1 ElastiCache with Redis
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-2-elasticache-with-memcached" class="md-nav__link">
+    4-2 ElastiCache with Memcached
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-3-elasticache-redis-vs-memcached" class="md-nav__link">
+    4-3 ElastiCache Redis vs Memcached
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-redshift" class="md-nav__link">
+    5 Redshift
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7AS_cs/" class="md-nav__link">
+        L7 AWS Analytics Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8AS_cs/" class="md-nav__link">
+        L8 AWS Application Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9MT_cs/" class="md-nav__link">
+        L9 AWS Management Tools Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10EXAM_cs/" class="md-nav__link">
+        L10 AWS Certification Exam Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Chap3 Networking Exam Topics
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap3 Networking Exam Topics" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Chap3 Networking Exam Topics
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/1vpc/" class="md-nav__link">
+        L1 AWS Virtual Private Cloud – VPC
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/2bastion/" class="md-nav__link">
+        L2 AWS Bastion Host
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/3direct_connect/" class="md-nav__link">
+        L3 AWS Direct Connect – DX
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/4ELB/" class="md-nav__link">
+        L4 AWS Elastic Load Balancer – ELB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/5ALB/" class="md-nav__link">
+        L5 AWS Application Load Balancer – ALB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/6NLB/" class="md-nav__link">
+        L6 AWS Network Load Balancer – NLB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/7EAN_LB/" class="md-nav__link">
+        L7 AWS Classic Load Balancer vs Application Load Balancer vs Network Load Balancer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8elb_mon/" class="md-nav__link">
+        L8 AWS ELB Monitoring
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/9route53/" class="md-nav__link">
+        L9 AWS Certification – Route 53 Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/10route53_policy/" class="md-nav__link">
+        L10 AWS Route 53 Routing Policy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/11route53_resolver/" class="md-nav__link">
+        L11 AWS Route 53 Resolver
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/12api_gateway/" class="md-nav__link">
+        L12 AWS API Gateway
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/13cloudfront/" class="md-nav__link">
+        L13 AWS CloudFront
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/14direct_connect/" class="md-nav__link">
+        L14 AWS Direct Connect – DX
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          chap4 AWS Security, Identity & Compliance
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="chap4 AWS Security, Identity & Compliance" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          chap4 AWS Security, Identity & Compliance
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/1AWS_IAM/" class="md-nav__link">
+        L1 AWS Identity Access Management – IAM(unfinished)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          chap7 AWS Database Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="chap7 AWS Database Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          chap7 AWS Database Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/1rds/" class="md-nav__link">
+        L1 AWS RDS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/2DynamoDB/" class="md-nav__link">
+        L2 AWS DynamoDB(unfinished)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Chap10 AWS Migration & Transfer Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap10 AWS Migration & Transfer Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Chap10 AWS Migration & Transfer Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/1aws_cms/" class="md-nav__link">
+        L1 AWS Cloud Migration Services
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/2AWS_IE/" class="md-nav__link">
+        L2 AWS Import/Export
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/3AWS_DTS/" class="md-nav__link">
+        L3 AWS Data Transfer Services
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8">
+          Chap11 AWS Analytics Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap11 AWS Analytics Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Chap11 AWS Analytics Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/4Elasticsearch/" class="md-nav__link">
+        L4 AWS Elasticsearch
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-relational-database-service-rds" class="md-nav__link">
+    1 Relational Database Service – RDS
+  </a>
+  
+    <nav class="md-nav" aria-label="1 Relational Database Service – RDS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-rds-security" class="md-nav__link">
+    1-1 RDS Security
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-multi-az-deployment" class="md-nav__link">
+    1-2 Multi-AZ deployment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-read-replicas" class="md-nav__link">
+    1-3 Read Replicas
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-4-rds-components" class="md-nav__link">
+    1-4 RDS Components
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-5-rds-monitoring-notification" class="md-nav__link">
+    1-5 RDS Monitoring &amp; Notification
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-aurora" class="md-nav__link">
+    2 Aurora
+  </a>
+  
+    <nav class="md-nav" aria-label="2 Aurora">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-read-replicas" class="md-nav__link">
+    2-1 Read Replicas
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-security" class="md-nav__link">
+    2-2 Security
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-3-aurora-serverless" class="md-nav__link">
+    2-3 Aurora Serverless
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-3-aurora-global-database" class="md-nav__link">
+    2-3 Aurora Global Database
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-4-aurora-backtrack" class="md-nav__link">
+    2-4 Aurora Backtrack
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-5-aurora-clone-feature" class="md-nav__link">
+    2-5 Aurora Clone feature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-dynamodb" class="md-nav__link">
+    3 DynamoDB
+  </a>
+  
+    <nav class="md-nav" aria-label="3 DynamoDB">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-1-supports-secondary-indexes" class="md-nav__link">
+    3-1 supports Secondary Indexes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-2-local-vs-global-secondary-index" class="md-nav__link">
+    3-2 Local vs Global secondary index
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-3-dynamodb-consistency" class="md-nav__link">
+    3-3 DynamoDB Consistency
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-4-dynamodb-throughput-capacity" class="md-nav__link">
+    3-4 DynamoDB Throughput Capacity
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-4-dynamodb-global-tables" class="md-nav__link">
+    3-4 DynamoDB Global Tables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-4-dynamodb-streams" class="md-nav__link">
+    3-4 DynamoDB Streams
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-5-dynamodb-time-to-live-ttl" class="md-nav__link">
+    3-5 DynamoDB Time to Live (TTL)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-6-dynamodb-accelerator-dax" class="md-nav__link">
+    3-6 DynamoDB Accelerator (DAX)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-elasticache" class="md-nav__link">
+    4 ElastiCache
+  </a>
+  
+    <nav class="md-nav" aria-label="4 ElastiCache">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1-elasticache-with-redis" class="md-nav__link">
+    4-1 ElastiCache with Redis
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-2-elasticache-with-memcached" class="md-nav__link">
+    4-2 ElastiCache with Memcached
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-3-elasticache-redis-vs-memcached" class="md-nav__link">
+    4-3 ElastiCache Redis vs Memcached
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-redshift" class="md-nav__link">
+    5 Redshift
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+<a href="https://github.com/Chao-Xi/jxawscsaabook.git/edit/master/docs/chap2/6DS_cs.md" title="编辑此页" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
+
+
+
+<h1 id="l6-aws-database-services-cheat-sheet"><strong>L6 AWS Database Services Cheat Sheet</strong></h1>
+<h2 id="1-relational-database-service-rds"><strong>1 Relational Database Service – RDS</strong></h2>
+<ul>
+<li>provides Relational Database service</li>
+<li>supports MySQL, MariaDB, PostgreSQL, Oracle, Microsoft SQL Server, and the new, MySQL-compatible Amazon Aurora DB engine</li>
+<li>as it is a managed service, shell (root ssh) access is not provided</li>
+<li><strong>manages backups, software patching, automatic failure detection, and recovery</strong></li>
+<li>supports use initiated manual backups and snapshots</li>
+<li><strong>daily automated backups with database transaction logs enables Point in Time recovery up to the last five minutes of database usage</strong></li>
+<li><strong>snapshots</strong> are user-initiated storage volume snapshot of DB instance, backing up the <strong>entire DB instance and not just individual databases</strong> that can be restored as a independent RDS instance</li>
+</ul>
+<h3 id="1-1-rds-security"><strong>1-1 RDS Security</strong></h3>
+<ul>
+<li>support encryption at rest using KMS as well as encryption in transit using SSL endpoints</li>
+<li>supports IAM database authentication, <strong>which prevents the need to store static user credentials in the database, because authentication is managed externally using IAM</strong>.</li>
+<li>supports Encryption only during creation of an RDS DB instance</li>
+<li><strong>existing unencrypted DB cannot be encrypted</strong> and y<strong>ou need to create a  snapshot, created a encrypted copy of the snapshot and restore as encrypted DB</strong></li>
+<li>supports <strong>Secret Manager for storing and rotating secrets</strong></li>
+<li>for encrypted database<ul>
+<li><strong>logs, snapshots, backups, read replicas are all encrypted as well</strong></li>
+<li>cross region replicas and snapshots does not work across region (Note – this is possible now with latest AWS enhancement)</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-2-multi-az-deployment"><strong>1-2 Multi-AZ deployment</strong></h3>
+<ul>
+<li><strong><mark>provides high availability and automatic failover support and is NOT a scaling solution</mark></strong></li>
+<li>maintains a <strong>synchronous standby replica in a different AZ</strong></li>
+<li>transaction success is returned only if the commit is successful both on the primary and the standby DB</li>
+<li>Oracle, PostgreSQL, MySQL, and MariaDB DB instances use <strong>Amazon technology</strong>, while SQL Server DB instances use SQL <strong>Server Mirroring</strong></li>
+<li>snapshots and backups are taken from standby &amp; eliminate I/O freezes</li>
+<li>during automatic failover, its seamless and <strong>RDS switches to the standby instance and updates the DNS record to point to standby</strong></li>
+<li>failover can be <strong>forced</strong> with the Reboot with failover option</li>
+</ul>
+<h3 id="1-3-read-replicas"><strong>1-3 Read Replicas</strong></h3>
+<ul>
+<li>uses the PostgreSQL, MySQL, and MariaDB DB engines’ built-in replication functionality to create a separate Read Only instance</li>
+<li>updates are <strong>asynchronously</strong> copied to the Read Replica, and data might be stale</li>
+<li>can help scale applications and reduce read only load</li>
+<li><strong><mark>requires automatic backups enabled</mark></strong></li>
+<li>replicates all databases in the source DB instance</li>
+<li>for disaster recovery, can be promoted to a full fledged database</li>
+<li>can be <strong>created in a different region</strong> for disaster recovery, migration and low latency across regions</li>
+<li><mark><strong>can’t</strong> create encrypted read replicas from unencrypted DB or read replica</mark></li>
+</ul>
+<p>RDS does not support all the features of underlying databases, and if required the database instance can be launched on an EC2 instance</p>
+<h3 id="1-4-rds-components"><strong>1-4 RDS Components</strong></h3>
+<ul>
+<li>DB parameter groups contains engine configuration values that can be applied to one or more DB instances of the same instance type for e.g. SSL, max connections etc.</li>
+<li><strong>Default DB parameter group cannot be modified, create a custom one and attach to the DB</strong></li>
+<li>Supports static and dynamic parameters<ul>
+<li>changes to <strong>dynamic parameters are applied immediately</strong> (irrespective of apply immediately setting)</li>
+<li><strong>changes to static parameters are NOT applied immediately and require a manual reboot</strong>.</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-5-rds-monitoring-notification"><strong>1-5 RDS Monitoring &amp; Notification</strong></h3>
+<ul>
+<li>integrates with <strong>CloudWatch and CloudTrail</strong></li>
+<li>CloudWatch provides metrics about <strong>CPU utilization from the hypervisor for a DB instance, and Enhanced Monitoring gathers its metrics from an agent on the instance</strong></li>
+<li>Performance Insights is a database performance tuning and monitoring feature that helps illustrate the <strong>database’s performance and help analyze any issues that affect it</strong></li>
+<li>supports <strong>RDS Event Notification which uses the SNS to provide notification</strong> when an RDS event like creation, deletion or snapshot creation etc occurs</li>
+</ul>
+<h2 id="2-aurora"><strong>2 Aurora</strong></h2>
+<ul>
+<li>is a relational database engine that combines the speed and reliability of high-end commercial databases with the simplicity and cost-effectiveness of open source databases</li>
+<li>is a managed services and handles time-consuming tasks such as provisioning, patching, backup, recovery, failure detection and repair</li>
+<li><strong>is a proprietary technology from AWS (not open sourced)</strong></li>
+<li><strong>provides PostgreSQL and MySQL compatibility</strong></li>
+<li>is “AWS cloud optimized” and claims 5x performance improvement<ul>
+<li>over MySQL on RDS, over 3x the performance of PostgreSQL on RDS</li>
+</ul>
+</li>
+<li><strong>scales storage automatically</strong> in increments of <strong>10GB, up to 64 TB</strong> with no impact to database performance. Storage is striped across 100s of volumes.</li>
+<li><strong>no need to provision storage in advance</strong>.</li>
+<li>provides <strong>self-healing storage</strong>. Data blocks and disks are continuously scanned for errors and repaired automatically.</li>
+<li>provides <strong>instantaneous failover</strong></li>
+<li><strong>replicates each chunk of my the database volume six ways across three Availability Zones</strong> i.e. 6 copies of the data across 3 AZ<ul>
+<li>requires 4 copies out of 6 needed for writes</li>
+<li>requires 3 copies out of 6 need for reads</li>
+</ul>
+</li>
+<li><strong>costs more than RDS (20% more) – but is more efficient</strong></li>
+</ul>
+<h3 id="2-1-read-replicas"><strong>2-1 Read Replicas</strong></h3>
+<ul>
+<li><strong>can have 15 replicas while MySQL has 5, and the replication process is faster (sub 10 ms replica lag)</strong></li>
+<li>share the same data volume as the primary instance in the same AWS Region, there is virtually no replication lag</li>
+<li><strong>supports Automated failover for master in less than 30 seconds</strong></li>
+<li><strong>supports Cross Region Replication using either physical or logical replication</strong>.</li>
+</ul>
+<h3 id="2-2-security"><strong>2-2 Security</strong></h3>
+<ul>
+<li>supports Encryption at rest using KMS</li>
+<li>supports Encryption in flight using SSL (same process as MySQL or Postgres)</li>
+<li>Automated backups, snapshots and replicas are also encrypted</li>
+<li>Possibility to authenticate using IAM token (same method as RDS)</li>
+<li>supports protecting the instance with security groups</li>
+<li>does not support SSH access to the underlying servers</li>
+</ul>
+<h3 id="2-3-aurora-serverless"><strong>2-3 Aurora Serverless</strong></h3>
+<ul>
+<li>provides automated database Client instantiation and on-demand  autoscaling based on actual usage</li>
+<li>provides a relatively simple, <strong>cost-effective option for infrequent, intermittent, or unpredictable workloads</strong></li>
+<li>automatically starts up, shuts down, and scales capacity up or down based on the application’s needs. No capacity planning needed</li>
+<li><strong>Pay per second, can be more cost-effective</strong></li>
+</ul>
+<h3 id="2-3-aurora-global-database"><strong>2-3 Aurora Global Database</strong></h3>
+<ul>
+<li>allows a single Aurora database to <strong>span multiple AWS regions.</strong></li>
+<li><strong>provides Physical replication</strong>, which uses dedicated infrastructure that leaves the databases entirely available to serve the application</li>
+<li><strong>supports 1 Primary Region (read / write)</strong></li>
+<li>replicates across up to 5 secondary (read-only) regions, <strong>replication lag is less than 1 second</strong></li>
+<li><strong>supports up to 16 Read Replicas per secondary region</strong></li>
+<li><strong><mark>recommended for low-latency global reads and disaster recovery with an RTO of &lt; 1 minute</mark></strong></li>
+<li><strong>failover is not automated</strong> and if the primary region becomes unavailable, a secondary region can be manually removed from an Aurora Global Database and promote it to take full reads and writes. <ul>
+<li>Application needs to be updated to point to the newly promoted region.</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-4-aurora-backtrack"><strong>2-4 Aurora Backtrack</strong></h3>
+<ul>
+<li>Backtracking “rewinds” the DB cluster to the specified time</li>
+<li>Backtracking performs in place restore and does not create a new instance. There is a minimal downtime associated with it.</li>
+</ul>
+<h3 id="2-5-aurora-clone-feature"><strong>2-5 Aurora Clone feature</strong></h3>
+<ul>
+<li>allows quick and cost-effective creation of Aurora Cluster duplicates</li>
+<li><strong>supports parallel or distributed query using Aurora Parallel Query</strong>, which refers to the ability to push down and distribute the computational load of a single query across thousands of CPUs in Aurora’s storage layer.</li>
+</ul>
+<h2 id="3-dynamodb"><strong>3 DynamoDB</strong></h2>
+<ul>
+<li>fully managed <strong>NoSQL database service</strong></li>
+<li>synchronously <strong>replicates data across three facilities in an AWS Region</strong>, giving high availability and data durability</li>
+<li>runs exclusively on <strong>SSDs</strong> to provide high I/O performance
+provides <strong>provisioned table reads and writes</strong></li>
+<li><strong>automatically partitions, reallocates and re-partitions the data</strong> and provisions <strong>additional server capacity as data or throughput changes</strong></li>
+<li>creates and maintains <strong>indexes for the primary key attributes</strong> for efficient access of data in the table</li>
+</ul>
+<h3 id="3-1-supports-secondary-indexes"><strong>3-1 supports Secondary Indexes</strong></h3>
+<ul>
+<li>allows <strong>querying attributes other then the primary key attributes without impacting performance.</strong></li>
+<li>are automatically <strong>maintained as sparse objects</strong></li>
+</ul>
+<h3 id="3-2-local-vs-global-secondary-index"><strong>3-2 Local vs Global secondary index</strong></h3>
+<ul>
+<li><strong>shares partition key + different sort key <mark>vs</mark> different partition + sort key</strong></li>
+<li>search limited to partition <mark>vs</mark> across all partition</li>
+<li>unique attributes <mark>vs</mark> non unique attributes</li>
+<li>linked to the base table vs independent separate index</li>
+<li>only created during the base table creation <mark>vs</mark> can be created later</li>
+<li>cannot be deleted after creation <mark>vs</mark> can be deleted</li>
+<li>consumes provisioned throughput capacity of the base table <mark>vs</mark> independent throughput</li>
+<li>returns all attributes for item <mark>vs</mark> only projected attributes</li>
+<li>Eventually or Strongly <mark>vs</mark> Only Eventually consistent reads</li>
+<li>size limited to 10Gb per partition vs unlimited</li>
+</ul>
+<h3 id="3-3-dynamodb-consistency"><strong>3-3 DynamoDB Consistency</strong></h3>
+<ul>
+<li>provides <strong>Eventually consistent (by default) or Strongly Consistent</strong> option to be specified during an read operation</li>
+<li>supports Strongly consistent reads for few operations like Query, GetItem, and <strong>BatchGetItem</strong> using the <strong>ConsistentRead</strong> parameter</li>
+</ul>
+<h3 id="3-4-dynamodb-throughput-capacity"><strong>3-4 DynamoDB Throughput Capacity</strong></h3>
+<ul>
+<li>supports On-demand and Provisioned read/write capacity modes</li>
+<li>Provisioned mode requires the number of reads and writes per second as required by the application to be specified</li>
+<li>On-demand mode provides flexible billing option capable of serving thousands of requests per second without capacity planning</li>
+</ul>
+<h3 id="3-4-dynamodb-global-tables"><strong>3-4 DynamoDB Global Tables</strong></h3>
+<p>DynamoDB Global Tables provide <strong>multi-master, cross-region replication</strong> capability of DynamoDB to support data access locality and regional fault tolerance for database workloads.</p>
+<h3 id="3-4-dynamodb-streams"><strong>3-4 DynamoDB Streams</strong></h3>
+<p>provides a time-ordered sequence of item-level changes made to data in a table</p>
+<h3 id="3-5-dynamodb-time-to-live-ttl"><strong>3-5 DynamoDB Time to Live (TTL)</strong></h3>
+<ul>
+<li>enables a per-item timestamp to determine when an item expiry</li>
+<li>expired items are deleted from the table without <strong>consuming any write throughput.</strong></li>
+<li>supports <strong>cross region replication</strong> using DynamoDB streams which leverages Kinesis and provides <strong>time-ordered sequence of item-level changes</strong> and can help for lower RPO, lower RTO disaster recovery</li>
+</ul>
+<h3 id="3-6-dynamodb-accelerator-dax"><strong>3-6 DynamoDB Accelerator (DAX)</strong></h3>
+<ul>
+<li>
+<p>is a fully managed, highly available, in-memory cache for DynamoDB that delivers up to a 10x performance improvement – from <strong>milliseconds</strong> to microseconds – even at millions of requests per second.</p>
+</li>
+<li>
+<p>supports <strong>triggers</strong> to allow execution of <strong>custom actions or notifications based on item-level updates</strong></p>
+</li>
+<li>Data Pipeline jobs with EMR can be used for disaster recovery with higher RPO, lower RTO requirements</li>
+</ul>
+<h2 id="4-elasticache"><strong>4 ElastiCache</strong></h2>
+<ul>
+<li>managed web service that provides in-memory caching to deploy and run Memcached or Redis protocol-compliant cache clusters</li>
+</ul>
+<h3 id="4-1-elasticache-with-redis"><strong>4-1 ElastiCache with Redis</strong></h3>
+<ul>
+<li>like RDS, supports <strong>Multi-AZ, Read Replicas and Snapshots</strong></li>
+<li>Read Replicas are created across AZ within same region using <strong>Redis’s asynchronous replication technology</strong></li>
+<li>Multi-AZ differs from RDS as there is no standby, but <strong>if the primary goes down a Read Replica is promoted as primary</strong></li>
+<li><strong>Read Replicas cannot span across regions</strong>, as RDS supports</li>
+<li><strong>cannot be scaled out and if scaled up cannot be scaled down</strong></li>
+<li><strong>allows snapshots for backup and restore</strong></li>
+<li><strong>AOF</strong> can be enabled for <strong>recovery scenarios</strong>, to recover the data in case the node fails or service crashes. But it does not help in case the underlying hardware fails</li>
+<li><strong>Enabling Redis Multi-AZ as a Better Approach to Fault Tolerance</strong></li>
+</ul>
+<h3 id="4-2-elasticache-with-memcached"><strong>4-2 ElastiCache with Memcached</strong></h3>
+<ul>
+<li><strong>can be scaled up by increasing size and scaled out by adding nodes</strong></li>
+<li>nodes can span <strong>across multiple AZs</strong> within the same region</li>
+<li><strong>cached data is spread across the nodes</strong>, and a node failure will always result in some data loss from the cluster</li>
+<li><strong>supports auto discovery</strong></li>
+<li><strong>every node should be homogenous</strong> and of same instance type</li>
+</ul>
+<h3 id="4-3-elasticache-redis-vs-memcached"><strong>4-3 ElastiCache Redis vs Memcached</strong></h3>
+<ul>
+<li>complex data objects <mark>vs</mark> simple key value storage</li>
+<li>persistent <mark>vs</mark> non persistent, pure caching</li>
+<li>automatic failover with Multi-AZ <mark>vs</mark> Multi-AZ not supported</li>
+<li>scaling using Read Replicas <mark>vs</mark> using multiple nodes</li>
+<li>backup &amp; restore supported <mark>vs</mark> not supported</li>
+</ul>
+<p>can be used state management to keep the web application stateless</p>
+<h2 id="5-redshift"><strong>5 Redshift</strong></h2>
+<p>fully managed, fast and powerful, petabyte scale data warehouse service</p>
+<p>uses replication and continuous backups to enhance availability and improve data durability and can automatically recover from node and component failures</p>
+<p>provides Massive Parallel Processing (MPP) by distributing &amp; parallelizing queries across multiple physical resources</p>
+<p>columnar data storage improving query performance and allowing advance compression techniques</p>
+<p><strong>only supports Single-AZ deployments</strong> and the nodes are available within the same AZ, if the AZ supports Redshift clusters</p>
+<p><strong>spot instances are <mark>vs</mark> an option</strong></p>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="页脚">
+      
+        
+        <a href="../5CS_cs/" class="md-footer__link md-footer__link--prev" aria-label="上一页: L5 AWS Compute Services Cheat Sheet" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              L5 AWS Compute Services Cheat Sheet
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../7AS_cs/" class="md-footer__link md-footer__link--next" aria-label="下一页: L7 AWS Analytics Services Cheat Sheet" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              L7 AWS Analytics Services Cheat Sheet
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "search": "../../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.467223ff.min.js"></script>
+      
+    
+  </body>
+</html>

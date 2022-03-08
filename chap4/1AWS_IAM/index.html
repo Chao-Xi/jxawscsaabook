@@ -1,0 +1,2235 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's AWS Certification Solutions Architect Tutorial">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+        <link rel="canonical" href="https://chao-xi.github.io/jxawscsaabook/chap4/1AWS_IAM/">
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.5">
+    
+    
+      
+        <title>L1 AWS Identity Access Management – IAM(unfinished) - Jacob AWS Certification Solutions Architect Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2d9f7617.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ffa724">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="orange" data-md-color-accent="orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#l1-aws-identity-access-management-iam" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AWS Certification Solutions Architect Book" class="md-header__button md-logo" aria-label="Jacob AWS Certification Solutions Architect Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AWS Certification Solutions Architect Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              L1 AWS Identity Access Management – IAM(unfinished)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxawscsaabook.git/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscsaabook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AWS Certification Solutions Architect Book" class="md-nav__button md-logo" aria-label="Jacob AWS Certification Solutions Architect Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AWS Certification Solutions Architect Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxawscsaabook.git/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscsaabook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Chap1 Exam-Intro
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap1 Exam-Intro" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Chap1 Exam-Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/1Exam_Guide/" class="md-nav__link">
+        L1 SAA-C02 Exam Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/2Learning_path/" class="md-nav__link">
+        L2 Associate SAA-C02 Exam Topics
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Chap2 Services Cheat Sheet
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap2 Services Cheat Sheet" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Chap2 Services Cheat Sheet
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/1best_prac/" class="md-nav__link">
+        L1 AWS Best Practices
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/2s3_cs/" class="md-nav__link">
+        L2 AWS Storage & Content Delivery Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/3IS_cs/" class="md-nav__link">
+        L3 AWS Security & Identity Service Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/4Ns_cs/" class="md-nav__link">
+        L4 AWS Networking Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/5CS_cs/" class="md-nav__link">
+        L5 AWS Compute Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/6DS_cs/" class="md-nav__link">
+        L6 AWS Database Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/7AS_cs/" class="md-nav__link">
+        L7 AWS Analytics Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/8AS_cs/" class="md-nav__link">
+        L8 AWS Application Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/9MT_cs/" class="md-nav__link">
+        L9 AWS Management Tools Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/10EXAM_cs/" class="md-nav__link">
+        L10 AWS Certification Exam Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Chap3 Networking Exam Topics
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap3 Networking Exam Topics" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Chap3 Networking Exam Topics
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/1vpc/" class="md-nav__link">
+        L1 AWS Virtual Private Cloud – VPC
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/2bastion/" class="md-nav__link">
+        L2 AWS Bastion Host
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/3direct_connect/" class="md-nav__link">
+        L3 AWS Direct Connect – DX
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/4ELB/" class="md-nav__link">
+        L4 AWS Elastic Load Balancer – ELB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/5ALB/" class="md-nav__link">
+        L5 AWS Application Load Balancer – ALB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/6NLB/" class="md-nav__link">
+        L6 AWS Network Load Balancer – NLB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/7EAN_LB/" class="md-nav__link">
+        L7 AWS Classic Load Balancer vs Application Load Balancer vs Network Load Balancer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8elb_mon/" class="md-nav__link">
+        L8 AWS ELB Monitoring
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/9route53/" class="md-nav__link">
+        L9 AWS Certification – Route 53 Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/10route53_policy/" class="md-nav__link">
+        L10 AWS Route 53 Routing Policy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/11route53_resolver/" class="md-nav__link">
+        L11 AWS Route 53 Resolver
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/12api_gateway/" class="md-nav__link">
+        L12 AWS API Gateway
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/13cloudfront/" class="md-nav__link">
+        L13 AWS CloudFront
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/14direct_connect/" class="md-nav__link">
+        L14 AWS Direct Connect – DX
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          chap4 AWS Security, Identity & Compliance
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="chap4 AWS Security, Identity & Compliance" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          chap4 AWS Security, Identity & Compliance
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          L1 AWS Identity Access Management – IAM(unfinished)
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        L1 AWS Identity Access Management – IAM(unfinished)
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-aws-iam-overview" class="md-nav__link">
+    1 AWS IAM Overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-iam-features" class="md-nav__link">
+    2 IAM Features
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-identities" class="md-nav__link">
+    3 Identities
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-account-root-user" class="md-nav__link">
+    4 Account Root User
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-iam-users" class="md-nav__link">
+    5 IAM Users
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-iam-groups" class="md-nav__link">
+    6 IAM Groups
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-iam-roles" class="md-nav__link">
+    7 IAM Roles
+  </a>
+  
+    <nav class="md-nav" aria-label="7 IAM Roles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#7-1-aws-iam-role" class="md-nav__link">
+    7-1 AWS IAM Role
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-2-role-types" class="md-nav__link">
+    7-2 Role types
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-3-role-types" class="md-nav__link">
+    7-3 Role types
+  </a>
+  
+    <nav class="md-nav" aria-label="7-3 Role types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#aws-service-roles" class="md-nav__link">
+    AWS Service Roles
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complete-process-flow" class="md-nav__link">
+    Complete Process Flow
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instance-profile" class="md-nav__link">
+    Instance Profile
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-4-cross-account-access-roles" class="md-nav__link">
+    7-4 Cross-Account access Roles
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-5-complete-process-flow" class="md-nav__link">
+    7-5 Complete Process Flow
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-6-external-id-and-confused-deputy-problem" class="md-nav__link">
+    7-6 External ID and Confused Deputy Problem
+  </a>
+  
+    <nav class="md-nav" aria-label="7-6 External ID and Confused Deputy Problem">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#confused-deputy-problem" class="md-nav__link">
+    Confused Deputy Problem
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-7-address-confused-deputy-problem-using-external-id" class="md-nav__link">
+    7-7 Address Confused Deputy Problem using External ID
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-8-aws-certification-exam-for-iam-role" class="md-nav__link">
+    7-8 AWS Certification Exam for IAM Role
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-multifactor-authentication-mfa" class="md-nav__link">
+    7 MultiFactor Authentication (MFA)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-aws-iam-access-management" class="md-nav__link">
+    8 AWS IAM Access Management
+  </a>
+  
+    <nav class="md-nav" aria-label="8 AWS IAM Access Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8-1-identity-based-vs-resource-based-permissions" class="md-nav__link">
+    8-1 Identity-Based vs Resource-Based Permissions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-2-managed-policies-and-inline-policies" class="md-nav__link">
+    8-2 Managed Policies and Inline Policies
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-3-iam-policy-simulator" class="md-nav__link">
+    8-3 IAM Policy Simulator
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-4-iam-policy-evaluation" class="md-nav__link">
+    8-4 IAM Policy Evaluation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-5-iam-policy-variables" class="md-nav__link">
+    8-5 IAM Policy Variables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-6-iam-policy-variables" class="md-nav__link">
+    8-6 IAM Policy Variables
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-credential-report" class="md-nav__link">
+    8 Credential Report
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-aws-iam-aws-certification" class="md-nav__link">
+    9 AWS IAM AWS Certification
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          chap7 AWS Database Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="chap7 AWS Database Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          chap7 AWS Database Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/1rds/" class="md-nav__link">
+        L1 AWS RDS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/2DynamoDB/" class="md-nav__link">
+        L2 AWS DynamoDB(unfinished)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Chap10 AWS Migration & Transfer Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap10 AWS Migration & Transfer Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Chap10 AWS Migration & Transfer Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/1aws_cms/" class="md-nav__link">
+        L1 AWS Cloud Migration Services
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/2AWS_IE/" class="md-nav__link">
+        L2 AWS Import/Export
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap10/3AWS_DTS/" class="md-nav__link">
+        L3 AWS Data Transfer Services
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8">
+          Chap11 AWS Analytics Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap11 AWS Analytics Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Chap11 AWS Analytics Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/4Elasticsearch/" class="md-nav__link">
+        L4 AWS Elasticsearch
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-aws-iam-overview" class="md-nav__link">
+    1 AWS IAM Overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-iam-features" class="md-nav__link">
+    2 IAM Features
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-identities" class="md-nav__link">
+    3 Identities
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-account-root-user" class="md-nav__link">
+    4 Account Root User
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-iam-users" class="md-nav__link">
+    5 IAM Users
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-iam-groups" class="md-nav__link">
+    6 IAM Groups
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-iam-roles" class="md-nav__link">
+    7 IAM Roles
+  </a>
+  
+    <nav class="md-nav" aria-label="7 IAM Roles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#7-1-aws-iam-role" class="md-nav__link">
+    7-1 AWS IAM Role
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-2-role-types" class="md-nav__link">
+    7-2 Role types
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-3-role-types" class="md-nav__link">
+    7-3 Role types
+  </a>
+  
+    <nav class="md-nav" aria-label="7-3 Role types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#aws-service-roles" class="md-nav__link">
+    AWS Service Roles
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complete-process-flow" class="md-nav__link">
+    Complete Process Flow
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instance-profile" class="md-nav__link">
+    Instance Profile
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-4-cross-account-access-roles" class="md-nav__link">
+    7-4 Cross-Account access Roles
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-5-complete-process-flow" class="md-nav__link">
+    7-5 Complete Process Flow
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-6-external-id-and-confused-deputy-problem" class="md-nav__link">
+    7-6 External ID and Confused Deputy Problem
+  </a>
+  
+    <nav class="md-nav" aria-label="7-6 External ID and Confused Deputy Problem">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#confused-deputy-problem" class="md-nav__link">
+    Confused Deputy Problem
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-7-address-confused-deputy-problem-using-external-id" class="md-nav__link">
+    7-7 Address Confused Deputy Problem using External ID
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-8-aws-certification-exam-for-iam-role" class="md-nav__link">
+    7-8 AWS Certification Exam for IAM Role
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-multifactor-authentication-mfa" class="md-nav__link">
+    7 MultiFactor Authentication (MFA)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-aws-iam-access-management" class="md-nav__link">
+    8 AWS IAM Access Management
+  </a>
+  
+    <nav class="md-nav" aria-label="8 AWS IAM Access Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8-1-identity-based-vs-resource-based-permissions" class="md-nav__link">
+    8-1 Identity-Based vs Resource-Based Permissions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-2-managed-policies-and-inline-policies" class="md-nav__link">
+    8-2 Managed Policies and Inline Policies
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-3-iam-policy-simulator" class="md-nav__link">
+    8-3 IAM Policy Simulator
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-4-iam-policy-evaluation" class="md-nav__link">
+    8-4 IAM Policy Evaluation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-5-iam-policy-variables" class="md-nav__link">
+    8-5 IAM Policy Variables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-6-iam-policy-variables" class="md-nav__link">
+    8-6 IAM Policy Variables
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-credential-report" class="md-nav__link">
+    8 Credential Report
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-aws-iam-aws-certification" class="md-nav__link">
+    9 AWS IAM AWS Certification
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+<a href="https://github.com/Chao-Xi/jxawscsaabook.git/edit/master/docs/chap4/1AWS_IAM.md" title="编辑此页" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
+
+
+
+<h1 id="l1-aws-identity-access-management-iam"><strong>L1 AWS Identity Access Management – IAM</strong></h1>
+<h2 id="1-aws-iam-overview"><strong>1 AWS IAM Overview</strong></h2>
+<p>AWS Identity and Access Management (IAM) is a web service that helps you securely control access to AWS resources for your users.</p>
+<p><strong>IAM is used to control</strong></p>
+<ul>
+<li><strong>Identity – who can use your AWS resources (authentication)</strong></li>
+<li>Identity – who can use your AWS resources (authentication)</li>
+</ul>
+<p>IAM also enables access to resources across AWS accounts.</p>
+<h2 id="2-iam-features"><strong>2 IAM Features</strong></h2>
+<ul>
+<li><strong>Shared access to your AWS account</strong></li>
+</ul>
+<p>Grant other people permission to administer and use resources in your AWS account without having to share your password or access key.</p>
+<ul>
+<li><strong>Granular permissions</strong></li>
+</ul>
+<p>Each user can be granted with different set granular permissions as required to perform their job</p>
+<ul>
+<li><strong>Secure access to AWS resources for applications that run on EC2</strong></li>
+</ul>
+<p>IAM can help provide applications running on EC2 instance temporary credentials that they need in order to access other AWS resources</p>
+<ul>
+<li><strong>Identity federation</strong></li>
+</ul>
+<p>IAM allows users to access AWS resources, without requiring the user to have accounts with AWS, by providing temporary credentials for e.g. through corporate network or Google or Amazon authentication </p>
+<ul>
+<li><strong>Identity information for assurance</strong></li>
+</ul>
+<p>CloudTrail can be used to receive log records that include information about those who made requests for resources in the account.</p>
+<ul>
+<li><strong>PCI DSS Compliance</strong></li>
+</ul>
+<p>IAM supports the processing, storage, and transmission of credit card data by a merchant or service provider, and <strong>has been validated as being Payment Card Industry Data Security Standard (PCI DSS) complian</strong>t</p>
+<ul>
+<li><strong>Integrated with many AWS services</strong></li>
+</ul>
+<p>IAM integrates with almost all the AWS services</p>
+<ul>
+<li>
+<p><strong>Eventually Consistent</strong></p>
+<ul>
+<li>IAM, like many other AWS services, is eventually consistent and achieves high availability by replicating data across multiple servers within Amazon’s data centers around the world.</li>
+<li>Changes made to IAM would be eventually consistent and hence would take some time to reflect</li>
+</ul>
+</li>
+<li>
+<p><strong>Free to use</strong></p>
+</li>
+</ul>
+<p>IAM is offered at no additional charge and charges are applied only for use of other AWS products by your IAM users.</p>
+<ul>
+<li>
+<p><strong>AWS Security Token Service</strong></p>
+<ul>
+<li>IAM provide STS which is an included feature of the AWS account offered at no additional charge.</li>
+<li>AWS charges only for the use of other AWS services accessed by the AWS STS temporary security credentials.</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-identities"><strong>3 Identities</strong></h2>
+<p>IAM identities determine who can access and help to provide authentication for people and processes in your AWS account</p>
+<p><img alt="Alt Image Text" src="../../images/chap4_1_1.png" title="Body image" /></p>
+<h2 id="4-account-root-user"><strong>4 Account Root User</strong></h2>
+<ul>
+<li>Root Account Credentials are the email address and password with which you sign-in into the AWS account</li>
+<li>Root Credentials has full unrestricted access to AWS account including the account security credentials which include sensitive information</li>
+<li><strong><em>IAM Best Practice – Do not use or share the Root account once the AWS account is created, instead create a separate user with admin privilege</em></strong></li>
+<li>An Administrator account can be created for all the activities which too has full access to the AWS account except the accounts security credentials, billing information and ability to change password</li>
+</ul>
+<h2 id="5-iam-users"><strong>5 IAM Users</strong></h2>
+<ul>
+<li>IAM user represents the person or service who uses the access to interact with AWS.</li>
+<li><strong><mark>IAM Best Practice – Create Individual Users</mark></strong></li>
+<li>User credentials can consist of the following<ul>
+<li><strong>Password to access AWS services through AWS Management Console</strong></li>
+<li><strong>Access Key/Secret Access Key to access AWS services through API, CLI or SDK</strong></li>
+</ul>
+</li>
+<li>IAM user starts with no permissions and is not authorized to perform any AWS actions on any AWS resources and should be granted permissions as per the job function requirement</li>
+<li><strong><mark>IAM Best Practice – Grant least Privilege</mark></strong></li>
+<li>Each IAM user is associated with one and only one AWS account.</li>
+<li>IAM User cannot be renamed from AWS management console and has to be done from CLI or SDK tools.</li>
+<li>IAM handles the renaming of user w.r.t unique id, groups, policies where the user was mentioned as a principal. However, you need to handle the renaming in the policies where the user was mentioned as a resource</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap4_1_2.png" title="Body image" /></p>
+<h2 id="6-iam-groups"><strong>6 IAM Groups</strong></h2>
+<ul>
+<li>IAM group is a collection of IAM users</li>
+<li>IAM groups can be used to specify permissions for a collection of users sharing the same job function making it easier to manage</li>
+<li><strong><em>IAM Best Practice – Use groups to assign permissions to IAM Users</em></strong></li>
+<li>A group is not truly an identity because it cannot be identified as a Principal in an access policy. It is only a way to attach policies to multiple users at one time</li>
+<li>A group can have multiple users, while a user can belong to multiple groups (10 max)</li>
+<li>Groups cannot be nested and can only have users within it</li>
+<li>AWS does not provide any default group to hold all users in it and if one is required it should be created with all users assigned to it.</li>
+<li>Renaming of a group name or path, IAM handles the renaming w.r.t to policies attached to the group, unique ids, users within the group. However, IAM does not update the policies where the group is mentioned as a resource and must be handled manually</li>
+<li>Deletion of the groups requires you to detach users and managed policies and delete any inline policies before deleting the group. With AWS management console, the deletion and detachment is taken care of.</li>
+</ul>
+<h2 id="7-iam-roles"><strong>7 IAM Roles</strong></h2>
+<h3 id="7-1-aws-iam-role"><strong>7-1 AWS IAM Role</strong></h3>
+<ul>
+<li>IAM role is very similar to a user, in that it is an identity with permission policies that determine what the identity can and cannot do in AWS.</li>
+<li>IAM role is not intended to be uniquely associated with a particular user, group or service and is intended to be assumable by anyone who needs it.</li>
+<li>Role does not have any credentials (password or access keys) associated with it and whoever assumes the role is provided with a dynamic temporary credentials</li>
+<li>Role helps in access delegation to grant permissions to someone that allows access to resources that you control</li>
+<li>Roles can help to prevent accidental access to or modification of sensitive resources</li>
+<li>Modification of a Role can be done anytime and the changes are reflected across all the entities associated with the Role immediately<ul>
+<li>IAM Role plays a very important role in the following scenarios</li>
+<li>Services like EC2 instance running an application that needs to access other AWS services</li>
+<li>Allowing users from different AWS accounts have access to AWS resources in different account, instead of having to create users</li>
+<li>Company uses a Corporate Authentication mechanism and don’t want the User to authenticate twice or create duplicate users in AWS</li>
+<li>Applications allowing login through <strong><em>external authentication mechanism e.g. Amazon, Facebook, Google etc</em></strong></li>
+</ul>
+</li>
+<li>Role can be assumed by<ul>
+<li>IAM user within the same AWS account</li>
+<li>IAM user from a different AWS account</li>
+<li>AWS service such as EC2, EMR to interact with other services</li>
+<li>An external user authenticated by an external identity provider (IdP) service that is compatible with SAML 2.0 or OpenID Connect (OIDC), or a custom-built identity broker.</li>
+</ul>
+</li>
+<li>Role involves defining two policies<ul>
+<li><strong>Trust policy</strong><ul>
+<li>Trust policy defines – who can assume the role</li>
+<li>Trust policy involves setting up a trust between the account that owns the resource (trusting account) and the account who owns the user that needs access to the resources (trusted account)</li>
+</ul>
+</li>
+<li><strong>Permissions policy</strong><ul>
+<li>Permissions policy defines – what they can access</li>
+<li>Permissions policy determines authorization, which grants the user of the role with the needed permissions to carry out the desired tasks on the resource</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Federation</strong> is creating a trust relationship between an external Identity Provider (IdP) and AWS<ul>
+<li>Users can also sign in to an enterprise identity system that is compatible with SAML</li>
+<li>Users can sign in to a web identity provider, such as Login with Amazon, Facebook, Google, or any IdP that is compatible with OpenID connect (OIDC).</li>
+<li>When using OIDC and SAML 2.0 to configure a trust relationship between these external identity providers and AWS, the user is assigned to an IAM role and receives temporary credentials that enables the user to access AWS resources</li>
+</ul>
+</li>
+<li><strong>IAM Best Practice – Use roles for applications running on EC2 instances</strong></li>
+<li><strong>IAM Best Practice – Delegate using roles instead of sharing credentials</strong></li>
+</ul>
+<h3 id="7-2-role-types"><strong>7-2 Role types</strong></h3>
+<ul>
+<li>AWS Security Token Service (STS) helps create and provide trusted users with temporary security credentials that control access to AWS resources</li>
+<li>STS is a global service with a single endpoint <code>https://sts.amazonaws.com</code></li>
+<li>AWS STS API calls can be made either to a global endpoint or to one of the regional endpoints. Regional endpoint can help reduce latency and improve the performance of the API calls</li>
+<li><strong>Temporary Credentials are similar to Long Term Credentials except for</strong><ul>
+<li>are short term and are regularly rotated</li>
+<li>can be configured to last from few minutes to several hours</li>
+<li>do not have to be embedded or distributed</li>
+<li>are not stored or attached with the User, but are generated dynamically and provided to the user as and when requested</li>
+</ul>
+</li>
+</ul>
+<h3 id="7-3-role-types"><strong>7-3 Role types</strong></h3>
+<h4 id="aws-service-roles"><strong>AWS Service Roles</strong></h4>
+<ul>
+<li>Some AWS services need to interact with other AWS services <strong><em>for e.g. EC2 interacting with S3, SQS etc</em></strong></li>
+<li>Best practice is to assign these services with IAM roles instead of embedding or passing IAM user credentials directly into an instance, because distributing and rotating long-term credentials to multiple instances is challenging to manage and a potential security risk.</li>
+<li>AWS automatically provides temporary security credentials for these services <strong><em>e.g. Amazon EC2 instance to use on behalf of its applications</em></strong></li>
+<li>Deleting a role or instance profile that is associated with a running EC2 instance will break any applications running on the instance</li>
+</ul>
+<h4 id="complete-process-flow"><strong>Complete Process Flow</strong></h4>
+<ul>
+<li>Create a IAM role with services who would use it for e.g. <em>EC2 as trusted entity and define permission policies with the access the service needs</em></li>
+<li><strong>Associated a Role (actually an Instance profile) with the EC2 service when the instance is launched</strong></li>
+<li>Temporary security credentials are available on the instance and are automatically rotated before they expire so that a valid set is always available</li>
+<li>Application can retrieve the temporary credentials either using the Instance metadata directly or through AWS SDK</li>
+<li>Applications running on the EC2 instance can now use the permissions defined in the Role to access other AWS resources</li>
+<li>Application, if caching the credentials, needs to make sure it uses the correct credentials before they expire</li>
+</ul>
+<h4 id="instance-profile"><strong>Instance Profile</strong></h4>
+<ul>
+<li>An instance profile is a container for an IAM role that you can use to pass role information to an EC2 instance when the instance starts.</li>
+<li>If a Role is created for EC2 instance or any other service that uses EC2 through AWS Management Console, AWS creates a Instance profile automatically with the same name as the Role. However, if the Role is created through CLI the instance profile needs to created as well</li>
+<li>An instance profile can contain only one IAM role. However, a role can be included in multiple instance profiles.</li>
+</ul>
+<h3 id="7-4-cross-account-access-roles"><strong>7-4 Cross-Account access Roles</strong></h3>
+<ul>
+<li>IAM users can be granted permission to switch roles within the same AWS account or to roles defined in other AWS accounts that you own.</li>
+<li>Roles can also be used to delegate permissions to IAM users from AWS accounts owned by Third parties<ul>
+<li>You must explicitly grant the users permission to assume the role.</li>
+<li>Users must actively switch to the role using the AWS Management Console.</li>
+<li>Multi-factor authentication (MFA) protection can be enabled for the role so that only users who sign in with an MFA device can assume the role</li>
+</ul>
+</li>
+<li>However, only One set of permissions are applicable at a time. User who assumes a role temporarily gives up his or her own permissions and instead takes on the permissions of the role. When the user exits, or stops using the role, the original user permissions are restored.</li>
+</ul>
+<h3 id="7-5-complete-process-flow"><strong>7-5 Complete Process Flow</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/chap4_1_3.png" title="Body image" /></p>
+<ul>
+<li>Trusting account creates a IAM Role with a<ul>
+<li>Trust policy which defines the account (trusted account) as a principal who can access the resources and a</li>
+<li>Permissions policy to define what resources can the user in the trusted account access</li>
+</ul>
+</li>
+<li>Trusting account provides the Account ID and the Role name (or the ARN) to the trusted account</li>
+<li>If the Trusting account is own by Third Party it can optionally provide an External ID (recommended for additional security), required to uniquely identify the trusted account, which can be added to the trust policy as a condition</li>
+<li>Trusted account creates a IAM user who has permissions (Permission to call the <strong><em>AWS Security Token Service (AWS STS) AssumeRole API for the role) to assume the role/switch to the role.</em></strong></li>
+<li>IAM User in the Trusted account switches to the Role/assumes the role and passes the ARN of the role</li>
+<li>Trusted account belonging to the Third party would also pass the External ID mapped to the Trusting account</li>
+<li><strong><mark>AWS STS verifies the request for the role ARN, External ID if any and if it is from the trusted resource matching the roles’s trust policy and</mark></strong></li>
+<li>AWS STS upon successful verification returns temporary credentials</li>
+<li>Temporary credentials allow the user to access the resources of the Trusting account</li>
+<li>When the user exits the role, the user’s permissions revert to the original permissions held before switching to the role</li>
+</ul>
+<h3 id="7-6-external-id-and-confused-deputy-problem"><strong>7-6 External ID and Confused Deputy Problem</strong></h3>
+<ul>
+<li>External ID allows the user that is assuming the role to assert the circumstances in which they are operating.</li>
+<li>External ID provides a way for the account owner to permit the role to be assumed only under specific circumstances and prevents an unauthorized customer from gaining access to your resources</li>
+<li>Primary function of the external ID is to address and prevent the “confused deputy” problem.</li>
+</ul>
+<h4 id="confused-deputy-problem"><strong>Confused Deputy Problem</strong></h4>
+<p><img alt="Alt Image Text" src="../../images/chap4_1_4.png" title="Body image" /></p>
+<ol>
+<li>Example Corp’s AWS Account provides the services (access, analyze and process data and provide back reports) to multiple different AWS accounts</li>
+<li>Preferred mechanism is to have each AWS account customer define a Role which Example Corp’s AWS Account users can assume and act upon</li>
+<li>You provide Example Corp’s AWS Account access to your AWS account through Role and providing Role ARN</li>
+<li>Example Corp when working on your account assumes the IAM role and provides the ARN with the request</li>
+<li>As Example Corp is already trusted by your account it will received the temporary security credentials and gain access to your resources</li>
+<li>If an other AWS account is able to know or guess your ARN (Role with Account ID), it can provide the same to Example Corp</li>
+<li>Example Corp’s would use the ARN (belonging to your AWS account) to process the data but would provide the same data to the other AWS account</li>
+<li>This form of privilege escalation is known as the confused deputy problem</li>
+</ol>
+<h3 id="7-7-address-confused-deputy-problem-using-external-id"><strong>7-7 Address Confused Deputy Problem using External ID</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/chap4_1_5.png" title="Body image" /></p>
+<ol>
+<li>Using External ID, Example Corp’s generates a unique External ID for each of its Customer which is known only to them and is kept secret</li>
+<li>Example Corp provides you an External ID which needs to added as a condition while defining the trust policy</li>
+<li>You provide Example Corp’s AWS Account access to your AWS account through Role and providing Role ARN</li>
+<li>Example Corp when working on your account uses the IAM role and provides the ARN along with the External ID and as it is already trusted would be able to gain access</li>
+<li>Other AWS account registered with Example Corp would have a Unique External ID assigned to it</li>
+<li>If the Other AWS account is able to know or guess your ARN (Role with Account ID), it can provide the same to Example Corp</li>
+<li>Example Corp’s would request access to your Account using the ARN (belonging to your AWS account) but with the External ID belonging to Other AWS account as the request was made on its behalf</li>
+<li>As the External ID provided by Example Corp does not match the condition defined in the Role trust policy, the authentication would fail and hence denied access</li>
+</ol>
+<h3 id="7-8-aws-certification-exam-for-iam-role"><strong>7-8 AWS Certification Exam for IAM Role</strong></h3>
+<ol>
+<li>A company is building software on AWS that requires access to various AWS services. Which configuration should be used to ensure that AWS credentials (i.e., Access Key ID/Secret Access Key combination) are not compromised?<ul>
+<li>Enable Multi-Factor Authentication for your AWS root account.</li>
+<li><strong>Assign an IAM role to the Amazon EC2 instance.</strong></li>
+<li>Store the AWS Access Key ID/Secret Access Key combination in software comments.</li>
+<li>Assign an IAM user to the Amazon EC2 Instance.</li>
+</ul>
+</li>
+<li>A company is preparing to give AWS Management Console access to developers. Company policy mandates identity federation and role-based access control. Roles are currently assigned using groups in the corporate Active Directory. What combination of the following will give developers access to the AWS console? (Select 2) Choose 2 answers<ul>
+<li><strong>AWS Directory Service AD Connector</strong></li>
+<li>AWS Directory Service Simple AD</li>
+<li>AWS Identity and Access Management groups</li>
+<li><strong>AWS identity and Access Management roles</strong></li>
+<li>AWS identity and Access Management users</li>
+</ul>
+</li>
+<li>A customer needs corporate IT governance and cost oversight of all AWS resources consumed by its divisions. The divisions want to maintain administrative control of the discrete AWS resources they consume and keep those resources separate from the resources of other divisions. Which of the following options, when used together will support the autonomy/control of divisions while enabling corporate IT to maintain governance and cost oversight? Choose 2 answers<ul>
+<li>Use AWS Consolidated Billing and disable AWS root account access for the child accounts.</li>
+<li><strong>Enable IAM cross-account access for all corporate IT administrators in each child account. (Provides IT governance)</strong></li>
+<li>Create separate VPCs for each division within the corporate IT AWS account.</li>
+<li><strong>Use AWS Consolidated Billing to link the divisions’ accounts to a parent corporate account. (Will provide cost oversight)</strong></li>
+<li>Write all child AWS CloudTrail and Amazon CloudWatch logs to each child account’s Amazon S3 ‘Log’ bucket.</li>
+</ul>
+</li>
+<li>Which of the following items are required to allow an application deployed on an EC2 instance to write data to a DynamoDB table? Assume that no security keys are allowed to be stored on the EC2 instance. (Choose 2 answers)<ul>
+<li><strong>Create an IAM Role that allows write access to the DynamoDB table</strong></li>
+<li><strong>Add an IAM Role to a running EC2 instance. (With latest enhancement from AWS, IAM role can be assigned to a running EC2 instance)</strong></li>
+<li>Create an IAM User that allows write access to the DynamoDB table.</li>
+<li>Add an IAM User to a running EC2 instance.</li>
+<li>Launch an EC2 Instance with the IAM Role included in the launch configuration (This was the correct answer before, as AWS did not allow IAM role to be added to an existing instance)</li>
+</ul>
+</li>
+<li>You are looking to migrate your Development (Dev) and Test environments to AWS. You have decided to use separate AWS accounts to host each environment. You plan to link each accounts bill to a Master AWS account using Consolidated Billing. To make sure you Keep within budget you would like to implement a way for administrators in the Master account to have access to stop, delete and/or terminate resources in both the Dev and Test accounts. Identify which option will allow you to achieve this goal. [PROFESSIONAL]<ul>
+<li>Create IAM users in the Master account with full Admin permissions. Create cross-account roles in the Dev and Test accounts that grant the Master account access to the resources in the account by inheriting permissions from the Master account.</li>
+<li>Create IAM users and a cross-account role in the Master account that grants full Admin permissions to the Dev and Test accounts.</li>
+<li><strong>Create IAM users in the Master account Create cross-account roles in the Dev and Test accounts that have full Admin permissions and grant the Master account access</strong></li>
+<li>Link the accounts using Consolidated Billing. This will give IAM users in the Master account access to resources in the Dev and Test accounts</li>
+</ul>
+</li>
+<li>You have an application running on an EC2 Instance which will allow users to download flies from a private S3 bucket using a pre-assigned URL. Before generating the URL the application should verify the existence of the file in S3. How should the application use AWS credentials to access the S3 bucket securely? [PROFESSIONAL]<ul>
+<li>Use the AWS account access Keys the application retrieves the credentials from the source code of the application.</li>
+<li>Create a IAM user for the application with permissions that allow list access to the S3 bucket launch the instance as the IAM user and retrieve the IAM user’s credentials from the EC2 instance user data.</li>
+<li><strong>Create an IAM role for EC2 that allows list access to objects in the S3 bucket. Launch the instance with the role, and retrieve the role’s credentials from the EC2 Instance metadata</strong></li>
+<li>Create an IAM user for the application with permissions that allow list access to the S3 bucket. The application retrieves the IAM user credentials from a temporary directory with permissions that allow read access only to the application user.</li>
+</ul>
+</li>
+<li>
+<p>An administrator is using Amazon CloudFormation to deploy a three tier web application that consists of a web tier and application tier that will utilize Amazon DynamoDB for storage when creating the CloudFormation template which of the following would allow the application instance access to the DynamoDB tables without exposing API credentials?  [PROFESSIONAL]</p>
+<ul>
+<li>Create an Identity and Access Management Role that has the required permissions to read and write from the required DynamoDB table and associate the Role to the application instances by referencing an instance profile.</li>
+<li>Use the Parameter section in the Cloud Formation template to nave the user input Access and Secret Keys from an already created IAM user that has me permissions required to read and write from the required DynamoDB table.</li>
+<li><strong>Create an Identity and Access Management Role that has the required permissions to read and write from the required DynamoDB table and reference the Role in the instance profile property of the application instance</strong>.</li>
+<li>Create an identity and Access Management user in the CloudFormation template that has permissions to read and write from the required DynamoDB table, use the GetAtt function to retrieve the Access and secret keys and pass them to the application instance through user-data.</li>
+</ul>
+</li>
+<li>
+<p>An enterprise wants to use a third-party SaaS application. The SaaS application needs to have access to issue several API commands to discover Amazon EC2 resources running within the enterprise’s account. The enterprise has internal security policies that require any outside access to their environment must conform to the principles of least privilege and there must be controls in place to ensure that the credentials used by the SaaS vendor cannot be used by any other third party. Which of the following would meet all of these conditions? [PROFESSIONAL]</p>
+<ul>
+<li>From the AWS Management Console, navigate to the Security Credentials page and retrieve the access and secret key for your account.</li>
+<li>Create an IAM user within the enterprise account assign a user policy to the IAM user that allows only the actions required by the SaaS application create a new access and secret key for the user and provide these credentials to the SaaS provider.</li>
+<li><strong>Create an IAM role for cross-account access allows the SaaS provider’s account to assume the role and assign it a policy that allows only the actions required by the SaaS application.</strong></li>
+<li>Create an IAM role for EC2 instances, assign it a policy mat allows only the actions required tor the SaaS application to work, provide the role ARM to the SaaS provider to use when launching their application instances.</li>
+</ul>
+</li>
+<li>A user has created an application which will be hosted on EC2. The application makes calls to DynamoDB to fetch certain data. The application is using the DynamoDB SDK to connect with from the EC2 instance. Which of the below mentioned statements is true with respect to the best practice for security in this scenario?<ul>
+<li><strong>The user should attach an IAM role with DynamoDB access to the EC2 instance</strong></li>
+<li>The user should create an IAM user with DynamoDB access and use its credentials within the application to connect with DynamoDB</li>
+<li>The user should create an IAM role, which has EC2 access so that it will allow deploying the application</li>
+<li>The user should create an IAM user with DynamoDB and EC2 access. Attach the user with the application so that it does not use the root account credentials</li>
+</ul>
+</li>
+<li>
+<p>A customer is in the process of deploying multiple applications to AWS that are owned and operated by different development teams. Each development team maintains the authorization of its users independently from other teams. The customer’s information security team would like to be able to delegate user authorization to the individual development teams but independently apply restrictions to the users permissions based on factors such as the users device and location. For example, the information security team would like to grant read-only permissions to a user who is defined by the development team as read/write whenever the user is authenticating from outside the corporate network. What steps can the information security team take to implement this capability? [PROFESSIONAL]</p>
+<ul>
+<li>Operate an authentication service that generates AWS STS tokens with IAM policies from application-defined IAM roles. (no user separation, will just help generate temporary tokens)</li>
+<li><strong>Add additional IAM policies to the application IAM roles that deny user privileges based on information security policy. (Different policy with deny rules based on location, device and more restrictive wins)</strong></li>
+<li>Configure IAM policies that restrict modification of the application IAM roles only to the information security team. (Authorization should still be in developers control)</li>
+<li>Enable federation with the internal LDAP directory and grant the application teams permissions to modify users.</li>
+</ul>
+</li>
+<li>
+<p>You are creating an Auto Scaling group whose Instances need to insert a custom metric into CloudWatch. Which method would be the best way to authenticate your CloudWatch PUT request?</p>
+<ul>
+<li><strong>Create an IAM role with the Put MetricData permission and modify the Auto Scaling launch configuration to launch instances in that role</strong></li>
+<li>Create an IAM user with the PutMetricData permission and modify the Auto Scaling launch configuration to inject the users credentials into the instance User Data</li>
+<li>Modify the appropriate Cloud Watch metric policies to allow the Put MetricData permission to instances from the Auto Scaling group</li>
+<li>Create an IAM user with the PutMetricData permission and put the credentials in a private repository and have applications on the server pull the credentials as needed</li>
+</ul>
+</li>
+</ol>
+<h2 id="7-multifactor-authentication-mfa"><strong>7 MultiFactor Authentication (MFA)</strong></h2>
+<ul>
+<li>For increased security and to help protect the AWS resources, Multi-Factor authentication can be configured</li>
+<li><strong>IAM Best Practice – Enable MFA on Root accounts and privilege users</strong></li>
+<li>Multi-Factor Authentication can be configured using<ul>
+<li><strong>Security token-based</strong><ul>
+<li>AWS Root user or IAM user can be assigned a hardware/virtual MFA device</li>
+<li>Device generates a six digit numeric code based upon a time-synchronized one-time password algorithm which needs to be provided during authentication</li>
+</ul>
+</li>
+<li><strong>SMS text message-based (Preview Mode)</strong><ul>
+<li>IAM user can be configured with the phone number of the user’s SMS-compatible mobile device which would receive a 6 digit code from AWS</li>
+<li>SMS-based MFA is available only for IAM users and does not work for AWS root account</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>MFA needs to enabled on the Root user and IAM user separately as they are distinct entities. Enabling MFA on Root does not enable it for all other users</li>
+<li>MFA device can be associated with only one AWS account or IAM user and vice versa</li>
+<li>If the MFA device stops working or is lost, you won’t be able to login into the AWS console and would need to reach out to AWS support to deactivate MFA</li>
+<li><strong>MFA protection can be enabled for service api’s calls using <code>“Condition”: {“Bool”: {“aws:MultiFactorAuthPresent”: “true”}}</code></strong> and is available only if the service supports temporary security credentials.</li>
+</ul>
+<h2 id="8-aws-iam-access-management"><strong>8 AWS IAM Access Management</strong></h2>
+<ul>
+<li>IAM Access Management is all about Permissions and Policies</li>
+<li>Permission allows you to define who has access and what actions can they perform</li>
+<li>IAM Policy helps to fine tune the permissions granted to the policy owner</li>
+<li>IAM Policy is a document that formally states one or more permissions.</li>
+<li>Most restrictive Policy always wins</li>
+<li>IAM Policy is defined in the JSON (JavaScript Object Notation) format</li>
+<li>IAM policy basically states “<strong>Principal A is allowed or denied (effect) to perform Action B on Resource C given Conditions D are satisfied”</strong></li>
+</ul>
+<pre><code>{
+    “Version”: “2012-10-17”,
+    “Statement”: {
+       “Principal“: {“AWS”: [“arn:aws:iam::ACCOUNT-ID-WITHOUT-HYPHENS:root”]},
+       “Action“: “s3:ListBucket”,
+       “Effect“: “Allow”,
+       “Resource“: “arn:aws:s3:::example_bucket”,
+       “Condition“: {“StringLike”: {
+           “s3:prefix”: [ “home/${aws:username}/” ]
+              }
+          }
+    }
+}
+</code></pre>
+<ul>
+<li>An Entity can be associated with Multiple Policies and a Policy can have multiple statements where each statement in a policy refers to a single permission. If your policy includes multiple statements, a logical OR is applied across the statements at evaluation time. Similarly, if multiple policies are applicable to a request, a logical OR is applied across the policies at evaluation time.</li>
+<li>Principal can either be specified within the Policy for resource Based policies while for user bases policies the principal is the user, group or role to which the policy is attached</li>
+</ul>
+<h3 id="8-1-identity-based-vs-resource-based-permissions"><strong>8-1 Identity-Based vs Resource-Based Permissions</strong></h3>
+<p><strong>Identity-based, or IAM permissions</strong></p>
+<ul>
+<li>Identity-based, or IAM permissions are attached to an IAM user, group, or role and specify what the user, group or role can do</li>
+<li>User, group, or role itself acts as a Principal</li>
+<li>IAM permissions can be applied to almost all the AWS services</li>
+<li>IAM Policies can either be inline or managed</li>
+<li>IAM Policy version has to be 2012-10-17</li>
+</ul>
+<p><strong>Resource-based permissions</strong></p>
+<ul>
+<li>Resource-based permissions are attached to a resource for e.g. S3, SNS </li>
+<li>Resource-based permissions specifies both who has access to the resource (Principal) and what actions they can perform on it (Actions)</li>
+<li>Resource-based policies are inline only, not managed.</li>
+<li>Resource-based permissions are supported only by some AWS services</li>
+<li>Resource-based policies are always attached inline policy and are not managed</li>
+<li>Resource-based policies can be defined with version 2012-10-17 or 2008-10-17</li>
+</ul>
+<h3 id="8-2-managed-policies-and-inline-policies"><strong>8-2 Managed Policies and Inline Policies</strong></h3>
+<p><strong>Managed policies</strong></p>
+<ul>
+<li>Managed policies are Standalone policies that can be attached to multiple users, groups, and roles in an AWS account.</li>
+<li>Managed policies apply only to identities (users, groups, and roles) but not to resources.</li>
+<li>Managed policies allow reusability</li>
+<li>Managed policy changes are implemented as <strong>versions</strong> (limited to 5), an new change to the existing policy creates a new version which is useful to compare the changes and revert back, if needed</li>
+<li>Managed policies have their own ARN</li>
+<li>Two types of managed policies:<ul>
+<li><strong>AWS managed policies</strong><ul>
+<li>Managed policies that are created and managed by AWS.</li>
+<li>AWS maintains and can upgrades these policies for e.g. if a new service is introduced, the changes automatically effects all the existing principals attached to the policy</li>
+<li>AWS takes care of not breaking the policies for e.g. adding an restriction of removal of permission</li>
+<li>Managed policies cannot be modified</li>
+</ul>
+</li>
+<li><strong>Customer managed policies</strong><ul>
+<li>Managed policies are standalone and custom policies created and administered by you.</li>
+<li>Customer managed policies allows more precise control over the policies than when using AWS managed policies.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>Inline policies</strong></p>
+<ul>
+<li>Inline policies are created and managed by you, and are embedded directly into a single user, group, or role.</li>
+<li>Deletion of the Entity (User, Group or Role) or Resource deletes the In-Line policy as well</li>
+</ul>
+<h3 id="8-3-iam-policy-simulator"><strong>8-3 IAM Policy Simulator</strong></h3>
+<ul>
+<li>IAM Policy Simulator helps test and troubleshoot IAM and resource-based policies</li>
+<li>IAM Policy Simulator can help test the following ways :-<ul>
+<li>Test IAM based policies. If multiple policies attached, you can test all the policies, or select individual policies to test. You can test which actions are allowed or denied by the selected policies for specific resources.</li>
+<li>Test Resource based policies. However, Resource based policies cannot be tested standalone and have to be attached with the Resource</li>
+<li>Test new IAM policies that are not yet attached to a user, group, or role by typing or copying them into the simulator. These are used only in the simulation and are not saved.</li>
+<li>Test the policies with selected services, actions, and resources</li>
+<li>Simulate real-world scenarios by providing context keys, such as an IP address or date, that are included in Condition elements in the policies being tested.</li>
+<li>Identify which specific statement in a policy results in allowing or denying access to a particular resource or action.</li>
+</ul>
+</li>
+<li>IAM Policy Simulator does not make an actual AWS service request and hence does not make unwanted changes to the AWS live environment</li>
+<li><strong>IAM Policy Simulator just reports the result Allowed or Denied</strong></li>
+<li>IAM Policy Simulator allows to you modify the policy and test. These changes are not propogated to the actual policies attached to the entities</li>
+<li>Introductory Video for Policy Simulator</li>
+</ul>
+<h3 id="8-4-iam-policy-evaluation"><strong>8-4 IAM Policy Evaluation</strong></h3>
+<p>When determining if permission is allowed, the hierarchy is followed</p>
+<p><img alt="Alt Image Text" src="../../images/chap4_1_6.png" title="Body image" /></p>
+<ol>
+<li>Decision allows starts with Deny</li>
+<li>IAM combines and evaluates all the policies</li>
+<li><strong>Explicit Deny</strong><ul>
+<li>First IAM checks for an explicit denial policy.</li>
+<li>Explicit Deny overrides everything and if something is explicitly deined it can never be allowed</li>
+</ul>
+</li>
+<li><strong>Explicit Allow</strong><ul>
+<li>If one does not exist, it then checks for an explicit allow policy.</li>
+<li>For granting User any permission, the permission must be explicitly allowed</li>
+</ul>
+</li>
+<li><strong>Implicit Deny</strong><ul>
+<li>If neither an explicit deny or explicit allow policy exist, it reverts to the default: implicit deny.</li>
+<li>All permissions are implicity denied by default</li>
+</ul>
+</li>
+</ol>
+<h3 id="8-5-iam-policy-variables"><strong>8-5 IAM Policy Variables</strong></h3>
+<ul>
+<li>Policy variables provide a feature to specify placeholders in a policy.</li>
+<li>When the policy is evaluated, the policy variables are replaced with values that come from the request itself</li>
+<li>Policy variables allow a single policy to be applied to a group of users to control access for <strong><em>e.g. all user having access to S3 bucket folder with their name only</em></strong></li>
+<li>Policy variable is marked using a <code>$ prefix followed by a pair of curly braces ({ })</code>. Inside the <code>${ }</code>  characters, with the name of the value from the request that you want to use in the policy</li>
+<li>Policy variables work only with policies defined with Version 2012-10-17</li>
+<li>Policy variables can only be used in the Resource element and in string comparisons in the Condition element</li>
+<li>Policy variables are <strong>case sensitive</strong> and include variables like aws:username, aws:userid, aws:SourceIp, aws:CurrentTime etc.</li>
+</ul>
+<h3 id="8-6-iam-policy-variables"><strong>8-6 IAM Policy Variables</strong></h3>
+<ol>
+<li>IAM’s Policy Evaluation Logic always starts with a default <strong><em>_</em></strong>_____ for every request, except for those that use the AWS account’s root security credentials b<ul>
+<li>Permit</li>
+<li><strong>Deny</strong></li>
+<li>Cancel</li>
+</ul>
+</li>
+<li>An organization has created 10 IAM users. The organization wants each of the IAM users to have access to a separate DynamoDB table. All the users are added to the same group and the organization wants to setup a group level policy for this. How can the organization achieve this?<ul>
+<li>Define the group policy and add a condition which allows the access based on the IAM name</li>
+<li><strong>Create a DynamoDB table with the same name as the IAM user name and define the policy rule which grants access based on the DynamoDB ARN using a variable</strong></li>
+<li>Create a separate DynamoDB database for each user and configure a policy in the group based on the DB variable</li>
+<li>It is not possible to have a group level policy which allows different IAM users to different DynamoDB Tables</li>
+</ul>
+</li>
+<li>An organization has setup multiple IAM users. The organization wants that each IAM user accesses the IAM console only within the organization and not from outside. How can it achieve this?<ul>
+<li>Create an IAM policy with the security group and use that security group for AWS console login</li>
+<li><strong>Create an IAM policy with a condition which denies access when the IP address range is not from the organization</strong></li>
+<li>Configure the EC2 instance security group which allows traffic only from the organization’s IP range</li>
+<li>Create an IAM policy with VPC and allow a secure gateway between the organization and AWS Console</li>
+</ul>
+</li>
+<li>Can I attach more than one policy to a particular entity?<ul>
+<li><strong>Yes always</strong></li>
+<li>Only if within GovCloud</li>
+<li>No</li>
+<li>Only if within VPC</li>
+</ul>
+</li>
+<li>A <strong><em>_</em></strong>___ is a document that provides a formal statement of one or more permissions.<ul>
+<li><strong>policy</strong></li>
+<li>permission</li>
+<li>Role</li>
+<li>resource</li>
+</ul>
+</li>
+<li>A <strong><em>_</em></strong>___ is the concept of allowing (or disallowing) an entity such as a user, group, or role some type of access to one or more resources.<ul>
+<li>user</li>
+<li>AWS Account</li>
+<li>resource</li>
+<li><strong>permission</strong></li>
+</ul>
+</li>
+<li>True or False: When using IAM to control access to your RDS resources, the key names that can be used are case sensitive. For example, aws:CurrentTime is NOT equivalent to AWS:currenttime.<ul>
+<li>TRUE</li>
+<li><strong>FALSE</strong></li>
+</ul>
+</li>
+<li>A user has set an IAM policy where it allows all requests if a request from IP 10.10.10.1/32. Another policy allows all the requests between 5 PM to 7 PM. What will happen when a user is requesting access from IP 10.10.10.1/32 at 6 PM?<ul>
+<li>IAM will throw an error for policy conflict</li>
+<li>It is not possible to set a policy based on the time or IP</li>
+<li>It will deny access</li>
+<li><strong>It will allow access</strong></li>
+</ul>
+</li>
+<li>Which of the following are correct statements with policy evaluation logic in AWS Identity and Access Management? Choose 2 answers.<ul>
+<li><strong>By default, all requests are denied</strong></li>
+<li>An explicit allow overrides an explicit deny</li>
+<li><strong>An explicit allow overrides default deny</strong></li>
+<li>An explicit deny does not override an explicit allow</li>
+<li>By default, all request are allowed</li>
+</ul>
+</li>
+<li>A web design company currently runs several FTP servers that their 250 customers use to upload and download large graphic files. They wish to move this system to AWS to make it more scalable, but they wish to maintain customer privacy and keep costs to a minimum. What AWS architecture would you recommend? [PROFESSIONAL]<ul>
+<li><strong>Ask their customers to use an S3 client instead of an FTP client. Create a single S3 bucket. Create an IAM user for each customer. Put the IAM Users in a Group that has an IAM policy that permits access to subdirectories within the bucket via use of the ‘username’ Policy variable</strong>.</li>
+<li>Create a single S3 bucket with Reduced Redundancy Storage turned on and ask their customers to use an S3 client instead of an FTP client. Create a bucket for each customer with a Bucket Policy that permits access only to that one customer. (Creating bucket for each user is not a scalable model, also 100 buckets are a limit earlier without extending which has since changed link)</li>
+<li>Create an auto-scaling group of FTP servers with a scaling policy to automatically scale-in when minimum network traffic on the auto-scaling group is below a given threshold. Load a central list of ftp users from S3 as part of the user Data startup script on each Instance (Expensive)</li>
+<li>Create a single S3 bucket with Requester Pays turned on and ask their customers to use an S3 client instead of an FTP client. Create a bucket tor each customer with a Bucket Policy that permits access only to that one customer. (Creating bucket for each user is not a scalable model, also 100 buckets are a limit earlier without extending which has since changed link)</li>
+</ul>
+</li>
+</ol>
+<h2 id="8-credential-report"><strong>8 Credential Report</strong></h2>
+<ul>
+<li>IAM allows you to generate and download a credential report that lists all users in the account and the status of their various credentials, including passwords, access keys, and MFA devices.</li>
+<li>Credential report can be used to assist in auditing and compliance efforts</li>
+<li>Credential report can be used to audit the effects of credential lifecycle requirements, such as password and access key rotation.</li>
+<li><strong>IAM Best Practice – Perform Audits and Remove all unused users and credentials</strong></li>
+<li>Credential report is generated as often as once every four hours. If the existing report was generated less than four hours, the same is available for download. If more then four hours, IAM generates and downloads a new report.</li>
+</ul>
+<h2 id="9-aws-iam-aws-certification"><strong>9 AWS IAM AWS Certification</strong></h2>
+<ol>
+<li>Which service enables AWS customers to manage users and permissions in AWS?<ul>
+<li>AWS Access Control Service (ACS)</li>
+<li><strong>AWS Identity and Access Management (IAM)</strong></li>
+<li>AWS Identity Manager (AIM)</li>
+<li>
+<ol>
+<li>IAM provides several policy templates you can use to automatically assign permissions to the groups you create. The _____ policy template gives the Admins group permission to access all account resources, except your AWS account information</li>
+</ol>
+</li>
+<li>Read Only Access</li>
+<li>Power User Access</li>
+<li>AWS Cloud Formation Read Only Access</li>
+<li><strong>Administrator Access</strong></li>
+</ul>
+</li>
+<li>Every user you create in the IAM system starts with <strong><em>_</em></strong>__.<ul>
+<li>Partial permissions</li>
+<li>Full permissions</li>
+<li><strong>No permissions</strong></li>
+</ul>
+</li>
+<li>Groups can’t _____.<ul>
+<li>be nested more than 3 levels</li>
+<li><strong>be nested at all</strong></li>
+<li>be nested more than 4 levels</li>
+<li>be nested more than 2 levels</li>
+</ul>
+</li>
+<li>The _____ service is targeted at organizations with multiple users or systems that use AWS products such as Amazon EC2, Amazon SimpleDB, and the AWS Management Console.<ul>
+<li>Amazon RDS</li>
+<li>AWS Integrity Management</li>
+<li><strong>AWS Identity and Access Management</strong></li>
+<li>Amazon EMR</li>
+</ul>
+</li>
+<li>An AWS customer is deploying an application that is composed of an AutoScaling group of EC2 Instances. The customers security policy requires that every outbound connection from these instances to any other service within the customers Virtual Private Cloud must be authenticated using a unique x.509 certificate that contains the specific instanceid. In addition an x.509 certificates must be designed by the customer’s Key management service in order to be trusted for authentication. Which of the following configurations will support these requirements?<ul>
+<li>Configure an IAM Role that grants access to an Amazon S3 object containing a signed certificate and configure the Auto Scaling group to launch instances with this role. Have the instances bootstrap get the certificate from Amazon S3 upon first boot.</li>
+<li>Embed a certificate into the Amazon Machine Image that is used by the Auto Scaling group. Have the launched instances generate a certificate signature request with the instance’s assigned instance-id to the Key management service for signature.</li>
+<li><strong>Configure the Auto Scaling group to send an SNS notification of the launch of a new instance to the trusted key management service. Have the Key management service generate a signed certificate and send it directly to the newly launched instance.</strong></li>
+<li>Configure the launched instances to generate a new certificate upon first boot. Have the Key management service poll the AutoScaling group for associated instances and send new instances a certificate signature that contains the specific instance-id.</li>
+</ul>
+</li>
+<li>When assessing an organization AWS use of AWS API access credentials which of the following three credentials should be evaluated? Choose 3 answers<ul>
+<li>Key pairs</li>
+<li><strong>Console passwords</strong></li>
+<li><strong>Access keys</strong></li>
+<li><strong>Signing certificates</strong></li>
+<li>Security Group memberships (required for EC2 instance access)</li>
+</ul>
+</li>
+<li>An organization has created 50 IAM users. The organization wants that each user can change their password but cannot change their access keys. How can the organization achieve this?<ul>
+<li>The organization has to create a special password policy and attach it to each user</li>
+<li>The root account owner has to use CLI which forces each IAM user to change their password on first login</li>
+<li>By default each IAM user can modify their passwords</li>
+<li><strong>Root account owner can set the policy from the IAM console under the password policy screen</strong></li>
+</ul>
+</li>
+<li>An organization has created 50 IAM users. The organization has introduced a new policy which will change the access of an IAM user. How can the organization implement this effectively so that there is no need to apply the policy at the individual user level?<ul>
+<li><strong>Use the IAM groups and add users as per their role to different groups and apply policy to group</strong></li>
+<li>The user can create a policy and apply it to multiple users in a single go with the AWS CLI</li>
+<li>Add each user to the IAM role as per their organization role to achieve effective policy setup</li>
+<li>Use the IAM role and implement access at the role level</li>
+</ul>
+</li>
+<li>Your organization’s security policy requires that all privileged users either use frequently rotated passwords or one-time access credentials in addition to username/password. Which two of the following options would allow an organization to enforce this policy for AWS users? Choose 2 answers<ul>
+<li><strong>Configure multi-factor authentication for privileged IAM users</strong></li>
+<li><strong>Create IAM users for privileged accounts (can set password policy)</strong></li>
+<li>Implement identity federation between your organization’s Identity provider leveraging the IAM Security Token Service</li>
+<li>Enable the IAM single-use password policy option for privileged users (no such option the password expiration can be set from 1 to 1095 days)</li>
+</ul>
+</li>
+<li>Your organization is preparing for a security assessment of your use of AWS. In preparation for this assessment, which two IAM best practices should you consider implementing? Choose 2 answers<ul>
+<li>Create individual IAM users for everyone in your organization</li>
+<li><strong>Configure MFA on the root account and for privileged IAM users</strong></li>
+<li><strong>Assign IAM users and groups configured with policies granting least privilege access</strong></li>
+<li>Ensure all users have been assigned and are frequently rotating a password, access ID/secret key, and X.509 certificate</li>
+</ul>
+</li>
+<li>A company needs to deploy services to an AWS region which they have not previously used. The company currently has an AWS identity and Access Management (IAM) role for the Amazon EC2 instances, which permits the instance to have access to Amazon DynamoDB. The company wants their EC2 instances in the new region to have the same privileges. How should the company achieve this?<ul>
+<li>Create a new IAM role and associated policies within the new region</li>
+<li><strong>Assign the existing IAM role to the Amazon EC2 instances in the new region</strong></li>
+<li>Copy the IAM role and associated policies to the new region and attach it to the instances</li>
+<li>Create an Amazon Machine Image (AMI) of the instance and copy it to the desired region using the AMI Copy feature</li>
+</ul>
+</li>
+<li>After creating a new IAM user which of the following must be done before they can successfully make API calls?<ul>
+<li>Add a password to the user.</li>
+<li>Enable Multi-Factor Authentication for the user.</li>
+<li>Assign a Password Policy to the user.</li>
+<li><strong>Create a set of Access Keys for the user</strong></li>
+</ul>
+</li>
+<li>An organization is planning to create a user with IAM. They are trying to understand the limitations of IAM so that they can plan accordingly. Which of the below mentioned statements is not true with respect to the limitations of IAM?<ul>
+<li><strong>One IAM user can be a part of a maximum of 5 groups</strong></li>
+<li>Organization can create 100 groups per AWS account</li>
+<li>One AWS account can have a maximum of 5000 IAM users</li>
+<li>One AWS account can have 250 roles</li>
+</ul>
+</li>
+<li>Within the IAM service a GROUP is regarded as a:<ul>
+<li>A collection of AWS accounts</li>
+<li>It’s the group of EC2 machines that gain the permissions specified in the GROUP.</li>
+<li>There’s no GROUP in IAM, but only USERS and RESOURCES.</li>
+<li><strong>A collection of users</strong>.</li>
+</ul>
+</li>
+<li>Is there a limit to the number of groups you can have?<ul>
+<li>Yes for all users except root</li>
+<li>No</li>
+<li>Yes unless special permission granted</li>
+<li><strong>Yes for all users</strong></li>
+</ul>
+</li>
+<li>What is the default maximum number of MFA devices in use per AWS account (at the root account level)?<ul>
+<li><strong>1</strong></li>
+<li>5</li>
+<li>15</li>
+<li>10</li>
+</ul>
+</li>
+<li>When you use the AWS Management Console to delete an IAM user, IAM also deletes any signing certificates and any access keys belonging to the user.<ul>
+<li>FALSE</li>
+<li>This is configurable</li>
+<li><strong>TRUE</strong></li>
+</ul>
+</li>
+<li>You are setting up a blog on AWS. In which of the following scenarios will you need AWS credentials? (Choose 3)<ul>
+<li><strong>Sign in to the AWS management console to launch an Amazon EC2 instance</strong></li>
+<li>Sign in to the running instance to instance some software (needs ssh keys)</li>
+<li><strong>Launch an Amazon RDS instance</strong></li>
+<li>Log into your blog’s content management system to write a blog post (need to authenticate using blog authentication)</li>
+<li><strong>Post pictures to your blog on Amazon S3</strong></li>
+</ul>
+</li>
+<li>An organization has 500 employees. The organization wants to set up AWS access for each department. Which of the below mentioned options is a possible solution?<ul>
+<li>Create IAM roles based on the permission and assign users to each role</li>
+<li>Create IAM users and provide individual permission to each</li>
+<li><strong>Create IAM groups based on the permission and assign IAM users to the groups</strong></li>
+<li>It is not possible to manage more than 100 IAM users with AWS</li>
+</ul>
+</li>
+<li>An organization has hosted an application on the EC2 instances. There will be multiple users connecting to the instance for setup and configuration of application. The organization is planning to implement certain security best practices. Which of the below mentioned pointers will not help the organization achieve better security arrangement?<ul>
+<li>Apply the latest patch of OS and always keep it updated.</li>
+<li><strong>Allow only IAM users to connect with the EC2 instances with their own secret access key</strong>.</li>
+<li>Disable the password-based login for all the users. All the users should use their own keys to connect with the instance securely.</li>
+<li>Create a procedure to revoke the access rights of the individual user when they are not required to connect to EC2 instance anymore for the purpose of application configuration.</li>
+</ul>
+</li>
+</ol>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="页脚">
+      
+        
+        <a href="../../chap3/14direct_connect/" class="md-footer__link md-footer__link--prev" aria-label="上一页: L14 AWS Direct Connect – DX" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              L14 AWS Direct Connect – DX
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../../chap7/1rds/" class="md-footer__link md-footer__link--next" aria-label="下一页: L1 AWS RDS" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              L1 AWS RDS
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "search": "../../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.467223ff.min.js"></script>
+      
+    
+  </body>
+</html>

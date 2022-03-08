@@ -1,0 +1,1480 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob's AWS Certification Solutions Architect Tutorial">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+        <link rel="canonical" href="https://chao-xi.github.io/jxawscsaabook/chap10/1aws_cms/">
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.5">
+    
+    
+      
+        <title>L1 AWS Cloud Migration Services - Jacob AWS Certification Solutions Architect Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2d9f7617.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ffa724">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="orange" data-md-color-accent="orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#l1-aws-cloud-migration-services" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AWS Certification Solutions Architect Book" class="md-header__button md-logo" aria-label="Jacob AWS Certification Solutions Architect Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AWS Certification Solutions Architect Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              L1 AWS Cloud Migration Services
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxawscsaabook.git/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscsaabook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AWS Certification Solutions Architect Book" class="md-nav__button md-logo" aria-label="Jacob AWS Certification Solutions Architect Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AWS Certification Solutions Architect Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxawscsaabook.git/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxawscsaabook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Chap1 Exam-Intro
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap1 Exam-Intro" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Chap1 Exam-Intro
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/1Exam_Guide/" class="md-nav__link">
+        L1 SAA-C02 Exam Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1/2Learning_path/" class="md-nav__link">
+        L2 Associate SAA-C02 Exam Topics
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Chap2 Services Cheat Sheet
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap2 Services Cheat Sheet" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Chap2 Services Cheat Sheet
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/1best_prac/" class="md-nav__link">
+        L1 AWS Best Practices
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/2s3_cs/" class="md-nav__link">
+        L2 AWS Storage & Content Delivery Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/3IS_cs/" class="md-nav__link">
+        L3 AWS Security & Identity Service Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/4Ns_cs/" class="md-nav__link">
+        L4 AWS Networking Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/5CS_cs/" class="md-nav__link">
+        L5 AWS Compute Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/6DS_cs/" class="md-nav__link">
+        L6 AWS Database Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/7AS_cs/" class="md-nav__link">
+        L7 AWS Analytics Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/8AS_cs/" class="md-nav__link">
+        L8 AWS Application Services Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/9MT_cs/" class="md-nav__link">
+        L9 AWS Management Tools Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2/10EXAM_cs/" class="md-nav__link">
+        L10 AWS Certification Exam Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Chap3 Networking Exam Topics
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap3 Networking Exam Topics" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Chap3 Networking Exam Topics
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/1vpc/" class="md-nav__link">
+        L1 AWS Virtual Private Cloud – VPC
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/2bastion/" class="md-nav__link">
+        L2 AWS Bastion Host
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/3direct_connect/" class="md-nav__link">
+        L3 AWS Direct Connect – DX
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/4ELB/" class="md-nav__link">
+        L4 AWS Elastic Load Balancer – ELB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/5ALB/" class="md-nav__link">
+        L5 AWS Application Load Balancer – ALB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/6NLB/" class="md-nav__link">
+        L6 AWS Network Load Balancer – NLB
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/7EAN_LB/" class="md-nav__link">
+        L7 AWS Classic Load Balancer vs Application Load Balancer vs Network Load Balancer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/8elb_mon/" class="md-nav__link">
+        L8 AWS ELB Monitoring
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/9route53/" class="md-nav__link">
+        L9 AWS Certification – Route 53 Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/10route53_policy/" class="md-nav__link">
+        L10 AWS Route 53 Routing Policy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/11route53_resolver/" class="md-nav__link">
+        L11 AWS Route 53 Resolver
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/12api_gateway/" class="md-nav__link">
+        L12 AWS API Gateway
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/13cloudfront/" class="md-nav__link">
+        L13 AWS CloudFront
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3/14direct_connect/" class="md-nav__link">
+        L14 AWS Direct Connect – DX
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          chap4 AWS Security, Identity & Compliance
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="chap4 AWS Security, Identity & Compliance" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          chap4 AWS Security, Identity & Compliance
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4/1AWS_IAM/" class="md-nav__link">
+        L1 AWS Identity Access Management – IAM(unfinished)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          chap7 AWS Database Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="chap7 AWS Database Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          chap7 AWS Database Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/1rds/" class="md-nav__link">
+        L1 AWS RDS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7/2DynamoDB/" class="md-nav__link">
+        L2 AWS DynamoDB(unfinished)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Chap10 AWS Migration & Transfer Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap10 AWS Migration & Transfer Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Chap10 AWS Migration & Transfer Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          L1 AWS Cloud Migration Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        L1 AWS Cloud Migration Services
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-aws-cloud-migration-services" class="md-nav__link">
+    1 AWS Cloud Migration Services
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-application-database-migration-services" class="md-nav__link">
+    1 Application &amp; Database Migration Services
+  </a>
+  
+    <nav class="md-nav" aria-label="1 Application &amp; Database Migration Services">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-aws-ec2-vm-importexport" class="md-nav__link">
+    1-1 AWS EC2 VM Import/Export
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-aws-server-migration-service-sms" class="md-nav__link">
+    1-2 AWS Server Migration Service (SMS)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-aws-database-migration-service-dms" class="md-nav__link">
+    1-3 AWS Database Migration Service (DMS)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-4-aws-application-discovery-service" class="md-nav__link">
+    1-4 AWS Application Discovery Service
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-data-transfer-services" class="md-nav__link">
+    2 Data Transfer Services
+  </a>
+  
+    <nav class="md-nav" aria-label="2 Data Transfer Services">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-vpn" class="md-nav__link">
+    2-1 VPN
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-aws-direct-connect" class="md-nav__link">
+    2-2 AWS Direct Connect
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-3-aws-importexport-upgraded-to-snowball" class="md-nav__link">
+    2-3 AWS Import/Export (upgraded to Snowball)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-4-snow-family" class="md-nav__link">
+    2-4 Snow Family
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-5-aws-storage-gateway" class="md-nav__link">
+    2-5 AWS Storage Gateway
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-6-s3" class="md-nav__link">
+    2-6 S3
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-aws-certification-exam" class="md-nav__link">
+    3 AWS Certification Exam
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2AWS_IE/" class="md-nav__link">
+        L2 AWS Import/Export
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3AWS_DTS/" class="md-nav__link">
+        L3 AWS Data Transfer Services
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8">
+          Chap11 AWS Analytics Services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Chap11 AWS Analytics Services" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Chap11 AWS Analytics Services
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap11/4Elasticsearch/" class="md-nav__link">
+        L4 AWS Elasticsearch
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-aws-cloud-migration-services" class="md-nav__link">
+    1 AWS Cloud Migration Services
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-application-database-migration-services" class="md-nav__link">
+    1 Application &amp; Database Migration Services
+  </a>
+  
+    <nav class="md-nav" aria-label="1 Application &amp; Database Migration Services">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-aws-ec2-vm-importexport" class="md-nav__link">
+    1-1 AWS EC2 VM Import/Export
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2-aws-server-migration-service-sms" class="md-nav__link">
+    1-2 AWS Server Migration Service (SMS)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-3-aws-database-migration-service-dms" class="md-nav__link">
+    1-3 AWS Database Migration Service (DMS)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-4-aws-application-discovery-service" class="md-nav__link">
+    1-4 AWS Application Discovery Service
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-data-transfer-services" class="md-nav__link">
+    2 Data Transfer Services
+  </a>
+  
+    <nav class="md-nav" aria-label="2 Data Transfer Services">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-1-vpn" class="md-nav__link">
+    2-1 VPN
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-aws-direct-connect" class="md-nav__link">
+    2-2 AWS Direct Connect
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-3-aws-importexport-upgraded-to-snowball" class="md-nav__link">
+    2-3 AWS Import/Export (upgraded to Snowball)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-4-snow-family" class="md-nav__link">
+    2-4 Snow Family
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-5-aws-storage-gateway" class="md-nav__link">
+    2-5 AWS Storage Gateway
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-6-s3" class="md-nav__link">
+    2-6 S3
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-aws-certification-exam" class="md-nav__link">
+    3 AWS Certification Exam
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+<a href="https://github.com/Chao-Xi/jxawscsaabook.git/edit/master/docs/chap10/1aws_cms.md" title="编辑此页" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
+
+
+
+<h1 id="l1-aws-cloud-migration-services"><strong>L1 AWS Cloud Migration Services</strong></h1>
+<h2 id="1-aws-cloud-migration-services"><strong>1 AWS Cloud Migration Services</strong></h2>
+<p>AWS Cloud Migration services help to address a lot of common use cases such as</p>
+<ul>
+<li>cloud migration,</li>
+<li>disaster recovery,</li>
+<li>data center decommission, and</li>
+<li>content distribution.</li>
+</ul>
+<p>For migrating data from <strong>On Premises to AWS, the major aspect for considerations are</strong></p>
+<ul>
+<li>amount of data and network speed</li>
+<li>data security in transit</li>
+<li>existing application knowledge for recreation</li>
+</ul>
+<blockquote>
+<p>NOTE: Topic mainly for Professional Exam Only</p>
+</blockquote>
+<h2 id="1-application-database-migration-services"><strong>1 Application &amp; Database Migration Services</strong></h2>
+<h3 id="1-1-aws-ec2-vm-importexport"><strong>1-1 AWS EC2 VM Import/Export</strong></h3>
+<ul>
+<li>allows easy import of virtual machine images from existing environment to EC2 instances and export them back to on-premises environment</li>
+<li>allows leveraging of existing investments in the virtual machines, built to meet compliance requirements, configuration management and IT security by bringing those virtual machines into EC2 as ready-to-use instances</li>
+</ul>
+<p><strong>Common usages include</strong></p>
+<ul>
+<li><strong>Migrate Existing Applications and Workloads to EC2, allows to preserve software and settings that configured in the existing VMs</strong></li>
+<li>Copy Your VM Image Catalog to Amazon EC2</li>
+<li><strong>Create a Disaster Recovery Repository for your VM images</strong></li>
+</ul>
+<h3 id="1-2-aws-server-migration-service-sms"><strong>1-2 AWS Server Migration Service (SMS)</strong></h3>
+<ul>
+<li>is an <strong>agentless service which makes it easier and faster to migrate thousands of on-premises workloads to AWS.</strong></li>
+<li>helps automate, schedule, and track incremental replications of live server volumes, making it easier to coordinate large-scale server migrations.</li>
+<li>currently supports migration of virtual machines from VMware vSphere,  Windows Hyper-V and Azure VM to AWS</li>
+<li>supports migrating Windows Server 2003, 2008, 2012, and 2016, and Windows 7, 8, and 10; Red Hat Enterprise Linux (RHEL), SUSE/SLES, CentOS, Ubuntu, Oracle Linux, Fedora, and Debian Linux OS</li>
+<li>replicates each server volume, which is saved as a new AMI, which can be launched as an EC2 instance</li>
+<li><strong>is a significant enhancement of EC2 VM Import/Export service</strong></li>
+<li>is used to Re-host</li>
+</ul>
+<h3 id="1-3-aws-database-migration-service-dms"><strong>1-3 AWS Database Migration Service (DMS)</strong></h3>
+<ul>
+<li>helps migrate databases to AWS quickly and securely.</li>
+<li><strong>source database remains fully operational during the migration, minimizing downtime to applications that rely on the database.</strong></li>
+<li>supports homogeneous migrations such as Oracle to Oracle, as well as heterogeneous migrations between different database platforms, such as Oracle or Microsoft SQL Server to Amazon Aurora.</li>
+<li><strong>monitors for replication tasks, network or host failures, and automatically provisions a host replacement in case of failures that can’t be repaired</strong></li>
+<li><strong>supports both one-time data migration into RDS and EC2-based databases as well as for continuous data replication</strong></li>
+<li>supports continuous replication of the data with high availability and consolidate databases into a petabyte-scale data warehouse by streaming data to Amazon Redshift and Amazon S3</li>
+<li><strong>provides free AWS Schema Conversion Tool (SCT) that automates the conversion</strong> of Oracle PL/SQL and SQL Server T-SQL code to equivalent code in the Amazon Aurora / MySQL dialect of SQL or the equivalent PL/pgSQL code in PostgreSQL</li>
+</ul>
+<h3 id="1-4-aws-application-discovery-service"><strong>1-4 AWS Application Discovery Service</strong></h3>
+<ul>
+<li>helps enterprise customers plan migration projects by gathering information about their on-premises data centers.</li>
+<li><strong>helps enterprise customers plan migration projects by gathering information about their on-premises data centers</strong></li>
+<li>provides protection for the collected data by encrypting it both in transit to AWS and at rest within the Application Discovery Service data store.</li>
+</ul>
+<h2 id="2-data-transfer-services"><strong>2 Data Transfer Services</strong></h2>
+<h3 id="2-1-vpn"><strong>2-1 VPN</strong></h3>
+<ul>
+<li>connection utilizes IPSec to establish encrypted network connectivity between on-premises network and VPC over the Internet.</li>
+<li><strong>connections can be configured in minutes</strong> and a good solution for an immediate need, have low to modest bandwidth requirements, and can tolerate the inherent variability in Internet-based connectivity.</li>
+<li>still requires internet and be configured using VGW and CGW</li>
+</ul>
+<h3 id="2-2-aws-direct-connect"><strong>2-2 AWS Direct Connect</strong></h3>
+<ul>
+<li><strong>provides a dedicated physical connection between the corporate network and AWS Direct Connect location with no data transfer over the Internet</strong>.</li>
+<li><strong>helps bypass Internet service providers (ISPs)</strong> in the network path</li>
+<li>helps reduce network costs, increase bandwidth throughput, and provide a more consistent network experience than with Internet-based connection</li>
+<li>takes time to setup and involves third parties</li>
+<li><strong>are not redundant</strong> and would need another direct connect connection or a VPN connection</li>
+<li>Security<ul>
+<li>provides a dedicated physical connection without internet</li>
+<li>For additional security can be used with VPN</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-3-aws-importexport-upgraded-to-snowball"><strong>2-3 AWS Import/Export (upgraded to Snowball)</strong></h3>
+<ul>
+<li><strong>accelerates moving large amounts of data into and out of AWS using secure Snowball appliances</strong></li>
+<li>AWS transfers the data directly onto and off of the storage devices using Amazon’s high-speed internal network, bypassing the Internet</li>
+</ul>
+<p><strong>Data Migration</strong></p>
+<ul>
+<li>for significant data size, AWS Import/Export is faster than Internet transfer is and more cost-effective than upgrading the connectivity</li>
+<li><strong>if loading the data over the Internet would take a week or more, AWS Import/Export should be considered</strong></li>
+<li>data from appliances can be imported to S3, Glacier and EBS volumes and exported from S3</li>
+<li><strong><mark>not suitable for applications that cannot tolerate offline transfer time</mark></strong></li>
+</ul>
+<p><strong>Security</strong></p>
+<p>Snowball uses an industry-standard Trusted Platform Module (TPM) that has a dedicated processor designed to detect any unauthorized modifications to the hardware, firmware, or software to physically secure the AWS Snowball device.</p>
+<h3 id="2-4-snow-family"><strong>2-4 Snow Family</strong></h3>
+<p><strong>AWS Snowball</strong></p>
+<ul>
+<li>is a petabyte-scale data transfer service built around a secure suitcase-sized device that moves data into and out of the AWS Cloud quickly and efficiently.</li>
+<li>transfers the data to S3 bucket</li>
+<li>transfer times are about a week from start to finish.</li>
+<li>are commonly used to ship terabytes or petabytes of analytics data, healthcare and life sciences data, video libraries, image repositories, backups, and archives as part of data center shutdown, tape replacement, or application migration projects.</li>
+</ul>
+<p><strong>AWS Snowball Edge devices</strong></p>
+<ul>
+<li>contain slightly larger capacity and an embedded computing platform that helps perform simple processing tasks.</li>
+<li>can be rack shelved and may also be clustered together, making it simpler to collect and store data in extremely remote locations.</li>
+<li>commonly used in environments with intermittent connectivity (such as manufacturing, industrial, and transportation); or in extremely remote locations (such as military or maritime operations) before shipping them back to AWS data centers.</li>
+<li>delivers serverless computing applications at the network edge using AWS Greengrass and Lambda functions.</li>
+<li>common use cases include capturing IoT sensor streams, on-the-fly media transcoding, image compression, metrics aggregation and industrial control signaling and alarming.</li>
+</ul>
+<p><strong>AWS Snowmobile</strong></p>
+<ul>
+<li>moves up to 100PB of data (equivalent to 1,250 AWS Snowball devices) in a 45-foot long ruggedized shipping container and is ideal for multi-petabyte or Exabyte-scale digital media migrations and datacenter shutdowns.</li>
+<li>arrives at the customer site and appears as a network-attached data store for more secure, high-speed data transfer. After data is transferred to Snowmobile, it is driven back to an AWS Region where the data is loaded into S3.</li>
+<li>is tamper-resistant, waterproof, and temperature controlled with multiple layers of logical and physical security — including encryption, fire suppression, dedicated security personnel, GPS tracking, alarm monitoring, 24/7 video surveillance, and an escort security vehicle during transit.</li>
+</ul>
+<h3 id="2-5-aws-storage-gateway"><strong>2-5 AWS Storage Gateway</strong></h3>
+<ul>
+<li>connects an on-premises software appliance with cloud-based storage to provide seamless and secure integration between an organization’s on-premises IT environment and the AWS storage infrastructure</li>
+<li>provides low-latency performance by maintaining frequently accessed data on-premises while securely storing all of the data encrypted in S3 or Glacier.</li>
+<li>for disaster recovery scenarios, Storage Gateway, together with EC2, can serve as a cloud-hosted solution that mirrors the entire production environment</li>
+</ul>
+<p><strong>Data Migration</strong></p>
+<ul>
+<li>with gateway-cached volumes, S3 can be used to hold primary data while frequently accessed data is cached locally for faster access reducing the need to scale on premises storage infrastructure</li>
+<li>with gateway-stored volumes, entire data is stored locally while asynchronously backing up data to S3</li>
+<li>with gateway-VTL, offline data archiving can be performed by presenting existing backup application with an iSCSI-based VTL consisting of a virtual media changer and virtual tape drives</li>
+</ul>
+<p><strong>Security</strong></p>
+<ul>
+<li>Encrypts all data in transit to and from AWS by using SSL/TLS.</li>
+<li>All data in AWS Storage Gateway is encrypted at rest using AES-256.</li>
+<li>Authentication between the gateway and iSCSI initiators can be secured by using Challenge-Handshake Authentication Protocol (CHAP).</li>
+</ul>
+<h3 id="2-6-s3"><strong>2-6 S3</strong></h3>
+<p><strong>Data Transfer</strong></p>
+<ul>
+<li>Files up to 5GB can be transferred using single operation</li>
+<li>Multipart uploads can be used to upload files up to 5 TB and speed up data uploads by dividing the file into multiple parts</li>
+<li><strong>transfer rate still limited by the network speed</strong></li>
+</ul>
+<p><strong>Security</strong></p>
+<ul>
+<li>Data in transit can be secured by using SSL/TLS or client-side encryption.</li>
+<li>Encrypt data at-rest by performing server-side encryption using Amazon S3-Managed Keys (SSE-S3), AWS Key Management Service (KMS)-Managed Keys (SSE-KMS), or Customer Provided Keys (SSE-C). Or by performing client-side encryption using AWS KMS–Managed Customer Master Key (CMK) or Client-Side Master Key.</li>
+</ul>
+<h2 id="3-aws-certification-exam"><strong>3 AWS Certification Exam</strong></h2>
+<ol>
+<li>
+<p>Your must architect the migration of a web application to AWS. The application consists of Linux web servers running a custom web server. You are required to save the logs generated from the application to a durable location. What options could you select to migrate the application to AWS? (Choose 2)</p>
+<ul>
+<li>Create an AWS Elastic Beanstalk application using the custom web server platform. Specify the web server executable and the application project and source files. Enable log file rotation to Amazon Simple Storage Service (S3). (EB does not work with Custom server executable)</li>
+<li>Create Dockerfile for the application. Create an AWS OpsWorks stack consisting of a custom layer. Create custom recipes to install Docker and to deploy your Docker container using the Dockerfile. Create custom recipes to install and configure the application to publish the logs to Amazon CloudWatch Logs (although this is one of the option, the last sentence mentions configure the application to push the logs to S3, which would need changes to application as it needs to use SDK or CLI)</li>
+<li>Create Dockerfile for the application. Create an AWS OpsWorks stack consisting of a Docker layer that uses the Dockerfile. Create custom recipes to install and configure Amazon Kinesis to publish the logs into Amazon CloudWatch. (Kinesis not needed)</li>
+<li><strong>Create a Dockerfile for the application. Create an AWS Elastic Beanstalk application using the Docker platform and the Dockerfile. Enable logging the Docker configuration to automatically publish the application logs. Enable log file rotation to Amazon S3. (Use Docker configuration with awslogs and EB with Docker)</strong></li>
+<li><strong>Use VM import/Export to import a virtual machine image of the server into AWS as an AMI. Create an Amazon Elastic Compute Cloud (EC2) instance from AMI, and install and configure the Amazon CloudWatch Logs agent. Create a new AMI from the instance. Create an AWS Elastic Beanstalk application using the AMI platform and the new AMI. (Use VM Import/Export to create AMI and CloudWatch logs agent to log)</strong></li>
+</ul>
+</li>
+<li>
+<p>Your company hosts an on-premises legacy engineering application with 900GB of data shared via a central file server. The engineering data consists of thousands of individual files ranging in size from megabytes to multiple gigabytes. Engineers typically modify 5-10 percent of the files a day. Your CTO would like to migrate this application to AWS, but only if the application can be migrated over the weekend to minimize user downtime. You calculate that it will take a minimum of 48 hours to transfer 900GB of data using your company’s existing 45-Mbps Internet connection. After replicating the application’s environment in AWS, which option will allow you to move the application’s data to AWS without losing any data and within the given timeframe?</p>
+<ul>
+<li>Copy the data to Amazon S3 using multiple threads and multi-part upload for large files over the weekend, and work in parallel with your developers to reconfigure the replicated application environment to leverage Amazon S3 to serve the engineering files. (Still limited by 45 Mbps speed with minimum 48 hours when utilized to max)</li>
+<li><strong>Sync the application data to Amazon S3 starting a week before the migration, on Friday morning perform a final sync, and copy the entire data set to your AWS file server after the sync completes. (Works best as the data changes can be propagated over the week and are fractional and downtime would be know</strong>)</li>
+<li>Copy the application data to a 1-TB USB drive on Friday and immediately send overnight, with Saturday delivery, the USB drive to AWS Import/Export to be imported as an EBS volume, mount the resulting EBS volume to your AWS file server on Sunday. (Downtime is not known when the data upload would be done, although Amazon says the same day the package is received)</li>
+<li>Leverage the AWS Storage Gateway to create a Gateway-Stored volume. On Friday copy the application data to the Storage Gateway volume. After the data has been copied, perform a snapshot of the volume and restore the volume as an EBS volume to be attached to your AWS file server on Sunday. (Still uses the internet)</li>
+</ul>
+</li>
+<li>
+<p>You are tasked with moving a legacy application from a virtual machine running inside your datacenter to an Amazon VPC. Unfortunately this app requires access to a number of on-premises services and no one who configured the app still works for your company. Even worse there’s no documentation for it. What will allow the application running inside the VPC to reach back and access its internal dependencies without being reconfigured? (Choose 3 answers)</p>
+<ul>
+<li><strong>An AWS Direct Connect link between the VPC and the network housing the internal services</strong></li>
+<li>An Internet Gateway to allow a VPN connection. (Virtual and Customer gateway is needed)</li>
+<li>An Elastic IP address on the VPC instance</li>
+<li><strong>An IP address space that does not conflict with the one on-premises</strong></li>
+<li>Entries in Amazon Route 53 that allow the Instance to resolve its dependencies’ IP addresses</li>
+<li><strong>A VM Import of the current virtual machine</strong></li>
+</ul>
+</li>
+<li>
+<p>An enterprise runs 103 line-of-business applications on virtual machines in an on-premises data center. Many of the applications are simple PHP, Java, or Ruby web applications, are no longer actively developed, and serve little traffic. Which approach should be used to migrate these applications to AWS with the LOWEST infrastructure costs?</p>
+<ul>
+<li>Deploy the applications to single-instance AWS Elastic Beanstalk environments without a load balancer.</li>
+<li>Use AWS SMS to create AMIs for each virtual machine and run them in Amazon EC2.</li>
+<li><strong>Convert each application to a Docker image and deploy to a small Amazon ECS cluster behind an Application Load Balancer.</strong></li>
+<li>Use VM Import/Export to create AMIs for each virtual machine and run them in single-instance AWS Elastic Beanstalk environments by configuring a custom image.</li>
+</ul>
+</li>
+</ol>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="页脚">
+      
+        
+        <a href="../../chap7/2DynamoDB/" class="md-footer__link md-footer__link--prev" aria-label="上一页: L2 AWS DynamoDB(unfinished)" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              L2 AWS DynamoDB(unfinished)
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../2AWS_IE/" class="md-footer__link md-footer__link--next" aria-label="下一页: L2 AWS Import/Export" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              L2 AWS Import/Export
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "search": "../../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.467223ff.min.js"></script>
+      
+    
+  </body>
+</html>
